@@ -1,22 +1,31 @@
 <template>
-<div id="app">
-<el-input v-model="keyword"></el-input>
-</div>
+    <div id="app" class="center">
+        <el-input style="width: 500px" v-model="keyword"></el-input>
+    </div>
 </template>
 
 <script>
 export default {
-name: 'index',
-data() {
-return {
-keyword: '我是首页'
-}
-}
+    name: 'index',
+    data () {
+        return {
+            keyword: ''
+        }
+    }
 }
 </script>
 
 <style>
-#first {
-color: red;
+#app {
+    text-align: center;
 }
+
+/*输入框水平居中*/
+.center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
 </style>
