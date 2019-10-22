@@ -156,7 +156,7 @@ var store = {
     system: [],
     browser: [],
     device: [],
-    items: '',
+    items: [],
     length: ''
 }
 export default {
@@ -167,7 +167,7 @@ export default {
             system: [],
             browser: [],
             device: [],
-            items: '',
+            items: [],
             length: ''
         }
     },
@@ -240,7 +240,7 @@ export default {
         },
         query: function () {
             var vueThis = this
-            axios({
+           /* axios({
                 url: '/querySystemLog',
                 method: 'post',
                 headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=1A112C22635C47E509836E2E0428A00B' }],
@@ -248,12 +248,12 @@ export default {
             })
                 .then(function (response) {
                     vueThis.items = response.data;
-                    console.log(vueThis.items + "----------------")
+                    console.log(JSON.stringify(vueThis.items) + "----------------")
                 })
                 .catch(function (error) {
                     console.log("--------------------")
                     console.log(error)
-                })
+                })*/
            /* axios({
                 url: '/queryCount',
                 method: 'post',
@@ -297,7 +297,7 @@ export default {
             })
                 .then(function (response) {
                     vueThis.items = response.data;
-                    console.log(vueThis.items + "----------------")
+                    console.log(JSON.stringify(vueThis.items) + "----------------")
                 })
                 .catch(function (error) {
                     console.log(vueThis.items + "-=================")
