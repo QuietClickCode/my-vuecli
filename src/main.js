@@ -13,7 +13,6 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 // use
 Vue.use(mavonEditor)
-
 Vue.use(ElementUI)
 Vue.use(VueQuillEditor)
 

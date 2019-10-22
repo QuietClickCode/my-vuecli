@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import first from '@/components/first'
+import index from '@/components/index'
 import mdeditor from '@/components/mdeditor'
 import editor from '@/components/editor'
 
@@ -24,6 +25,11 @@ export default new Router({
       path: '/mdeditor',
       name: 'mdeditor',
       component: mdeditor
+    },
+    {
+      path: '/index',
+      name: 'index',
+      component: index
     },
     {
       path: '/editor',

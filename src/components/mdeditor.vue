@@ -3,7 +3,6 @@
 <h1>我是markdown编辑器</h1>
 <mavon-editor v-model="context" :toolbars="toolbars" />
 </div>
-
 </template>
 <script>
 export default {
