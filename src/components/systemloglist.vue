@@ -159,6 +159,7 @@ var store = {
     items: [],
     length: ''
 }
+
 export default {
     name: 'index',
     data () {
