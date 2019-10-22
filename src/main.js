@@ -11,6 +11,11 @@ import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+
+import axios from 'axios'
+Vue.prototype.$axios = axios
+axios.defaults.withCredentials=true
+axios.defaults.baseURL = '/api'  //关键代码
 // use
 Vue.use(mavonEditor)
 Vue.use(ElementUI)
