@@ -4,15 +4,15 @@
             <el-link type="primary" style="font-size: large">系统操作日志详情</el-link>
         </div>
         <!--搜索条件-->
-       <!-- <div>
+        <div>
             <div style="display:inline">
                 <span style="margin-left: 50px;">关键字</span>
-                <el-input style="margin-bottom:5px;width: 300px" v-model="queryForm.keyword"></el-input>
+                <el-input style="margin-bottom:5px;width: 300px" v-model="data.queryForm.keyword"></el-input>
                 <span style="margin-left: 50px;">位置</span>
-                <el-input style="margin-bottom:5px;width: 300px" v-model="queryForm.location"></el-input>
+                <el-input style="margin-bottom:5px;width: 300px" v-model="data.queryForm.location"></el-input>
                 <span style="margin-left: 50px;">搜索时间</span>
                 <el-date-picker style="margin-bottom:5px;width: 300px"
-                                v-model="queryForm.createtime"
+                                v-model="data.queryForm.createtime"
                                 type="datetimerange"
                                 format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"
                                 range-separator="至"
@@ -25,50 +25,50 @@
         <div>
             <div style="display:inline">
                 <span style="margin-left: 33px;">操作系统</span>
-                <el-select style="margin-bottom:5px;width: 300px" v-model="queryForm.system" placeholder="请选择">
+                <el-select style="margin-bottom:5px;width: 300px" v-model="data.queryForm.system" placeholder="请选择">
                     <el-option
                         label="请选择"
                         value="">
                     </el-option>
                     <el-option
-                        v-for="item in system"
+                        v-for="item in data.system"
                         :key="item"
                         :label="item"
                         :value="item">
                     </el-option>
                 </el-select>
                 <span style="margin-left: 37px;">浏览器</span>
-                <el-select style="margin-bottom:5px;width: 300px" v-model="queryForm.browser" placeholder="请选择">
+                <el-select style="margin-bottom:5px;width: 300px" v-model="data.queryForm.browser" placeholder="请选择">
                     <el-option
                         label="请选择"
                         value="">
                     </el-option>
                     <el-option
-                        v-for="item in browser"
+                        v-for="item in data.browser"
                         :key="item"
                         :label="item"
                         :value="item">
                     </el-option>
                 </el-select>
                 <span style="margin-left: 80px;">设备</span>
-                <el-select style="margin-bottom:5px;width: 300px" v-model="queryForm.device" placeholder="请选择">
+                <el-select style="margin-bottom:5px;width: 300px" v-model="data.queryForm.device" placeholder="请选择">
                     <el-option
                         label="请选择"
                         value="">
                     </el-option>
                     <el-option
-                        v-for="item in device"
+                        v-for="item in data.device"
                         :key="item"
                         :label="item"
                         :value="item">
                     </el-option>
                 </el-select>
             </div>
-        </div>-->
+        </div>
 
 
         <el-table height="430"
-                  :data="items"
+                  :data="data.items"
         >
             <el-table-column
                 prop="id"
@@ -132,207 +132,147 @@
                              label="创建时间">
             </el-table-column>
         </el-table>
-       <!-- <div class="block" style="text-align: center">
+        <div class="block" style="text-align: center">
             <el-pagination
                 layout="prev, pager, next"
-                :total="length"
+                :total="data.length"
                 @current-change="handleCurrentChange"
+                :current-page="data.currentpage"
 
             >
             </el-pagination>
         </div>
         <div style="text-align: center">
             <el-button @click="btnquery">查询</el-button>
-        </div>-->
+        </div>
     </div>
 </template>
 
 <script>
-import $ from 'jquery'
 import axios from 'axios'
-
-var store = {
-    queryForm: { keyword: '', startpage: 0, location: '', system: '', createtime: [], browser: '', device: '' },
-    system: [],
-    browser: [],
-    device: [],
-    items: [],
-    length: ''
-}
-
 export default {
-    name: 'index',
     data () {
         return {
-            queryForm: { keyword: '', startpage: 0, location: '', system: '', createtime: [], browser: '', device: '' },
-            system: [],
-            browser: [],
-            device: [],
-            items: [],
-            length: ''
+            data: {
+                queryForm: {
+                    keyword: '',
+                    startpage: 0,
+                    location: '',
+                    system: '',
+                    createtime: [],
+                    browser: '',
+                    device: ''
+                },
+                system: [],
+                browser: [],
+                device: [],
+                items: [],
+                length: 0,
+                currentpage:1
+            }
         }
     },
     created: function () {
-        $('#app').show()
         this.init()
     },
     mounted: function () {
         this.btnquery()
+
     },
     methods: {
         handleCurrentChange (val) {
-            store.queryForm.startpage = 0 + (val - 1) * 10
-            this.query()
+            this.data.queryForm.startpage = 0 + (val - 1) * 10
+            this.query();
+            this.data.currentpage = val
         },
         init: function () {
             var vueThis = this
-           /* axios.post('/queryBrowser', {
-                headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=1A112C22635C47E509836E2E0428A00B' }],
+            axios.post('/queryBrowser', {
+                headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=FDFABC41E533A124AB8E024202814832' }],
             })
                 .then(function (response) {
-                    vueThis.items = response.data;
+                    vueThis.data.browser = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
             axios.post('/querySystem', {
-                headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=1A112C22635C47E509836E2E0428A00B' }],
+                headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=FDFABC41E533A124AB8E024202814832' }],
             })
                 .then(function (response) {
-                    vueThis.items = response.data;
+                    vueThis.data.system = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
             axios.post('/queryDevice', {
-                headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=1A112C22635C47E509836E2E0428A00B' }],
+                headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=FDFABC41E533A124AB8E024202814832' }],
             })
                 .then(function (response) {
-                    console.log(response)
+                    vueThis.data.device = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
-                })*/
-            /* $.ajax({
-                 type: 'post',
-                 contentType: 'application/json;charset=utf-8',
-                 url: '/queryBrowser',
-                 success: function (data) {
-                     vueThis.browser = data
-                 }
-             })
-             $.ajax({
-                 type: 'post',
-                 contentType: 'application/json;charset=utf-8',
-                 url: '/querySystem',
-                 success: function (data) {
-                     vueThis.system = data
-                 }
-             })
-
-             $.ajax({
-                 type: 'post',
-                 contentType: 'application/json;charset=utf-8',
-                 url: '/queryDevice',
-                 success: function (data) {
-                     vueThis.device = data
-                 }
-             })*/
+                })
         },
         query: function () {
             var vueThis = this
-           /* axios({
-                url: '/querySystemLog',
-                method: 'post',
-                headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=1A112C22635C47E509836E2E0428A00B' }],
-                data: { keyword: '', startpage: 0, location: '', system: '', createtime: [], browser: '', device: '' },
-            })
-                .then(function (response) {
-                    vueThis.items = response.data;
-                    console.log(JSON.stringify(vueThis.items) + "----------------")
-                })
-                .catch(function (error) {
-                    console.log("--------------------")
-                    console.log(error)
-                })*/
-           /* axios({
-                url: '/queryCount',
-                method: 'post',
-                headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=1A112C22635C47E509836E2E0428A00B' }],
-                data: { keyword: '', startpage: 0, location: '', system: '', createtime: [], browser: '', device: '' },
-            })
-                .then(function (response) {
-                    vueThis.items = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error)
-                })*/
-            /* $.ajax({
-                 type: 'post',
-                 contentType: 'application/json;charset=utf-8',
-                 data: JSON.stringify(vueThis.queryForm),
+             axios({
                  url: '/querySystemLog',
-                 success: function (data) {
-                     vueThis.items = data
-                 }
+                 method: 'post',
+                 headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=FDFABC41E533A124AB8E024202814832' }],
+                 data: vueThis.data.queryForm,
              })
-             $.ajax({
-                 type: 'post',
-                 contentType: 'application/json;charset=utf-8',
-                 data: JSON.stringify(vueThis.queryForm),
+                 .then(function (response) {
+                     vueThis.data.items = response.data
+                     console.log(JSON.stringify(vueThis.items) + '----------------')
+                 })
+                 .catch(function (error) {
+                     console.log('--------------------')
+                     console.log(error)
+                 })
+             axios({
                  url: '/queryCount',
-                 success: function (data) {
-                     vueThis.length = data
-                 }
-             })*/
+                 method: 'post',
+                 headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=FDFABC41E533A124AB8E024202814832' }],
+                 data: vueThis.data.queryForm,
+             })
+                 .then(function (response) {
+                     vueThis.length = response.data
+                 })
+                 .catch(function (error) {
+                     console.log(error)
+                 })
         },
         btnquery: function () {
             var vueThis = this
             /*条件查询就要清空起始页这个查询条件,不然会出问题*/
-            store.queryForm.startpage = 0
+            vueThis.data.queryForm.startpage = 0;
+            vueThis.data.currentpage = 1;
             axios({
                 url: '/querySystemLog',
                 method: 'post',
-                headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=1A112C22635C47E509836E2E0428A00B' }],
-                data: { keyword: '', startpage: 0, location: '', system: '', createtime: [], browser: '', device: '' },
+                headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=FDFABC41E533A124AB8E024202814832' }],
+                data: vueThis.data.queryForm,
             })
                 .then(function (response) {
-                    vueThis.items = response.data;
-                    console.log(JSON.stringify(vueThis.items) + "----------------")
+                    vueThis.data.items = response.data
                 })
                 .catch(function (error) {
-                    console.log(vueThis.items + "-=================")
+                    console.log(vueThis.items + '-=================')
                 })
-            /*axios({
-                url: '/queryCount',
-                method: 'post',
-                headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=1A112C22635C47E509836E2E0428A00B' }],
-                data: { keyword: '', startpage: 0, location: '', system: '', createtime: [], browser: '', device: '' },
-            })
-                .then(function (response) {
-                    console.log(response)
-                })
-                .catch(function (error) {
-                    console.log(error)
-                })*/
-            /* $.ajax({
-                 type: 'post',
-                 contentType: 'application/json;charset=utf-8',
-                 data: JSON.stringify(vueThis.queryForm),
-                 url: '/querySystemLog',
-                 success: function (data) {
-                     vueThis.items = data
-                 }
-             })
-             $.ajax({
-                 type: 'post',
-                 contentType: 'application/json;charset=utf-8',
-                 data: JSON.stringify(vueThis.queryForm),
-                 url: '/queryCount',
-                 success: function (data) {
-                     vueThis.length = data
-                 }
-             })*/
+              axios({
+                  url: '/queryCount',
+                  method: 'post',
+                  headers: [{ 'X-Requested-With': 'XMLHttpRequest' }, { 'Cookie': 'JSESSIONID=FDFABC41E533A124AB8E024202814832' }],
+                  data: vueThis.data.queryForm,
+              })
+                  .then(function (response) {
+                      vueThis.data.length = response.data
+                  })
+                  .catch(function (error) {
+                      console.log(error)
+                  })
         }
     }
 }
