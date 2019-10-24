@@ -16,7 +16,8 @@
 
 <script>
 import axios from 'axios'
-import $ from "jquery"
+import $ from 'jquery'
+
 //利用原生Js获取操作系统版本
 function getOS () {
     var sUserAgent = navigator.userAgent
@@ -97,28 +98,28 @@ function getBrowserInfo () {
     }
 }
 
-function getLocation(cb) {
-    var data = {key: "4MIBZ-LJMCF-6RKJA-NGKN4-JJZFF-2JBMJ"};//ip缺省时会自动获取请求端的公网IP,
-    var url = "https://apis.map.qq.com/ws/location/v1/ip";
-    data.output = "jsonp";
+function getLocation (cb) {
+    var data = { key: '4MIBZ-LJMCF-6RKJA-NGKN4-JJZFF-2JBMJ' }//ip缺省时会自动获取请求端的公网IP,
+    var url = 'https://apis.map.qq.com/ws/location/v1/ip'
+    data.output = 'jsonp'
     $.ajax({
-        type: "get",
+        type: 'get',
         dataType: 'jsonp',
         data: data,
-        jsonp: "callback",
+        jsonp: 'callback',
         url: url,
         success: function (json) {
-            array = new Array;
-            array.push(json.result.ip);//公网IP
-            array.push(json.result.ad_info.province + json.result.ad_info.city + json.result.ad_info.district);//省市区
-            array.push(json.result.location.lat);//经度
-            array.push(json.result.location.lng);//纬度
+            array = new Array
+            array.push(json.result.ip)//公网IP
+            array.push(json.result.ad_info.province + json.result.ad_info.city + json.result.ad_info.district)//省市区
+            array.push(json.result.location.lat)//经度
+            array.push(json.result.location.lng)//纬度
             cb(array)//回调函数
         },
         error: function (err) {
 
         }
-    });
+    })
 }
 
 function getUserIP (onNewIP) { //  onNewIp - your listener function for new IPs
@@ -204,7 +205,7 @@ export default {
         login: function () {
             //my-login.js通过回调获取ip,系统信息,位置信息等
             /*getLocation(cb)*/
-            this.tologin(this.data.user,[],[])
+            this.tologin(this.data.user, [], [])
         },
         /*my-login.js中的app.tologin(store.user, result, localIp)
         * result:包含经度X,纬度Y,省市区,和公网IP
@@ -222,39 +223,22 @@ export default {
                     method: 'post',
                     data: JSON.stringify({
                         'user': user,
-                        'location': ["","","","","",""],
-                        'browserInfo': ["","",""],
-                        'pcOrPhone': "",
-                        'localIp': ""
+                        'location': ['', '', '', '', '', ''],
+                        'browserInfo': ['', '', ''],
+                        'pcOrPhone': '',
+                        'localIp': ''
                     }),
                 })
                     .then(function (response) {
-                        window.location = response.data.url;
+                        if (response.data.status == 0) {
+                            window.location.href = response.data.url
+                        } else {
+                            vueThis.$message(response.data.msg)
+                        }
                     })
                     .catch(function (error) {
                         console.log(vueThis.items + '-=================')
                     })
-               /* $.ajax({
-                    type: 'post',
-                    contentType: 'application/json',
-                    url: '/tologin',
-                    data: JSON.stringify({
-                        'user': store.user,
-                        'location': store.location,
-                        'browserInfo': store.getBrowserInfo(),
-                        'pcOrPhone': vueThis.pcOrPhone(),
-                        'localIp': store.localIp
-                    }),
-                    success: function (data) {
-                        if (data.status == 0) {
-                            window.location.href = data.url
-                        } else {
-                            /!*vueThis.$message(data.msg)*!/
-                            alert(data.msg)
-
-                        }
-                    }
-                })*/
             }
         }
     }
