@@ -2,12 +2,12 @@
     <div id="apps">
         <!--登录框-->
         <div @keyup.enter="login" style="width: 300px" class="center">
-            <el-form :rules="rules" :model="store.user" label-width="80px" :label-position="labelPosition">
+            <el-form :rules="data.rules" :model="data.user" label-width="80px" :label-position="data.labelPosition">
                 <el-form-item prop="username" label="用户名">
-                    <el-input style="width: 200px" placeholder="登录" autofocus v-model="store.user.username"></el-input>
+                    <el-input style="width: 200px" placeholder="登录" autofocus v-model="data.user.username"></el-input>
                 </el-form-item>
                 <el-form-item prop="password" label="密码">
-                    <el-input style="width: 200px" autofocus type="password" v-model="store.user.password"></el-input>
+                    <el-input style="width: 200px" autofocus type="password" v-model="data.user.password"></el-input>
                 </el-form-item>
             </el-form>
         </div>
@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import $ from "jquery"
 //利用原生Js获取操作系统版本
 function getOS () {
     var sUserAgent = navigator.userAgent
@@ -95,28 +97,28 @@ function getBrowserInfo () {
     }
 }
 
-function getLocation (cb) {
-    var data = { key: '4MIBZ-LJMCF-6RKJA-NGKN4-JJZFF-2JBMJ' }//ip缺省时会自动获取请求端的公网IP,
-    var url = 'https://apis.map.qq.com/ws/location/v1/ip'
-    data.output = 'jsonp'
+function getLocation(cb) {
+    var data = {key: "4MIBZ-LJMCF-6RKJA-NGKN4-JJZFF-2JBMJ"};//ip缺省时会自动获取请求端的公网IP,
+    var url = "https://apis.map.qq.com/ws/location/v1/ip";
+    data.output = "jsonp";
     $.ajax({
-        type: 'get',
+        type: "get",
         dataType: 'jsonp',
         data: data,
-        jsonp: 'callback',
+        jsonp: "callback",
         url: url,
         success: function (json) {
-            array = new Array
-            array.push(json.result.ip)//公网IP
-            array.push(json.result.ad_info.province + json.result.ad_info.city + json.result.ad_info.district)//省市区
-            array.push(json.result.location.lat)//经度
-            array.push(json.result.location.lng)//纬度
+            array = new Array;
+            array.push(json.result.ip);//公网IP
+            array.push(json.result.ad_info.province + json.result.ad_info.city + json.result.ad_info.district);//省市区
+            array.push(json.result.location.lat);//经度
+            array.push(json.result.location.lng);//纬度
             cb(array)//回调函数
         },
         error: function (err) {
 
         }
-    })
+    });
 }
 
 function getUserIP (onNewIP) { //  onNewIp - your listener function for new IPs
@@ -168,35 +170,29 @@ function pcOrPhone () {
 
 function cb (result) {
     getUserIP(function (localIp) {
-        app.tologin(store.user, result, localIp)
+        app.tologin(data.user, result, localIp)
     })
 }
 
-var store = {
+/*var store = {
     labelPosition: 'right',
     user: { username: '', password: '' },
     rules: {
         username: { required: true, message: '用户名不能为空', trigger: 'blur' },
         password: { required: true, message: '密码不能为空', trigger: 'blur' }
     }
-}
+}*/
 export default {
     name: 'login',
     data () {
         return {
-            store: {
+            data: {
                 labelPosition: 'right',
                 user: { username: '', password: '' },
                 rules: {
                     username: { required: true, message: '用户名不能为空', trigger: 'blur' },
                     password: { required: true, message: '密码不能为空', trigger: 'blur' }
                 }
-            },
-            labelPosition: 'right',
-            user: { username: '', password: '' },
-            rules: {
-                username: { required: true, message: '用户名不能为空', trigger: 'blur' },
-                password: { required: true, message: '密码不能为空', trigger: 'blur' }
             }
         }
     },
@@ -207,7 +203,8 @@ export default {
         /*用户名或者密码任意一个点击enter都会触发*/
         login: function () {
             //my-login.js通过回调获取ip,系统信息,位置信息等
-            getLocation(cb)
+            /*getLocation(cb)*/
+            this.tologin(this.data.user,[],[])
         },
         /*my-login.js中的app.tologin(store.user, result, localIp)
         * result:包含经度X,纬度Y,省市区,和公网IP
@@ -217,25 +214,47 @@ export default {
         tologin: function (user, location, localIp) {
             if (user.username != '' && user.password != '') {
                 var vueThis = this
-                $.ajax({
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    url: '/tologin',
+                    method: 'post',
+                    data: JSON.stringify({
+                        'user': user,
+                        'location': ["","","","","",""],
+                        'browserInfo': ["","",""],
+                        'pcOrPhone': "",
+                        'localIp': ""
+                    }),
+                })
+                    .then(function (response) {
+                        window.location = response.data.url;
+                    })
+                    .catch(function (error) {
+                        console.log(vueThis.items + '-=================')
+                    })
+               /* $.ajax({
                     type: 'post',
                     contentType: 'application/json',
                     url: '/tologin',
                     data: JSON.stringify({
-                        'user': user,
-                        'location': location,
-                        'browserInfo': getBrowserInfo(),
-                        'pcOrPhone': pcOrPhone(),
-                        'localIp': localIp
+                        'user': store.user,
+                        'location': store.location,
+                        'browserInfo': store.getBrowserInfo(),
+                        'pcOrPhone': vueThis.pcOrPhone(),
+                        'localIp': store.localIp
                     }),
                     success: function (data) {
                         if (data.status == 0) {
                             window.location.href = data.url
                         } else {
-                            vueThis.$message(data.msg)
+                            /!*vueThis.$message(data.msg)*!/
+                            alert(data.msg)
+
                         }
                     }
-                })
+                })*/
             }
         }
     }

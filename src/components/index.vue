@@ -1,12 +1,16 @@
 <template>
     <div id="app" class="center">
-        <el-input style="width: 500px" v-model="keyword"></el-input>
+        <el-input autofocus style="width: 500px" v-model="this.keyword"></el-input>
     </div>
 </template>
 
 <script>
 export default {
     name: 'index',
+    created:function() {
+    },
+    mounted:function() {
+    },
     data () {
         return {
             keyword: ''
