@@ -1,40 +1,36 @@
 <template>
     <div>
         <!--便签内容框放在最顶部,可清空,可无限扩展-->
-        <el-input type="textarea" autosize :placeholder="data.notePlaceholder" class="textarea" v-model="data.note"
-                  :style="{display:data.isSee}"
+        <el-input type="textarea" autosize :placeholder="notePlaceholder" class="textarea" v-model="note"
+                  :style="{display:isSee}"
         ></el-input>
-        <div class="center" @keyup.enter="enter(data.keyword)">
+        <div class="center" @keyup.enter="enter(keyword)">
             <el-input autofocus id="el-input" style="width: 500px;"
-                      @input="input(data.keyword)"
-                      v-model="data.keyword">
+                      @input="input(keyword)"
+                      v-model="keyword">
             </el-input>
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
+var store = {
+    /*模式*/
+    pattern: '',
+    /*便签的默认提示*/
+    notePlaceholder: '写点什么吧～～',
+    /*便签内容*/
+    note: '',
+    /*便签是否可见*/
+    isSee: 'none',
+    /*输入框内容*/
+    keyword: '',
+}
 export default {
     name: 'index',
-    created: function () {
-    },
-    mounted: function () {
-    },
     data () {
-        return {
-            data: {
-                /*模式*/
-                pattern: '',
-                /*便签的默认提示*/
-                notePlaceholder: '写点什么吧～～',
-                /*便签内容*/
-                note: '',
-                /*便签是否可见*/
-                isSee: 'none',
-                /*输入框内容*/
-                keyword: '',
-            }
-        }
+        return store
     },
     methods: {
         //enter激发
@@ -48,8 +44,7 @@ export default {
                     this.other(keyword)
                 }
             }
-        }
-        ,
+        },
 
         /*由enter()调用,非转发模式*/
         other: function (keyword) {
@@ -58,33 +53,32 @@ export default {
             /*2.便签模式*/
             if (isNote) {
                 if (keyword.substring(1) == 'clear ') {
-                    this.data.note = ''
-                    this.data.keyword = '\''
+                    store.note = ''
+                    store.keyword = '\''
                 } else {
-                    if (this.data.note == '') {
-                        this.data.note = keyword
-                    } else {
-                        this.data.note = keyword
-                    }
-                    data.keyword = '\''
-                    /*$.ajax({
-                        type: 'post',
-                        contentType: 'application/json',
+                    axios({
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        method: 'post',
                         url: '/note',
                         data: JSON.stringify({
                             'content': keyword.substring(1)
                         }),
-                        success: function (data) {
-                            if (data.status == 0) {
-                                if (data.note == '') {
-                                    data.note = data.data.concat('---').concat(new Date().toLocaleString())
+                    })
+                        .then(function (response) {
+                            if (response.data.status == 0) {
+                                if (store.note == '') {
+                                    store.note = response.data.data.concat('---').concat(new Date().toLocaleString())
                                 } else {
-                                    data.note += '\n'.concat(data.data).concat('---').concat(new Date().toLocaleString())
+                                    store.note += '\n'.concat(response.data.data).concat('---').concat(new Date().toLocaleString())
                                 }
-                                data.keyword = '\''
+                                store.keyword = '\''
                             }
-                        }
-                    })*/
+                        })
+                        .catch(function (error) {
+                            console.log(vueThis.items + '-=================')
+                        })
                 }
                 /*3.命令模式*/
             } else if (isCommand) {
@@ -95,40 +89,51 @@ export default {
                     var isEnd = keyword.lastIndexOf(' ')
                     /*退出功能*/
                     if (isEnd + 1 == keyword.length) {
-                        data.pattern = ':' + command
-                        if (data.pattern == ':logout ') {
-                            $.ajax({
-                                contentType: 'application/json;charset=utf-8',
-                                url: '/logout',
-                                success: function (data) {
-                                    vueThis.$message(data.msg)
+                        store.pattern = ':' + command
+                        if (store.pattern == ':logout ') {
+                            axios({
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                method: 'post',
+                                url: '/logout'
+                            })
+                                .then(function (response) {
+                                    vueThis.$message(response.data.msg)
                                     setTimeout(function () {
-                                            window.location.href = data.url
+                                            window.location.href = response.data.url
                                         }, 1000
                                     )
-                                }
-                            })
-                        } else if ((data.pattern == ':clear ')) {
-                            data.note = ''
+                                })
+                                .catch(function (error) {
+                                    console.log(vueThis.items + '-=================')
+                                })
+                        } else if ((store.pattern == ':clear ')) {
+                            store.note = ''
                         }
                     }
                 }
                 /*正常搜索*/
             } else {
-                $.ajax({
-                    type: 'post',
-                    contentType: 'application/json;charset=utf-8',
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'post',
                     url: '/todetail',
                     data: JSON.stringify({
                         'keyword': keyword
                     }),
-                    success: function () {
-                        window.location.href = 'detail'
-                    }
                 })
+                    .then(function (response) {
+                        window.location.href = 'detail'
+                    })
+                    .catch(function (error) {
+                        console.log(vueThis.items + '-=================')
+                    })
             }
-        }
-        ,
+        },
+
         /*输入触发*/
         input: function (keyword) {
             /*是否"开头*/
@@ -144,11 +149,11 @@ export default {
 
                 /*开启便签模式*/
             } else if (isNote) {
-                this.data.isSee = 'block'
+                this.isSee = 'block'
                 /*关闭便签模式*/
             } else if (keyword == '') {
-                this.data.isSee = 'none'
-                this.data.article = []
+                this.isSee = 'none'
+                this.article = []
                 /*正常模式,提交关键字到后台查询*/
             } else {
 

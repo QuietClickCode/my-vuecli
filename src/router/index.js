@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import first from '@/components/first'
 import index from '@/components/index'
+import detail from '@/components/detail'
 import login from '@/components/login'
 import systemloglist from '@/components/systemloglist'
 import mdeditor from '@/components/mdeditor'
@@ -15,8 +16,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'index',
+      component: index
+    },
+    {
+      path: '/detail',
+      name: 'detail',
+      component: detail
     },
     {
       path: '/first',
