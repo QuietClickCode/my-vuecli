@@ -41,13 +41,14 @@ export default {
         this.query()
     },
     methods: {
-        highlight: function () {
+        /*highlight: function () {
             var oBox = document.getElementsByTagName('table')[1]
             var oContent = oBox.innerHTML
             var val = this.keyword
             var findText = oContent.split(val)
             oBox.innerHTML = findText.join('<span style="color:red;">' + val + '</span> ')
-        },
+        },*/
+
         query: function () {
             var vueThis = this
             axios({
@@ -65,9 +66,9 @@ export default {
                     console.log(response.data.data)
                     vueThis.keyword = response.data.msg
                     //这儿必须延迟1秒执行,不然空白
-                    setTimeout(function () {
+                    /*setTimeout(function () {
                         vueThis.highlight()
-                    }, 100)
+                    }, 100)*/
                 })
                 .catch(function (error) {
                     console.log(vueThis.items + '-=================')
