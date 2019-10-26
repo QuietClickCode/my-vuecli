@@ -106,7 +106,7 @@ export default {
     created: function () {
         /*不加动画或者,时间太少,都回补了顶部,这个速度可以滑到顶部,并且不影响后面的手动下滑*/
         $('html,body').animate({ scrollTop: 0 }, 500)
-        this.toggleFullScreen();
+        /*this.toggleFullScreen();*/
         this.queryArticle();
 
     },
