@@ -9,6 +9,7 @@
              data-type="playlist">
         </div>-->
         <meting-js
+            style="display: none"
             fixed="true"
             server="netease"
             type="playlist"
@@ -175,9 +176,9 @@ export default {
             /*window.location = "http://music.nbclass.com/"*/
             this.IsShow = !this.IsShow
             if (this.IsShow) {
-                $('#player').show()
+                $('#402192905').show()
             } else {
-                $('#player').hide()
+                $('#402192905').hide()
             }
         },
         toggleFullScreen: function () {
