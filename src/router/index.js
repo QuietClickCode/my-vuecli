@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import first from '@/components/first'
 import ainotelist from '@/components/ainotelist'
 import index from '@/components/index'
+import article from '@/components/article'
 import detail from '@/components/detail'
 import login from '@/components/login'
 import systemloglist from '@/components/systemloglist'
@@ -43,6 +44,11 @@ export default new Router({
       path: '/index',
       name: 'index',
       component: index
+    },
+    {
+      path: '/article',
+      name: 'article',
+      component: article
     },
     {
       path: '/login',
