@@ -1,14 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import first from '@/components/first'
 import ainotelist from '@/components/ainotelist'
 import index from '@/components/index'
+import list from '@/components/list'
 import editorlist from '@/components/editorlist'
+import markdownlist from '@/components/markdownlist'
 import article from '@/components/article'
 import detail from '@/components/detail'
 import login from '@/components/login'
+import regist from '@/components/regist'
+import loginloglist from '@/components/loginloglist'
+import logoutloglist from '@/components/logoutloglist'
 import systemloglist from '@/components/systemloglist'
-import mdeditor from '@/components/mdeditor'
+import markdown from '@/components/markdown'
 import editor from '@/components/editor'
 
 Vue.use(Router)
@@ -32,19 +36,29 @@ export default new Router({
       component: editorlist
     },
     {
+      path: '/loginloglist',
+      name: 'loginloglist',
+      component: loginloglist
+    },
+    {
+      path: '/logoutloglist',
+      name: 'logoutloglist',
+      component: logoutloglist
+    },
+    {
       path: '/ainotelist',
       name: 'ainotelist',
       component: ainotelist
     },
     {
-      path: '/first',
-      name: 'first',
-      component: first
+      path: '/list',
+      name: 'list',
+      component: list
     },
     {
-      path: '/mdeditor',
-      name: 'mdeditor',
-      component: mdeditor
+      path: '/markdown',
+      name: 'markdown',
+      component: markdown
     },
     {
       path: '/index',
@@ -60,6 +74,16 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path: '/regist',
+      name: 'regist',
+      component: regist
+    },
+    {
+      path: '/markdownlist',
+      name: 'markdownlist',
+      component: markdownlist
     },
     {
       path: '/systemloglist',
