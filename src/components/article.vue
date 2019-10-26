@@ -10,38 +10,39 @@
         </div>
 
         <a href="#top" style="position:fixed;right:100px;bottom:100px;z-index:100;"><i class="fa fa-2x fa-arrow-up"
-                                                                          aria-hidden="true"></i></a>
+                                                                                       aria-hidden="true"></i></a>
         <a style="position:fixed;right:100px;top:100px;z-index:100;"><i @click="music" class="fa fa-2x fa-music"
                                                                         aria-hidden="true"></i></a>
         <a style="position:fixed;right:10px;bottom:5px;z-index: 10000"><span id="cg"></span></a>
-        <div style="margin-top:40px;">
-
-        </div>
-        <div id="top" style="display:inline">
-            <el-select v-model="platform" filterable placeholder="请选择">
-                <el-option
-                    label="csdn"
-                    value="article">
-                </el-option>
-                <el-option
-                    label="简书"
-                    value="jianshu_article">
-                </el-option>
-                <el-option
-                    label="博客园"
-                    value="bky_article">
-                </el-option>
-            </el-select>
-            <el-input v-model="id" placeholder="输入文章编号" style="margin-bottom:5px;width: 200px"></el-input>
-            <el-input v-model="title" placeholder="输入文章标题" style="margin-bottom:5px;width: 200px"></el-input>
-            <i @click="back" class="fa fa-x fa-arrow-left" style="font-size: 24px" aria-hidden="true"></i>
-            <span style="color: gray ">上一篇</span>
-            <span style="color: gray ">|</span>
-            <span style="color: gray ">下一篇</span>
-            <i @click="next" class="fa fa-x fa-arrow-right" style="font-size: 24px" aria-hidden="true"></i>
-            <el-button @click="queryArticle">查询</el-button>
-            <div style="display: block;text-align: center">
-                <el-button @click="toggleFullScreen" style="position:fixed; top:0; left:0;width:100%;height:35px;"
+        <div  style="display:inline;">
+            <div style="position:fixed; top: 32px; left: 8px;z-index:10;">
+                <el-select v-model="platform" filterable placeholder="请选择">
+                    <el-option
+                        label="csdn"
+                        value="article">
+                    </el-option>
+                    <el-option
+                        label="简书"
+                        value="jianshu_article">
+                    </el-option>
+                    <el-option
+                        label="博客园"
+                        value="bky_article">
+                    </el-option>
+                </el-select>
+                <el-input v-model="id" placeholder="输入文章编号" style="margin-bottom:5px;width: 200px"></el-input>
+                <el-input v-model="title" placeholder="输入文章标题" style="margin-bottom:5px;width: 200px"></el-input>
+                <i @click="back" class="fa fa-x fa-arrow-left" style="font-size: 24px" aria-hidden="true"></i>
+                <span style="color: gray ">上一篇</span>
+                <span style="color: gray ">|</span>
+                <span style="color: gray ">下一篇</span>
+                <i @click="next" class="fa fa-x fa-arrow-right" style="font-size: 24px" aria-hidden="true"></i>
+                <el-button @click="queryArticle">查询</el-button>
+            </div>
+            <div id="top" style="height: 30px;"></div>
+            <div style="display: block;text-align: center;height:40px">
+                <el-button @click="toggleFullScreen"
+                           style="position:fixed; top:0; left:0;z-index:100;width:100%;height:35px;"
                            type="success">{{articledetail.id}} | {{articledetail.title}} | {{articledetail.createtime}}
                 </el-button>
             </div>
@@ -49,7 +50,7 @@
             <el-table max-height="250" id="table"
                       :data="article"
                       :row-style="rowstyle"
-                      style="width: 100%">
+                      style="width: 100%;position:fixed; bottom:35px; left:0;z-index:10;">
                 <el-table-column
                     prop="id"
                     label="id" min-width="50px"
@@ -85,6 +86,7 @@
 <script>
 import axios from 'axios'
 import $ from 'jquery'
+
 var store = {
     articledetail: '',
     article: [],
@@ -104,7 +106,8 @@ export default {
     created: function () {
         /*不加动画或者,时间太少,都回补了顶部,这个速度可以滑到顶部,并且不影响后面的手动下滑*/
         $('html,body').animate({ scrollTop: 0 }, 500)
-        this.toggleFullScreen()
+        this.toggleFullScreen();
+        this.queryArticle();
 
     },
     mounted: function () {
