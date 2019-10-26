@@ -1,14 +1,19 @@
 <template>
     <div>
         <!--音乐播放器插件-->
-        <div class="aplayer" id="player" style="display: none;color:black"
+       <!-- <div class="aplayer" id="player" style="display: block;color:black"
              data-id="402192905"
              data-fixed="true"
              data-server="netease"
              data-volume="0.4"
              data-type="playlist">
-        </div>
-
+        </div>-->
+        <meting-js
+            fixed="true"
+            server="netease"
+            type="playlist"
+            id="402192905">
+        </meting-js>
         <a href="#top" style="position:fixed;right:100px;bottom:100px;z-index:100;"><i class="fa fa-2x fa-arrow-up"
                                                                                        aria-hidden="true"></i></a>
         <a style="position:fixed;right:100px;top:100px;z-index:100;"><i @click="music" class="fa fa-2x fa-music"
