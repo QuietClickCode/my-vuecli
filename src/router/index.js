@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import axios from 'axios'
 import ainotelist from '@/components/ainotelist'
 import index from '@/components/index'
 import list from '@/components/list'
 import notfound from '@/components/notfound'
+import noauth from '@/components/noauth'
 import editorlist from '@/components/editorlist'
 import userlist from '@/components/userlist'
 import markdownlist from '@/components/markdownlist'
@@ -41,6 +43,11 @@ export default new Router({
             path: '/loginloglist',
             name: 'loginloglist',
             component: loginloglist
+        },
+        {
+            path: '/noauth',
+            name: 'noauth',
+            component: noauth
         },
         {
             path: '/logoutloglist',
@@ -96,7 +103,25 @@ export default new Router({
         {
             path: '/systemloglist',
             name: 'systemloglist',
-            component: systemloglist
+            component: systemloglist,
+            beforeEnter: (to, from, next) => {
+                axios({
+                    url: '/issystemloglistpermission',
+                    method: 'post'
+                })
+                    .then(function (response) {
+                        if (response.data.status == 0) {
+                            next()
+                        } else {
+                            var url = response.data.url;
+                            next(url);
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log('--------------------')
+                        console.log(error)
+                    })
+            }
         },
         {
             path: '/editor',
@@ -104,12 +129,12 @@ export default new Router({
             component: editor
         },
         {
-            path: "/404",
-            name: "notfound",
+            path: '/404',
+            name: 'notfound',
             component: notfound
         }, {
-            path: "*", // 此处需特别注意置于最底部
-            redirect: "/404"
+            path: '*', // 此处需特别注意置于最底部
+            redirect: '/404'
         }
 
     ]
