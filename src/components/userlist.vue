@@ -21,7 +21,6 @@
                 </el-date-picker>
             </div>
         </div>
-
         <div>
             <div style="display:inline">
                 <span style="margin-left: 33px;">操作系统</span>

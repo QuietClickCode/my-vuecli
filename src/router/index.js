@@ -4,6 +4,7 @@ import ainotelist from '@/components/ainotelist'
 import index from '@/components/index'
 import list from '@/components/list'
 import editorlist from '@/components/editorlist'
+import userlist from '@/components/userlist'
 import markdownlist from '@/components/markdownlist'
 import article from '@/components/article'
 import detail from '@/components/detail'
@@ -64,6 +65,11 @@ export default new Router({
       path: '/index',
       name: 'index',
       component: index
+    },
+    {
+      path: '/userlist',
+      name: 'userlist',
+      component: userlist
     },
     {
       path: '/article',
