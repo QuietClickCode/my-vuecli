@@ -95,7 +95,7 @@ export default {
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
-                                method: 'post',
+                                method: 'get',
                                 url: '/logout'
                             })
                                 .then(function (response) {

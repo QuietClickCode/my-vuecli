@@ -19,88 +19,89 @@ import editor from '@/components/editor'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
-  routes: [
-    {
-      path: '/',
-      name: '/index',
-      component: index
-    },
-    {
-      path: '/detail',
-      name: 'detail',
-      component: detail
-    },
-    {
-      path: '/editorlist',
-      name: 'editorlist',
-      component: editorlist
-    },
-    {
-      path: '/loginloglist',
-      name: 'loginloglist',
-      component: loginloglist
-    },
-    {
-      path: '/logoutloglist',
-      name: 'logoutloglist',
-      component: logoutloglist
-    },
-    {
-      path: '/ainotelist',
-      name: 'ainotelist',
-      component: ainotelist
-    },
-    {
-      path: '/list',
-      name: 'list',
-      component: list
-    },
-    {
-      path: '/markdown',
-      name: 'markdown',
-      component: markdown
-    },
-    {
-      path: '/index',
-      name: 'index',
-      component: index
-    },
-    {
-      path: '/userlist',
-      name: 'userlist',
-      component: userlist
-    },
-    {
-      path: '/article',
-      name: 'article',
-      component: article
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: login
-    },
-    {
-      path: '/regist',
-      name: 'regist',
-      component: regist
-    },
-    {
-      path: '/markdownlist',
-      name: 'markdownlist',
-      component: markdownlist
-    },
-    {
-      path: '/systemloglist',
-      name: 'systemloglist',
-      component: systemloglist
-    },
-    {
-      path: '/editor',
-      name: 'editor',
-      component: editor
-    }
+    mode: 'history',
+    routes: [
+        {
+            path: '/',
+            name: '/index',
+            component: index
+        },
+        {
+            path: '/detail',
+            name: 'detail',
+            component: detail
+        },
+        {
+            path: '/editorlist',
+            name: 'editorlist',
+            component: editorlist
+        },
+        {
+            path: '/loginloglist',
+            name: 'loginloglist',
+            component: loginloglist
+        },
+        {
+            path: '/logoutloglist',
+            name: 'logoutloglist',
+            component: logoutloglist
+        },
+        {
+            path: '/ainotelist',
+            name: 'ainotelist',
+            component: ainotelist
+        },
+        {
+            path: '/list',
+            name: 'list',
+            component: list
+        },
+        {
+            path: '/markdown',
+            name: 'markdown',
+            component: markdown
+        },
+        {
+            path: '/index',
+            name: 'index',
+            component: index
+        },
+        {
+            path: '/userlist',
+            name: 'userlist',
+            component: userlist
+        },
+        {
+            path: '/article',
+            name: 'article',
+            component: article
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: login
 
-  ]
+        },
+        {
+            path: '/regist',
+            name: 'regist',
+            component: regist
+        },
+        {
+            path: '/markdownlist',
+            name: 'markdownlist',
+            component: markdownlist
+        },
+        {
+            path: '/systemloglist',
+            name: 'systemloglist',
+            component: systemloglist
+        },
+        {
+            path: '/editor',
+            name: 'editor',
+            component: editor
+        }
+
+    ]
 })
