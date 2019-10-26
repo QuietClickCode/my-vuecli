@@ -124,7 +124,9 @@ export default {
         view: function (id) {
             var result = store.article.filter(item => item.id == id)
             store.articledetail = result[0]
-            $('#table').hide()
+            $('#table').hide();
+            this.id = id;
+
         },
         next: function () {
             store.id++
