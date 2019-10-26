@@ -48,7 +48,6 @@ export default {
             var findText = oContent.split(val)
             oBox.innerHTML = findText.join('<span style="color:red;">' + val + '</span> ')
         },*/
-
         query: function () {
             var vueThis = this
             axios({
