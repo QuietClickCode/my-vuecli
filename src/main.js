@@ -20,7 +20,6 @@ axios.defaults.baseURL = '/api'  //关键代码
 Vue.use(mavonEditor)
 Vue.use(ElementUI)
 Vue.use(VueQuillEditor)
-
 Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
     // to,from,next 3个参数
