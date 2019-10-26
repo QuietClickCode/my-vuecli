@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import first from '@/components/first'
 import ainotelist from '@/components/ainotelist'
 import index from '@/components/index'
+import editorlist from '@/components/editorlist'
 import article from '@/components/article'
 import detail from '@/components/detail'
 import login from '@/components/login'
@@ -24,6 +25,11 @@ export default new Router({
       path: '/detail',
       name: 'detail',
       component: detail
+    },
+    {
+      path: '/editorlist',
+      name: 'editorlist',
+      component: editorlist
     },
     {
       path: '/ainotelist',
