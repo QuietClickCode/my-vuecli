@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import ainotelist from '@/components/ainotelist'
 import index from '@/components/index'
 import list from '@/components/list'
+import notfound from '@/components/notfound'
 import editorlist from '@/components/editorlist'
 import userlist from '@/components/userlist'
 import markdownlist from '@/components/markdownlist'
@@ -101,6 +102,14 @@ export default new Router({
             path: '/editor',
             name: 'editor',
             component: editor
+        },
+        {
+            path: "/404",
+            name: "notfound",
+            component: notfound
+        }, {
+            path: "*", // 此处需特别注意置于最底部
+            redirect: "/404"
         }
 
     ]
