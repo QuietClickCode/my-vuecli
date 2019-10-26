@@ -1,18 +1,18 @@
 <template>
-    <div id="app" style="display: block">
+    <div>
         <div style="text-align: center">
-            <el-link type="primary" style="font-size: large">系统操作日志详情</el-link>
+            <el-link type="primary" style="font-size: large">便签记录详情</el-link>
         </div>
         <!--搜索条件-->
         <div>
             <div style="display:inline">
                 <span style="margin-left: 50px;">关键字</span>
-                <el-input style="margin-bottom:5px;width: 300px" v-model="data.queryForm.keyword"></el-input>
+                <el-input style="margin-bottom:5px;width: 300px" v-model="queryForm.keyword"></el-input>
                 <span style="margin-left: 50px;">位置</span>
-                <el-input style="margin-bottom:5px;width: 300px" v-model="data.queryForm.location"></el-input>
+                <el-input style="margin-bottom:5px;width: 300px" v-model="queryForm.location"></el-input>
                 <span style="margin-left: 50px;">搜索时间</span>
                 <el-date-picker style="margin-bottom:5px;width: 300px"
-                                v-model="data.queryForm.createtime"
+                                v-model="queryForm.createtime"
                                 type="datetimerange"
                                 format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"
                                 range-separator="至"
@@ -25,39 +25,39 @@
         <div>
             <div style="display:inline">
                 <span style="margin-left: 33px;">操作系统</span>
-                <el-select style="margin-bottom:5px;width: 300px" v-model="data.queryForm.system" placeholder="请选择">
+                <el-select style="margin-bottom:5px;width: 300px" v-model="queryForm.system" placeholder="请选择">
                     <el-option
                         label="请选择"
                         value="">
                     </el-option>
                     <el-option
-                        v-for="item in data.system"
+                        v-for="item in system"
                         :key="item"
                         :label="item"
                         :value="item">
                     </el-option>
                 </el-select>
                 <span style="margin-left: 37px;">浏览器</span>
-                <el-select style="margin-bottom:5px;width: 300px" v-model="data.queryForm.browser" placeholder="请选择">
+                <el-select style="margin-bottom:5px;width: 300px" v-model="queryForm.browser" placeholder="请选择">
                     <el-option
                         label="请选择"
                         value="">
                     </el-option>
                     <el-option
-                        v-for="item in data.browser"
+                        v-for="item in browser"
                         :key="item"
                         :label="item"
                         :value="item">
                     </el-option>
                 </el-select>
                 <span style="margin-left: 80px;">设备</span>
-                <el-select style="margin-bottom:5px;width: 300px" v-model="data.queryForm.device" placeholder="请选择">
+                <el-select style="margin-bottom:5px;width: 300px"  v-model="queryForm.device" placeholder="请选择">
                     <el-option
                         label="请选择"
                         value="">
                     </el-option>
                     <el-option
-                        v-for="item in data.device"
+                        v-for="item in device"
                         :key="item"
                         :label="item"
                         :value="item">
@@ -68,15 +68,11 @@
 
 
         <el-table height="430"
-                  :data="data.items"
+                  :data="items"
         >
             <el-table-column
                 prop="id"
                 label="Id" fixed
-            ></el-table-column>
-            <el-table-column
-                prop="operation"
-                label="操作" fixed
             ></el-table-column>
             <el-table-column width="100px"
                              prop="user.id"
@@ -90,7 +86,11 @@
                              prop="user.password"
                              label="密码"
             ></el-table-column>
-            <el-table-column width="120px"
+            <el-table-column width="400px"
+                             prop="content"
+                             label="内容"
+            ></el-table-column>
+            <el-table-column width="130px"
                              prop="location.ip"
                              label="外网IP">
             </el-table-column>
@@ -135,10 +135,9 @@
         <div class="block" style="text-align: center">
             <el-pagination
                 layout="prev, pager, next"
-                :total="data.length"
+                :total="length"
                 @current-change="handleCurrentChange"
-                :current-page="data.currentpage"
-
+                :current-page="currentpage"
             >
             </el-pagination>
         </div>
@@ -150,27 +149,20 @@
 
 <script>
 import axios from 'axios'
+
+var store = {
+    queryForm: {keyword: "", startpage: 0, location: "", system: "", createtime: [], browser: "", device: ""},
+    system: [],
+    browser: [],
+    device: [],
+    items: [],
+    length: 0,
+    currentpage:1
+};
 export default {
+    name: 'ainotelist',
     data () {
-        return {
-            data: {
-                queryForm: {
-                    keyword: '',
-                    startpage: 0,
-                    location: '',
-                    system: '',
-                    createtime: [],
-                    browser: '',
-                    device: ''
-                },
-                system: [],
-                browser: [],
-                device: [],
-                items: [],
-                length: 0,
-                currentpage:1
-            }
-        }
+        return store
     },
     created: function () {
         this.init()
@@ -180,17 +172,12 @@ export default {
 
     },
     methods: {
-        handleCurrentChange (val) {
-            this.data.queryForm.startpage = 0 + (val - 1) * 10
-            this.query();
-            this.data.currentpage = val
-        },
         init: function () {
             var vueThis = this
             axios.post('/queryBrowser', {
             })
                 .then(function (response) {
-                    vueThis.data.browser = response.data
+                    vueThis.browser = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -198,7 +185,7 @@ export default {
             axios.post('/querySystem', {
             })
                 .then(function (response) {
-                    vueThis.data.system = response.data
+                    vueThis.system = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -206,77 +193,78 @@ export default {
             axios.post('/queryDevice', {
             })
                 .then(function (response) {
-                    vueThis.data.device = response.data
+                    vueThis.device = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
         },
+        handleCurrentChange (val) {
+            this.queryForm.startpage = 0 + (val - 1) * 10
+            this.query();
+            this.currentpage = val
+        },
         query: function () {
             var vueThis = this
-             axios({
-                 url: '/querySystemLog',
-                 method: 'post',
-                 data: vueThis.data.queryForm,
-             })
-                 .then(function (response) {
-                     vueThis.data.items = response.data
-                     console.log(JSON.stringify(vueThis.items) + '----------------')
-                 })
-                 .catch(function (error) {
-                     console.log('--------------------')
-                     console.log(error)
-                 })
-             axios({
-                 url: '/queryCount',
-                 method: 'post',
-                 data: vueThis.data.queryForm,
-             })
-                 .then(function (response) {
-                     vueThis.length = response.data
-                 })
-                 .catch(function (error) {
-                     console.log(error)
-                 })
+            axios({
+                url: "/queryAiNote",
+                method: 'post',
+                data: vueThis.queryForm,
+            })
+                .then(function (response) {
+                    vueThis.items = response.data
+                    console.log(JSON.stringify(vueThis.items) + '----------------')
+                })
+                .catch(function (error) {
+                    console.log('--------------------')
+                    console.log(error)
+                })
+            axios({
+                url: "/queryAiNoteCount",
+                method: 'post',
+                data: vueThis.queryForm,
+            })
+                .then(function (response) {
+                    vueThis.length = response.data
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
         },
         btnquery: function () {
             var vueThis = this
             /*条件查询就要清空起始页这个查询条件,不然会出问题*/
-            vueThis.data.queryForm.startpage = 0;
-            vueThis.data.currentpage = 1;
+            vueThis.queryForm.startpage = 0;
+            vueThis.currentpage = 1;
             axios({
-                url: '/querySystemLog',
+                url: '/queryAiNote',
                 method: 'post',
-                data: vueThis.data.queryForm,
+                data: vueThis.queryForm,
             })
                 .then(function (response) {
-                    vueThis.data.items = response.data
+                    vueThis.items = response.data
                 })
                 .catch(function (error) {
                     console.log(vueThis.items + '-=================')
                 })
-              axios({
-                  url: '/queryCount',
-                  method: 'post',
-                  data: vueThis.data.queryForm,
-              })
-                  .then(function (response) {
-                      vueThis.data.length = response.data
-                  })
-                  .catch(function (error) {
-                      console.log(error)
-                  })
+            axios({
+                url: '/queryAiNoteCount',
+                method: 'post',
+                data: vueThis.queryForm,
+            })
+                .then(function (response) {
+                    vueThis.length = response.data
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
         }
+
     }
 }
 </script>
 
 <style>
-
-#app {
-    text-align: center;
-}
-
 /*输入框水平居中*/
 .center {
     position: absolute;

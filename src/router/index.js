@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import first from '@/components/first'
+import ainotelist from '@/components/ainotelist'
 import index from '@/components/index'
 import detail from '@/components/detail'
 import login from '@/components/login'
@@ -16,13 +16,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'index',
+      name: '/index',
       component: index
     },
     {
       path: '/detail',
       name: 'detail',
       component: detail
+    },
+    {
+      path: '/ainotelist',
+      name: 'ainotelist',
+      component: ainotelist
     },
     {
       path: '/first',
