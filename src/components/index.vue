@@ -10,11 +10,26 @@
                       v-model="keyword">
             </el-input>
         </div>
+        <div id="result">
+            <el-table height="230"
+                      :data="data"
+            >
+                <el-table-column
+                    prop="title"
+                    label="片名" fixed
+                ></el-table-column>
+                <el-table-column width="100px"
+                                 prop="score"
+                                 label="评分"
+                ></el-table-column>
+            </el-table>
+        </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios'
+
 var store = {
     /*模式*/
     pattern: '',
@@ -26,6 +41,7 @@ var store = {
     isSee: 'none',
     /*输入框内容*/
     keyword: '',
+    data:[]
 }
 export default {
     name: 'index',
@@ -85,11 +101,28 @@ export default {
                 var vueThis = this
                 var index = keyword.indexOf(' ')
                 if (index != -1) {
+                    /*命令关键字后面必须有空格哦*/
                     var command = keyword.substring(1, index + 1)
                     var isEnd = keyword.lastIndexOf(' ')
-                    /*退出功能*/
+                    if (command == 'movie ') {
+                        var searchkeyword = keyword.substring(7)
+                        axios({
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            method: 'get',
+                            url: '/s?wd=' + searchkeyword
+                        })
+                            .then(function (response) {
+                                vueThis.data = response.data.list;
+                            })
+                            .catch(function (error) {
+                                console.log(vueThis.items + '-=================')
+                            })
+                    }
                     if (isEnd + 1 == keyword.length) {
                         store.pattern = ':' + command
+                        /*退出功能*/
                         if (store.pattern == ':logout ') {
                             axios({
                                 headers: {
