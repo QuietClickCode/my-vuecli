@@ -7,7 +7,6 @@ import list from '@/components/list'
 import notfound from '@/components/notfound'
 import noauth from '@/components/noauth'
 import editorlist from '@/components/editorlist'
-import editordetail from '@/components/editordetail'
 import userlist from '@/components/userlist'
 import markdownlist from '@/components/markdownlist'
 import article from '@/components/article'
@@ -39,11 +38,6 @@ export default new Router({
             path: '/editorlist',
             name: 'editorlist',
             component: editorlist
-        },
-        {
-            path: '/editordetail:row',
-            name: 'editordetail',
-            component: editordetail
         },
         {
             path: '/loginloglist',

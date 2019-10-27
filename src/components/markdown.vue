@@ -1,10 +1,10 @@
 <template>
     <div id="mdeditor">
-        <h3 style="text-align: center">标题</h3>
+        <div style="text-align: center">标题</div>
         <mavon-editor id="title" v-model="title" :toolbars="toolbars"/>
-        <h3 style="text-align: center;">正文</h3>
+        <div style="text-align: center;">正文</div>
         <mavon-editor id="content" v-model="content" :toolbars="toolbars"/>
-        <div style="text-align: center">
+        <div style="position:fixed;bottom: 10px;left:600px;z-index:1000000">
             <el-button @click="save">保存</el-button>
         </div>
     </div>
