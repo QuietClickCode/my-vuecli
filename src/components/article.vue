@@ -19,7 +19,7 @@
                                                                                        aria-hidden="true"></i></a>
         <a style="position:fixed;right:100px;top:100px;z-index:100;"><i @click="music" class="fa fa-2x fa-music"
                                                                         aria-hidden="true"></i></a>
-        <a style="position:fixed;right:10px;bottom:5px;z-index: 10000"><span id="cg"></span></a>
+        <a style="position:fixed;right:10px;bottom:5px;z-index: 10000"><span>{{date}}</span></a>
         <div style="display:inline;">
             <div style="position:fixed; top: 32px; left: 8px;z-index:10;">
                 <el-select v-model="platform" filterable placeholder="请选择">
@@ -102,7 +102,8 @@ var store = {
     title: '',
     rowstyle: {
         height: 50
-    }
+    },
+    date:""
 }
 export default {
     name: 'ainotelist',
@@ -116,8 +117,17 @@ export default {
         this.queryArticle()
 
     },
-    mounted: function () {
+    mounted() {
         $('#table').hide()
+        let _this = this; // 声明一个变量指向Vue实例this，保证作用域一致
+        this.timer = setInterval(() => {
+            _this.date = new Date(); // 修改数据date
+        }, 1000)
+    },
+    beforeDestroy() {
+        if (this.timer) {
+            clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
+        }
     },
     methods: {
         closetable: function () {
@@ -204,11 +214,6 @@ export default {
 
     }
 }
-
-/*显示时间*/
-var j = setInterval(function () {
-    'cg.innerHTML=new Date().toLocaleString()'
-}, 1000)
 </script>
 
 <style>

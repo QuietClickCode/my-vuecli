@@ -219,8 +219,6 @@ export default {
     }
 }
 
-/*显示时间*/
-setInterval('cg.innerHTML=new Date().toLocaleString()', 1000)
 </script>
 
 <style>
