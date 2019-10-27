@@ -127,11 +127,10 @@ export default {
     },
     methods: {
         getParams:function(){
-            var obj=eval('(' + this.$route.query.row + ')');
             // 取到路由带过来的参数
-            this.row = obj;
+            this.row = this.$route.params.row;
             // 将数据放在当前组件的数据内
-            alert(this.row.content);
+            alert(this.row);
         },
         closetable: function () {
             if ($('#table').css('display') == 'none') {

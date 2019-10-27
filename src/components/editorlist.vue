@@ -185,10 +185,10 @@ export default {
     methods: {
         viewdetail: function (row) {
             this.$router.push({
-                path: '/editordetail',
-                query: {
-                    row: JSON.stringify(row)
-                },
+                name: 'editordetail',
+                params : {
+                    row:JSON.stringify(row)
+                }
             })
         },
         init: function () {

@@ -41,7 +41,7 @@ export default new Router({
             component: editorlist
         },
         {
-            path: '/editordetail',
+            path: '/editordetail:row',
             name: 'editordetail',
             component: editordetail
         },
