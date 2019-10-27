@@ -53,7 +53,7 @@
                     </el-option>
                 </el-select>
                 <span style="margin-left: 80px;">设备</span>
-                <el-select style="margin-bottom:5px;width: 300px"  v-model="queryForm.device" placeholder="请选择">
+                <el-select style="margin-bottom:5px;width: 300px" v-model="queryForm.device" placeholder="请选择">
                     <el-option
                         label="请选择"
                         value="">
@@ -137,6 +137,12 @@
                              prop="createtime"
                              label="创建时间">
             </el-table-column>
+            <el-table-column fixed="right" width="100px"
+                             label="操作">
+                <template slot-scope="scope">
+                    <el-button @click="viewdetail(scope.row)" type="text" size="small">查看详情</el-button>
+                </template>
+            </el-table-column>
         </el-table>
         <div class="block" style="text-align: center">
             <el-pagination
@@ -155,15 +161,16 @@
 
 <script>
 import axios from 'axios'
+
 var store = {
-    queryForm: {keyword: "", startpage: 0, location: "", system: "", createtime: [], browser: "", device: ""},
+    queryForm: { keyword: '', startpage: 0, location: '', system: '', createtime: [], browser: '', device: '' },
     system: [],
     browser: [],
     device: [],
     items: [],
     length: 0,
-    currentpage:1
-};
+    currentpage: 1
+}
 export default {
     name: 'ainotelist',
     data () {
@@ -173,29 +180,34 @@ export default {
         this.init()
     },
     mounted: function () {
-        this.query();
+        this.query()
     },
     methods: {
+        viewdetail: function (row) {
+            this.$router.push({
+                path: '/editordetail',
+                query: {
+                    row: JSON.stringify(row)
+                },
+            })
+        },
         init: function () {
             var vueThis = this
-            axios.post('/queryBrowser', {
-            })
+            axios.post('/queryBrowser', {})
                 .then(function (response) {
                     vueThis.browser = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
-            axios.post('/querySystem', {
-            })
+            axios.post('/querySystem', {})
                 .then(function (response) {
                     vueThis.system = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
-            axios.post('/queryDevice', {
-            })
+            axios.post('/queryDevice', {})
                 .then(function (response) {
                     vueThis.device = response.data
                 })
@@ -205,13 +217,13 @@ export default {
         },
         handleCurrentChange (val) {
             this.queryForm.startpage = 0 + (val - 1) * 10
-            this.query();
+            this.query()
             this.currentpage = val
         },
         query: function () {
             var vueThis = this
             axios({
-                url: "/queryEditor",
+                url: '/queryEditor',
                 method: 'post',
                 data: vueThis.queryForm,
             })
@@ -224,7 +236,7 @@ export default {
                     console.log(error)
                 })
             axios({
-                url: "/queryEditorCount",
+                url: '/queryEditorCount',
                 method: 'post',
                 data: vueThis.queryForm,
             })
@@ -238,10 +250,10 @@ export default {
         btnquery: function () {
             var vueThis = this
             /*条件查询就要清空起始页这个查询条件,不然会出问题*/
-            vueThis.queryForm.startpage = 0;
-            vueThis.currentpage = 1;
+            vueThis.queryForm.startpage = 0
+            vueThis.currentpage = 1
             axios({
-                url: "/queryEditor",
+                url: '/queryEditor',
                 method: 'post',
                 data: vueThis.queryForm,
             })
@@ -252,7 +264,7 @@ export default {
                     console.log(vueThis.items + '-=================')
                 })
             axios({
-                url: "/queryEditorCount",
+                url: '/queryEditorCount',
                 method: 'post',
                 data: vueThis.queryForm,
             })
