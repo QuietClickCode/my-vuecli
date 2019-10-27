@@ -1,13 +1,13 @@
 <template>
     <div>
         <!--音乐播放器插件-->
-       <!-- <div class="aplayer" id="player" style="display: block;color:black"
-             data-id="402192905"
-             data-fixed="true"
-             data-server="netease"
-             data-volume="0.4"
-             data-type="playlist">
-        </div>-->
+        <!-- <div class="aplayer" id="player" style="display: block;color:black"
+              data-id="402192905"
+              data-fixed="true"
+              data-server="netease"
+              data-volume="0.4"
+              data-type="playlist">
+         </div>-->
         <meting-js
             style="display: none"
             fixed="true"
@@ -20,7 +20,7 @@
         <a style="position:fixed;right:100px;top:100px;z-index:100;"><i @click="music" class="fa fa-2x fa-music"
                                                                         aria-hidden="true"></i></a>
         <a style="position:fixed;right:10px;bottom:5px;z-index: 10000"><span id="cg"></span></a>
-        <div  style="display:inline;">
+        <div style="display:inline;">
             <div style="position:fixed; top: 32px; left: 8px;z-index:10;">
                 <el-select v-model="platform" filterable placeholder="请选择">
                     <el-option
@@ -113,7 +113,7 @@ export default {
         /*不加动画或者,时间太少,都回补了顶部,这个速度可以滑到顶部,并且不影响后面的手动下滑*/
         $('html,body').animate({ scrollTop: 0 }, 500)
         /*this.toggleFullScreen();*/
-        this.queryArticle();
+        this.queryArticle()
 
     },
     mounted: function () {
@@ -130,8 +130,8 @@ export default {
         view: function (id) {
             var result = store.article.filter(item => item.id == id)
             store.articledetail = result[0]
-            $('#table').hide();
-            this.id = id;
+            $('#table').hide()
+            this.id = id
 
         },
         next: function () {
@@ -206,7 +206,9 @@ export default {
 }
 
 /*显示时间*/
-setInterval('cg.innerHTML=new Date().toLocaleString()', 1000)
+var j = setInterval(function () {
+    'cg.innerHTML=new Date().toLocaleString()'
+}, 1000)
 </script>
 
 <style>

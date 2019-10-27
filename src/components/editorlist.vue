@@ -133,14 +133,17 @@
                                  prop="location.keyword"
                                  label="设备">
                 </el-table-column>
-                <el-table-column fixed="right" width="200px"
+                <el-table-column width="200px"
                                  prop="createtime"
                                  label="创建时间">
                 </el-table-column>
-                <el-table-column fixed="right" width="100px"
+                <el-table-column fixed="right" width="200px"
                                  label="操作">
                     <template slot-scope="scope">
-                        <el-button @click="viewdetail(scope.row)" type="text" size="small">查看详情</el-button>
+                        <el-button @click="adddetail(scope.row)" type="text" size="small">新增</el-button>
+                        <el-button @click="viewdetail(scope.row)" type="text" size="small">查看</el-button>
+                        <el-button @click="updatedetail(scope.row)" type="text" size="small">修改</el-button>
+                        <el-button @click="deletedetail(scope.row)" type="text" size="small">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -157,21 +160,44 @@
                 <el-button @click="btnquery">查询</el-button>
             </div>
         </div>
-        <div id="editordetail" style="display: none;">
-            <h3 style="text-align: center">标题</h3>
+        <div id="vieweditordetail" style="display: none;">
+            <div style="text-align: center"><span>标题</span></div>
+            <div style="position: fixed;top:0px;left:0px;">
+                <el-button @click="enter">退出</el-button>
+            </div>
             <el-row>
-                <quill-editor  ref="myQuillEditortitle" id="title" v-model="editordetailtitle"
+                <quill-editor ref="myQuillEditorviewtitle" id="title" v-model="vieweditordetailtitle"
                               :options="editorOption">
                 </quill-editor>
             </el-row>
             <h3 style="text-align: center;padding-top: 50px">正文</h3>
             <el-row>
-                <quill-editor  ref="myQuillEditorcontent" id="content" v-model="editordetailcontent"
-                              :options="editorOption" >
+                <quill-editor ref="myQuillEditorviewcontent" id="content" v-model="vieweditordetailcontent"
+                              :options="editorOption">
                 </quill-editor>
             </el-row>
-            <div style="padding-top: 50px;text-align: center">
+            <div style="position:fixed;bottom: 10px;left:600px;">
                 <el-button @click="enter">确定</el-button>
+            </div>
+        </div>
+        <div id="updateeditordetail" style="display: none;">
+            <div style="text-align: center"><span>标题</span></div>
+            <div style="position: fixed;top:0px;left:0px;">
+                <el-button @click="enter">退出</el-button>
+            </div>
+            <el-row>
+                <quill-editor ref="myQuillEditortitleupdatetitle" id="title" v-model="updateeditordetailtitle"
+                              :options="editorOption">
+                </quill-editor>
+            </el-row>
+            <div style="text-align: center;padding-top: 50px"><span>正文</span></div>
+            <el-row>
+                <quill-editor ref="myQuillEditortitleupdatecontent" id="content" v-model="updateeditordetailcontent"
+                              :options="editorOption">
+                </quill-editor>
+            </el-row>
+            <div style="position:fixed;bottom: 10px;left:600px;">
+                <el-button @click="updateeditor">保存</el-button>
             </div>
         </div>
     </div>
@@ -189,13 +215,15 @@ var store = {
     items: [],
     length: 0,
     currentpage: 1,
-    editordetailtitle: '',
-    editordetailcontent: '',
-    editorOption: {
-    }
+    updateeditordetailtitle: '',
+    updateeditordetailcontent: '',
+    vieweditordetailtitle: '',
+    vieweditordetailcontent: '',
+    editorOption: {},
+    currentId: ''
 }
 export default {
-    name: 'ainotelist',
+    name: 'editorlist',
     data () {
         return store
     },
@@ -206,17 +234,56 @@ export default {
         this.query()
     },
     methods: {
+        updateeditor: function () {
+            var vueThis = this
+            axios({
+                url: '/updateeditor',
+                method: 'post',
+                data: {
+                    'title': vueThis.updateeditordetailtitle,
+                    'content': vueThis.updateeditordetailcontent,
+                    'id': vueThis.currentId
+                },
+            })
+                .then(function (response) {
+                    if (response.data == 1) {
+                        vueThis.$message("保存成功");
+                        vueThis.$router.go(0)
+                    }
+                })
+                .catch(function (error) {
+                    console.log('--------------------')
+                    console.log(error)
+                })
+
+        },
         enter: function () {
             $('#editorlist').show()
-            $('#editordetail').hide()
+            $('#vieweditordetail').hide()
+            $('#updateeditordetail').hide()
         },
         viewdetail: function (row) {
             $('#editorlist').hide()
-            $('#editordetail').show();
-            this.$refs.myQuillEditortitle.quill.enable(false)
-            this.$refs.myQuillEditorcontent.quill.enable(false)
-            this.editordetailcontent = row.content
-            this.editordetailtitle = row.title
+            $('#vieweditordetail').show()
+            this.$refs.myQuillEditorviewtitle.quill.enable(false)
+            this.$refs.myQuillEditorviewcontent.quill.enable(false)
+            this.vieweditordetailcontent = row.content
+            this.vieweditordetailtitle = row.title
+        },
+        adddetail: function (row) {
+            this.$router.push({
+                path: '/editor'
+            })
+        },
+        deletedetail: function (row) {
+            alert('删除')
+        },
+        updatedetail: function (row) {
+            $('#editorlist').hide()
+            $('#updateeditordetail').show()
+            this.updateeditordetailcontent = row.content
+            this.updateeditordetailtitle = row.title
+            this.currentId = row.id
         },
         init: function () {
             var vueThis = this
@@ -256,7 +323,6 @@ export default {
             })
                 .then(function (response) {
                     vueThis.items = response.data
-                    console.log(JSON.stringify(vueThis.items) + '----------------')
                 })
                 .catch(function (error) {
                     console.log('--------------------')
