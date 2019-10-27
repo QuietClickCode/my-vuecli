@@ -94,9 +94,12 @@
                                  label="标题"
                 ></el-table-column>
                 <el-table-column width="400px"
-                                 prop="content"
                                  label="内容"
-                ></el-table-column>
+                >
+                    <template slot-scope="scope">
+                        {{scope.row.content.length>30?scope.row.content.substring(0,30)+"...":scope.row.content}}
+                    </template>
+                </el-table-column>
                 <el-table-column width="120px"
                                  prop="location.ip"
                                  label="外网IP">
