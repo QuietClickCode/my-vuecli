@@ -1,166 +1,185 @@
 <template>
     <div>
-        <div style="text-align: center">
-            <el-link type="primary" style="font-size: large">editor详情</el-link>
-        </div>
-
-
-        <!--搜索条件-->
-        <div>
-            <div style="display:inline">
-                <span style="margin-left: 50px;">关键字</span>
-                <el-input style="margin-bottom:5px;width: 300px" v-model="queryForm.keyword"></el-input>
-                <span style="margin-left: 50px;">位置</span>
-                <el-input style="margin-bottom:5px;width: 300px" v-model="queryForm.location"></el-input>
-                <span style="margin-left: 50px;">搜索时间</span>
-                <el-date-picker style="margin-bottom:5px;width: 300px"
-                                v-model="queryForm.createtime"
-                                type="datetimerange"
-                                format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"
-                                range-separator="至"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期">
-                </el-date-picker>
+        <div id="editorlist">
+            <div style="text-align: center">
+                <el-link type="primary" style="font-size: large">editor详情</el-link>
             </div>
-        </div>
 
-        <div>
-            <div style="display:inline">
-                <span style="margin-left: 33px;">操作系统</span>
-                <el-select style="margin-bottom:5px;width: 300px" v-model="queryForm.system" placeholder="请选择">
-                    <el-option
-                        label="请选择"
-                        value="">
-                    </el-option>
-                    <el-option
-                        v-for="item in system"
-                        :key="item"
-                        :label="item"
-                        :value="item">
-                    </el-option>
-                </el-select>
-                <span style="margin-left: 37px;">浏览器</span>
-                <el-select style="margin-bottom:5px;width: 300px" v-model="queryForm.browser" placeholder="请选择">
-                    <el-option
-                        label="请选择"
-                        value="">
-                    </el-option>
-                    <el-option
-                        v-for="item in browser"
-                        :key="item"
-                        :label="item"
-                        :value="item">
-                    </el-option>
-                </el-select>
-                <span style="margin-left: 80px;">设备</span>
-                <el-select style="margin-bottom:5px;width: 300px" v-model="queryForm.device" placeholder="请选择">
-                    <el-option
-                        label="请选择"
-                        value="">
-                    </el-option>
-                    <el-option
-                        v-for="item in device"
-                        :key="item"
-                        :label="item"
-                        :value="item">
-                    </el-option>
-                </el-select>
+            <!--搜索条件-->
+            <div>
+                <div style="display:inline">
+                    <span style="margin-left: 50px;">关键字</span>
+                    <el-input style="margin-bottom:5px;width: 300px" v-model="queryForm.keyword"></el-input>
+                    <span style="margin-left: 50px;">位置</span>
+                    <el-input style="margin-bottom:5px;width: 300px" v-model="queryForm.location"></el-input>
+                    <span style="margin-left: 50px;">搜索时间</span>
+                    <el-date-picker style="margin-bottom:5px;width: 300px"
+                                    v-model="queryForm.createtime"
+                                    type="datetimerange"
+                                    format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"
+                                    range-separator="至"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期">
+                    </el-date-picker>
+                </div>
             </div>
-        </div>
+
+            <div>
+                <div style="display:inline">
+                    <span style="margin-left: 33px;">操作系统</span>
+                    <el-select style="margin-bottom:5px;width: 300px" v-model="queryForm.system" placeholder="请选择">
+                        <el-option
+                            label="请选择"
+                            value="">
+                        </el-option>
+                        <el-option
+                            v-for="item in system"
+                            :key="item"
+                            :label="item"
+                            :value="item">
+                        </el-option>
+                    </el-select>
+                    <span style="margin-left: 37px;">浏览器</span>
+                    <el-select style="margin-bottom:5px;width: 300px" v-model="queryForm.browser" placeholder="请选择">
+                        <el-option
+                            label="请选择"
+                            value="">
+                        </el-option>
+                        <el-option
+                            v-for="item in browser"
+                            :key="item"
+                            :label="item"
+                            :value="item">
+                        </el-option>
+                    </el-select>
+                    <span style="margin-left: 80px;">设备</span>
+                    <el-select style="margin-bottom:5px;width: 300px" v-model="queryForm.device" placeholder="请选择">
+                        <el-option
+                            label="请选择"
+                            value="">
+                        </el-option>
+                        <el-option
+                            v-for="item in device"
+                            :key="item"
+                            :label="item"
+                            :value="item">
+                        </el-option>
+                    </el-select>
+                </div>
+            </div>
 
 
-        <el-table height="430"
-                  :data="items"
-        >
-            <el-table-column
-                prop="id"
-                label="Id" fixed
-            ></el-table-column>
-            <el-table-column width="100px"
-                             prop="user.id"
-                             label="用户编号"
-            ></el-table-column>
-            <el-table-column width="100px"
-                             prop="user.username"
-                             label="用户名"
-            ></el-table-column>
-            <el-table-column width="100px"
-                             prop="user.password"
-                             label="密码"
-            ></el-table-column>
-            <el-table-column width="400px"
-                             prop="title"
-                             label="标题"
-            ></el-table-column>
-            <el-table-column width="400px"
-                             prop="content"
-                             label="内容"
-            ></el-table-column>
-            <el-table-column width="120px"
-                             prop="location.ip"
-                             label="外网IP">
-            </el-table-column>
-            <el-table-column width="120px"
-                             prop="location.localIp"
-                             label="局域网IP">
-            </el-table-column>
-            <el-table-column width="150px"
-                             prop="location.location"
-                             label="位置">
-            </el-table-column>
-            <el-table-column width="100px"
-                             prop="location.x"
-                             label="经度">
-            </el-table-column>
-            <el-table-column width="100px"
-                             prop="location.y"
-                             label="纬度">
-            </el-table-column>
-
-            <el-table-column width="100px"
-                             prop="browserInfo.system"
-                             label="操作系统">
-            </el-table-column>
-            <el-table-column width="100px"
-                             prop="browserInfo.browserType"
-                             label="浏览器类型">
-            </el-table-column>
-            <el-table-column width="120px"
-                             prop="browserInfo.browserVersion"
-                             label="浏览器版本">
-            </el-table-column>
-            <el-table-column width="100px"
-                             prop="location.keyword"
-                             label="设备">
-            </el-table-column>
-            <el-table-column fixed="right" width="200px"
-                             prop="createtime"
-                             label="创建时间">
-            </el-table-column>
-            <el-table-column fixed="right" width="100px"
-                             label="操作">
-                <template slot-scope="scope">
-                    <el-button @click="viewdetail(scope.row)" type="text" size="small">查看详情</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-        <div class="block" style="text-align: center">
-            <el-pagination
-                layout="prev, pager, next"
-                :total="length"
-                @current-change="handleCurrentChange"
-                :current-page="currentpage"
+            <el-table height="430"
+                      :data="items"
             >
-            </el-pagination>
+                <el-table-column
+                    prop="id"
+                    label="Id" fixed
+                ></el-table-column>
+                <el-table-column width="100px"
+                                 prop="user.id"
+                                 label="用户编号"
+                ></el-table-column>
+                <el-table-column width="100px"
+                                 prop="user.username"
+                                 label="用户名"
+                ></el-table-column>
+                <el-table-column width="100px"
+                                 prop="user.password"
+                                 label="密码"
+                ></el-table-column>
+                <el-table-column width="400px"
+                                 prop="title"
+                                 label="标题"
+                ></el-table-column>
+                <el-table-column width="400px"
+                                 prop="content"
+                                 label="内容"
+                ></el-table-column>
+                <el-table-column width="120px"
+                                 prop="location.ip"
+                                 label="外网IP">
+                </el-table-column>
+                <el-table-column width="120px"
+                                 prop="location.localIp"
+                                 label="局域网IP">
+                </el-table-column>
+                <el-table-column width="150px"
+                                 prop="location.location"
+                                 label="位置">
+                </el-table-column>
+                <el-table-column width="100px"
+                                 prop="location.x"
+                                 label="经度">
+                </el-table-column>
+                <el-table-column width="100px"
+                                 prop="location.y"
+                                 label="纬度">
+                </el-table-column>
+
+                <el-table-column width="100px"
+                                 prop="browserInfo.system"
+                                 label="操作系统">
+                </el-table-column>
+                <el-table-column width="100px"
+                                 prop="browserInfo.browserType"
+                                 label="浏览器类型">
+                </el-table-column>
+                <el-table-column width="120px"
+                                 prop="browserInfo.browserVersion"
+                                 label="浏览器版本">
+                </el-table-column>
+                <el-table-column width="100px"
+                                 prop="location.keyword"
+                                 label="设备">
+                </el-table-column>
+                <el-table-column fixed="right" width="200px"
+                                 prop="createtime"
+                                 label="创建时间">
+                </el-table-column>
+                <el-table-column fixed="right" width="100px"
+                                 label="操作">
+                    <template slot-scope="scope">
+                        <el-button @click="viewdetail(scope.row)" type="text" size="small">查看详情</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div class="block" style="text-align: center">
+                <el-pagination
+                    layout="prev, pager, next"
+                    :total="length"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentpage"
+                >
+                </el-pagination>
+            </div>
+            <div style="text-align: center">
+                <el-button @click="btnquery">查询</el-button>
+            </div>
         </div>
-        <div style="text-align: center">
-            <el-button @click="btnquery">查询</el-button>
+        <div id="editordetail" style="display: none;">
+            <h3 style="text-align: center">标题</h3>
+            <el-row>
+                <quill-editor  ref="myQuillEditortitle" id="title" v-model="editordetailtitle"
+                              :options="editorOption">
+                </quill-editor>
+            </el-row>
+            <h3 style="text-align: center;padding-top: 50px">正文</h3>
+            <el-row>
+                <quill-editor  ref="myQuillEditorcontent" id="content" v-model="editordetailcontent"
+                              :options="editorOption" >
+                </quill-editor>
+            </el-row>
+            <div style="padding-top: 50px;text-align: center">
+                <el-button @click="enter">确定</el-button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios'
+import $ from 'jquery'
 
 var store = {
     queryForm: { keyword: '', startpage: 0, location: '', system: '', createtime: [], browser: '', device: '' },
@@ -169,7 +188,11 @@ var store = {
     device: [],
     items: [],
     length: 0,
-    currentpage: 1
+    currentpage: 1,
+    editordetailtitle: '',
+    editordetailcontent: '',
+    editorOption: {
+    }
 }
 export default {
     name: 'ainotelist',
@@ -183,13 +206,17 @@ export default {
         this.query()
     },
     methods: {
+        enter: function () {
+            $('#editorlist').show()
+            $('#editordetail').hide()
+        },
         viewdetail: function (row) {
-            this.$router.push({
-                name: 'editordetail',
-                params : {
-                    row:JSON.stringify(row)
-                }
-            })
+            $('#editorlist').hide()
+            $('#editordetail').show();
+            this.$refs.myQuillEditortitle.quill.enable(false)
+            this.$refs.myQuillEditorcontent.quill.enable(false)
+            this.editordetailcontent = row.content
+            this.editordetailtitle = row.title
         },
         init: function () {
             var vueThis = this
@@ -287,5 +314,15 @@ export default {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+#title {
+    height: 50px;
+    width: 1300px;
+}
+
+#content {
+    height: 500px;
+    width: 1300px;
 }
 </style>
