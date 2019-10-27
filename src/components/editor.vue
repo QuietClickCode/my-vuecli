@@ -1,6 +1,6 @@
 <template>
     <div id="editor">
-        <h3 style="text-align: center">标题</h3>
+        <div style="text-align: center">标题</div>
         <el-row>
             <quill-editor id="title" v-model="title"
                           :options="editorOption"
@@ -9,7 +9,7 @@
                           @change="onEditorChange($event)">
             </quill-editor>
         </el-row>
-        <h3 style="text-align: center;padding-top: 50px">正文</h3>
+        <div style="text-align: center;padding-top: 50px">正文</div>
         <el-row>
             <quill-editor id="content" v-model="content"
                           :options="editorOption"
@@ -18,7 +18,7 @@
                           @change="onEditorChange($event)">
             </quill-editor>
         </el-row>
-        <div style="padding-top: 50px;text-align: center">
+        <div style="position:fixed;bottom: 10px;left:600px;">
             <el-button @click="save">保存</el-button>
         </div>
     </div>

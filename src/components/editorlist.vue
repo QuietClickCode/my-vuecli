@@ -170,7 +170,7 @@
                               :options="editorOption">
                 </quill-editor>
             </el-row>
-            <h3 style="text-align: center;padding-top: 50px">正文</h3>
+            <div style="text-align: center;padding-top: 50px">正文</div>
             <el-row>
                 <quill-editor ref="myQuillEditorviewcontent" id="content" v-model="vieweditordetailcontent"
                               :options="editorOption">
@@ -200,6 +200,16 @@
                 <el-button @click="updateeditor">保存</el-button>
             </div>
         </div>
+        <el-dialog
+            title="提示"
+            :visible.sync="dialogVisible"
+            width="30%">
+            <span>删除后不可恢复,确认删除?</span>
+            <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="handleClose">确 定</el-button>
+  </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -220,7 +230,9 @@ var store = {
     vieweditordetailtitle: '',
     vieweditordetailcontent: '',
     editorOption: {},
-    currentId: ''
+    currentId: '',
+    dialogVisible: false,
+    currentRow:""
 }
 export default {
     name: 'editorlist',
@@ -234,6 +246,27 @@ export default {
         this.query()
     },
     methods: {
+        handleClose: function () {
+            var vueThis = this
+            vueThis.dialogVisible = false
+            axios({
+                url: '/deleteeditor',
+                method: 'post',
+                data: {
+                    'id': vueThis.currentRow.id
+                },
+            })
+                .then(function (response) {
+                    if (response.data == 1) {
+                        vueThis.$message('删除成功')
+                        vueThis.$router.go(0)
+                    }
+                })
+                .catch(function (error) {
+                    console.log('--------------------')
+                    console.log(error)
+                })
+        },
         updateeditor: function () {
             var vueThis = this
             axios({
@@ -247,7 +280,7 @@ export default {
             })
                 .then(function (response) {
                     if (response.data == 1) {
-                        vueThis.$message("保存成功");
+                        vueThis.$message('保存成功')
                         vueThis.$router.go(0)
                     }
                 })
@@ -276,7 +309,9 @@ export default {
             })
         },
         deletedetail: function (row) {
-            alert('删除')
+            var vueThis = this
+            vueThis.dialogVisible = true;
+            vueThis.currentRow = row;
         },
         updatedetail: function (row) {
             $('#editorlist').hide()
