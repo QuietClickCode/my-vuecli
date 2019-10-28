@@ -27,7 +27,7 @@
                         />
                     </p>
                     <p>豆瓣评分:{{item.score}}</p>
-                    <p>主演:{{item.actor_count}} <span v-for="item_,i_ in item.actors">{{item_}}</span></p>
+                    <p>主演:{{item.actor_count}} <span v-for="item_,i_ in item.actors">{{item_+"/"}}</span></p>
                     <p>类型:<span v-for="item_1,i_1 in item.types" v-html="item_1">{{item_1}}</span></p>
                     <p>制片国家/地区:<span v-for="item_2,i_2 in item.regions" v-html="item_2">{{item_2}}</span></p>
                     <p>上映日期:{{item.release_date}}</p>
