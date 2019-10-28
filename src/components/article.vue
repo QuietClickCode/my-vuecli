@@ -111,11 +111,18 @@ export default {
         return store
     },
     created: function () {
+        if(this.$route.query.id!=null&&this.$route.query.platform!=null) {
+            this.id = this.$route.query.id
+            this.platform = this.$route.query.platform
+            this.queryArticleById(this.id,this.platform);
+        }else {
         /*不加动画或者,时间太少,都回补了顶部,这个速度可以滑到顶部,并且不影响后面的手动下滑*/
         $('html,body').animate({ scrollTop: 0 }, 500)
         /*this.toggleFullScreen();*/
-        this.queryArticle()
 
+        this.queryArticle();
+
+        }
     },
     mounted() {
         $('#table').hide()
@@ -166,6 +173,33 @@ export default {
                     'title': store.title,
                     'content': store.content,
                     'platform': store.platform
+                },
+            })
+                .then(function (response) {
+                    store.article = response.data
+                    if (store.article.length == 1) {
+                        store.articledetail = store.article[0]
+                        $('#table').hide()
+                    } else {
+                        $('#table').show()
+                    }
+                })
+                .catch(function (error) {
+                    console.log('--------------------')
+                    console.log(error)
+                })
+        },
+        queryArticleById: function (id,platform) {
+            var vueThis = this
+            axios({
+                url: '/queryarticle',
+                method: 'post',
+                data: {
+                    'id': id,
+                    'keyword': store.keyword,
+                    'title': store.title,
+                    'content': store.content,
+                    'platform': platform
                 },
             })
                 .then(function (response) {

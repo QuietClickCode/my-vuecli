@@ -27,7 +27,8 @@
                         />
                     </p>
                     <p>豆瓣评分:{{item.score}}</p>
-                    <p>主演:{{item.actor_count}} <span v-for="item_,i_ in item.actors">{{item_+"/"}}</span></p>
+                    <p>主演:{{item.actor_count}} <span v-for="item_,i_ in item.actors" v-html="item_">{{item_+'/'}}</span>
+                    </p>
                     <p>类型:<span v-for="item_1,i_1 in item.types" v-html="item_1">{{item_1}}</span></p>
                     <p>制片国家/地区:<span v-for="item_2,i_2 in item.regions" v-html="item_2">{{item_2}}</span></p>
                     <p>上映日期:{{item.release_date}}</p>
@@ -40,6 +41,28 @@
                 <el-button id="prev" :disabled="isPrev" @click="prev(searchkeyword,result.pageNo-1)">上一页</el-button>
                 <el-button id="next" :disabled="isNext" @click="next(searchkeyword,result.pageNo+1)">下一页</el-button>
             </div>
+        </div>
+        <div id="articleresult" style="display: none">
+            <section>
+                <p>共找到相关结果{{articleresult.total}}个,耗时{{articleresult.took}}ms</p>
+            </section>
+            <section>
+                <ol>
+                    <li v-for="(item,i) in articledata">
+                        <h3>标题:</h3>
+                        <p v-html="item.title">{{item.title}}</p>
+                        <h3>正文:</h3>
+                        <p v-html="item.content" @click="toArticleDetail(item.id)" class="articlecontent">
+                            {{item.content}}</p>
+                        <span>id:{{item.id}}</span>|
+                        <span>创建时间:{{item.createtime}}</span>
+                    </li>
+                </ol>
+            </section>
+            <!-- <div style="display: inline-block;position: fixed;bottom: 10px;left: 10px;">
+                 <el-button id="prev" :disabled="isPrev" @click="prev(searchkeyword,result.pageNo-1)">上一页</el-button>
+                 <el-button id="next" :disabled="isNext" @click="next(searchkeyword,result.pageNo+1)">下一页</el-button>
+             </div>-->
         </div>
     </div>
 </template>
@@ -63,8 +86,12 @@ var store = {
     /*输入框内容*/
     keyword: '',
     data: [],
+    articledata: [],
     result: {},
-    searchkeyword: ''
+    articleresult: {},
+    searchkeyword: '',
+    articlesearchkeyword: '',
+    platform: ''
 }
 export default {
     name: 'index',
@@ -72,6 +99,16 @@ export default {
         return store
     },
     methods: {
+        toArticleDetail: function (id) {
+            var vueThis = this;
+            this.$router.push({
+                path: '/article',
+                query: {
+                    platform: vueThis.platform,
+                    id: id
+                }
+            })
+        },
         isNextDisabled: function (page) {
             if (page * this.result.size >= this.result.total) {
                 this.isNext = true
@@ -184,6 +221,66 @@ export default {
                     /*命令关键字后面必须有空格哦*/
                     var command = keyword.substring(1, index + 1)
                     var isEnd = keyword.lastIndexOf(' ')
+                    if (command == 'js ') {
+                        var articlesearchkeyword = keyword.substring(4)
+                        axios({
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            method: 'get',
+                            url: '/searchjianshu?wd=' + articlesearchkeyword
+                        }).then(function (response) {
+                            vueThis.articledata = response.data.data.list
+                            vueThis.articleresult = response.data.data
+                            vueThis.articlesearchkeyword = response.data.msg
+                            vueThis.platform = 'jianshu_article'
+                            $('#articleresult').show()
+                            /* vueThis.isNextDisabled(vueThis.result.pageNo)
+                             vueThis.isPrevDisabled(vueThis.result.pageNo)*/
+                        }).catch(function (error) {
+                            console.log(vueThis.items + '-=================')
+                        })
+                    }
+                    if (command == 'csdn ') {
+                        var articlesearchkeyword = keyword.substring(4)
+                        axios({
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            method: 'get',
+                            url: '/searchcsdn?wd=' + articlesearchkeyword
+                        }).then(function (response) {
+                            vueThis.articledata = response.data.data.list
+                            vueThis.articleresult = response.data.data
+                            vueThis.articlesearchkeyword = response.data.msg
+                            vueThis.platform = 'article'
+                            $('#articleresult').show()
+                            /* vueThis.isNextDisabled(vueThis.result.pageNo)
+                             vueThis.isPrevDisabled(vueThis.result.pageNo)*/
+                        }).catch(function (error) {
+                            console.log(vueThis.items + '-=================')
+                        })
+                    }
+                    if (command == 'bky ') {
+                        var articlesearchkeyword = keyword.substring(4)
+                        axios({
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            method: 'get',
+                            url: '/searchbky?wd=' + articlesearchkeyword
+                        }).then(function (response) {
+                            vueThis.articledata = response.data.data.list
+                            vueThis.articleresult = response.data.data
+                            vueThis.articlesearchkeyword = response.data.msg
+                            vueThis.platform = 'bky_article'
+                            $('#articleresult').show()
+                            /* vueThis.isNextDisabled(vueThis.result.pageNo)
+                             vueThis.isPrevDisabled(vueThis.result.pageNo)*/
+                        }).catch(function (error) {
+                            console.log(vueThis.items + '-=================')
+                        })
+                    }
                     if (command == 'movie ') {
                         var searchkeyword = keyword.substring(7)
                         axios({
@@ -192,18 +289,16 @@ export default {
                             },
                             method: 'get',
                             url: '/s?wd=' + searchkeyword
+                        }).then(function (response) {
+                            vueThis.data = response.data.data.list
+                            vueThis.result = response.data.data
+                            vueThis.searchkeyword = response.data.msg
+                            $('#result').show()
+                            vueThis.isNextDisabled(vueThis.result.pageNo)
+                            vueThis.isPrevDisabled(vueThis.result.pageNo)
+                        }).catch(function (error) {
+                            console.log(vueThis.items + '-=================')
                         })
-                            .then(function (response) {
-                                vueThis.data = response.data.data.list
-                                vueThis.result = response.data.data
-                                vueThis.searchkeyword = response.data.msg
-                                $('#result').show()
-                                vueThis.isNextDisabled(vueThis.result.pageNo)
-                                vueThis.isPrevDisabled(vueThis.result.pageNo)
-                            })
-                            .catch(function (error) {
-                                console.log(vueThis.items + '-=================')
-                            })
                     }
                     if (isEnd + 1 == keyword.length) {
                         store.pattern = ':' + command
@@ -293,5 +388,14 @@ em {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+.articlecontent {
+    color: blue;
+}
+
+.articlecontent:hover {
+    color: blue;
+    text-decoration: underline;
 }
 </style>
