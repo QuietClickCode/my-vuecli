@@ -1,4 +1,5 @@
 <template>
+
     <div>
         <!--便签内容框放在最顶部,可清空,可无限扩展-->
         <el-input type="textarea" autosize :placeholder="notePlaceholder" class="textarea" v-model="note"
@@ -10,25 +11,38 @@
                       v-model="keyword">
             </el-input>
         </div>
-        <div id="result">
-            <el-table height="230"
-                      :data="data"
-            >
-                <el-table-column
-                    prop="title"
-                    label="片名" fixed
-                ></el-table-column>
-                <el-table-column width="100px"
-                                 prop="score"
-                                 label="评分"
-                ></el-table-column>
-            </el-table>
+        <div id="result" style="display: none">
+            <section>
+                <p>共找到相关结果{{result.total}}个,耗时{{result.took}}ms</p>
+            </section>
+            <section>
+                <div v-for="(item,i) in data">
+                    <p v-html="item.title">
+                            {{item.title}}
+                    </p>
+                    <p>
+                        <img
+                            class="img-thumbnail lazy"
+                            :src="item.cover_url"
+                        />
+                    </p>
+                    <p>豆瓣评分:{{item.score}}</p>
+                    <p>主演:{{item.actor_count}} <span v-for="item_,i_ in item.actors">{{item_.actors}}</span></p>
+                    <p>类型:<span v-for="item_1,i_1 in item.types" v-html="item_1">{{item_1}}</span></p>
+                    <p>制片国家/地区:<span v-for="item_2,i_2 in item.regions">{{item_2}}</span></p>
+                    <p>上映日期:{{item.release_date}}</p>
+                    <p>{{item.vote_count}}人评价</p>
+                    <p>下载地址:<a :href="item.url">{{item.url}}</a></p>
+                    <p>暂无简介</p>
+                </div>
+            </section>
         </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios'
+import $ from 'jquery'
 
 var store = {
     /*模式*/
@@ -41,7 +55,8 @@ var store = {
     isSee: 'none',
     /*输入框内容*/
     keyword: '',
-    data:[]
+    data: [],
+    result: {}
 }
 export default {
     name: 'index',
@@ -114,7 +129,9 @@ export default {
                             url: '/s?wd=' + searchkeyword
                         })
                             .then(function (response) {
-                                vueThis.data = response.data.list;
+                                vueThis.data = response.data.list
+                                vueThis.result = response.data;
+                                $("#result").show();
                             })
                             .catch(function (error) {
                                 console.log(vueThis.items + '-=================')
@@ -143,6 +160,7 @@ export default {
                                 })
                         } else if ((store.pattern == ':clear ')) {
                             store.note = ''
+                            $("#result").hide();
                         }
                     }
                 }
@@ -197,9 +215,12 @@ export default {
 </script>
 
 <style>
+em {
+    color:orangered;
+}
 /*输入框水平居中*/
 .center {
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
