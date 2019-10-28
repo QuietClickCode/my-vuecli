@@ -40,7 +40,7 @@
                     </li>
                 </ol>
             </section>
-            <div style="display: inline-block;position: fixed;bottom: 10px;left: 10px;">
+            <div style="display: inline-block;position: fixed;bottom: 10px;left: 600px;">
                 <el-button id="prev" :disabled="isPrev" @click="prev(searchkeyword,result.pageNo-1)">上一页</el-button>
                 <el-button id="next" :disabled="isNext" @click="next(searchkeyword,result.pageNo+1)">下一页</el-button>
             </div>
@@ -51,18 +51,19 @@
             </section>
             <section>
                 <ol>
-                    <li v-for="(item,i) in articledata">
-                        <h3>标题:</h3>
+                    <li v-for="(item,i) in articledata" >
+                        <span>标题:</span>
                         <p v-html="item.title">{{item.title}}</p>
-                        <h3>正文:</h3>
+                        <span>正文:</span>
                         <p v-html="item.content" @click="toArticleDetail(item.id)" class="articlecontent">
                             {{item.content}}</p>
                         <span>id:{{item.id}}</span>|
                         <span>创建时间:{{item.createtime}}</span>
+                    <div>-------------------------------------------------------------------------------我是可爱的分割线---------------------------------------------------------------------------------------</div>
                     </li>
                 </ol>
             </section>
-            <div style="display: inline-block;position: fixed;bottom: 10px;left: 10px;">
+            <div style="display: inline-block;position: fixed;bottom: 10px;left: 600px;">
                 <el-button id="prevArticle" :disabled="isPrevArticle"
                            @click="prevarticle(articlesearchkeyword,articleresult.pageNo-1)">上一页
                 </el-button>
