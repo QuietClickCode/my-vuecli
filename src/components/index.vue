@@ -474,6 +474,7 @@ em {
     text-decoration: underline;
 }
 
+/*半透明*/
 #prevArticle {
     filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6;
 }
