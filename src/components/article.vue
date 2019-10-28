@@ -111,6 +111,7 @@ export default {
         return store
     },
     created: function () {
+        $("body").css("background-color", "#C7EDCC")
         if(this.$route.query.id!=null&&this.$route.query.platform!=null) {
             this.id = this.$route.query.id
             this.platform = this.$route.query.platform
@@ -126,12 +127,18 @@ export default {
     },
     mounted() {
         $('#table').hide()
+        $(".el-textarea__inner").css("background", "#C7EDCC");
+        $(".el-input__inner").css("background", "#C7EDCC");
         let _this = this; // 声明一个变量指向Vue实例this，保证作用域一致
         this.timer = setInterval(() => {
             _this.date = new Date(); // 修改数据date
         }, 1000)
     },
     beforeDestroy() {
+        //清楚样式
+        $("body").css("background-color", "white");
+        $(".el-textarea__inner").css("background", "white");
+        $(".el-input__inner").css("background", "white");
         if (this.timer) {
             clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
         }
@@ -253,10 +260,6 @@ export default {
 <style>
 @import "../assets/css/font-awesome-4.7.0/css/font-awesome.min.css";
 @import "../assets/css/APlayer.min.css";
-/*背景为护眼绿*/
-body {
-    background-color: #C7EDCC;
-}
 
 /*中间内容设置上下间距*/
 .content {
@@ -269,18 +272,17 @@ body {
 }
 
 /*输入框,护眼绿*/
-.el-input__inner {
+/*.el-input__inner {
     background: #C7EDCC;
     border: 1px solid #409EFF;
     height: 35px;
-}
+}*/
 
 /*改变placeholder颜色*/
 .el-input__inner::-webkit-input-placeholder {
     /* WebKit browsers */
     color: gray;
 }
-
 /*网上找的方法实现,高度控制,最小41px*/
 /*https://www.cnblogs.com/secretAngel/p/10241791.html*/
 .el-table__header tr,

@@ -16,26 +16,29 @@
                 <p>共找到相关结果{{result.total}}个,耗时{{result.took}}ms</p>
             </section>
             <section>
-                <div v-for="(item,i) in data">
-                    <p v-html="item.title">
-                        {{item.title}}
-                    </p>
-                    <p>
-                        <img
-                            class="img-thumbnail lazy"
-                            :src="item.cover_url"
-                        />
-                    </p>
-                    <p>豆瓣评分:{{item.score}}</p>
-                    <p>主演:{{item.actor_count}} <span v-for="item_,i_ in item.actors" v-html="item_">{{item_+'/'}}</span>
-                    </p>
-                    <p>类型:<span v-for="item_1,i_1 in item.types" v-html="item_1">{{item_1}}</span></p>
-                    <p>制片国家/地区:<span v-for="item_2,i_2 in item.regions" v-html="item_2">{{item_2}}</span></p>
-                    <p>上映日期:{{item.release_date}}</p>
-                    <p>{{item.vote_count}}人评价</p>
-                    <p>下载地址:<a :href="item.url">{{item.url}}</a></p>
-                    <p>暂无简介</p>
-                </div>
+                <ol>
+                    <li v-for="(item,i) in data">
+                        <p v-html="item.title">
+                            {{item.title}}
+                        </p>
+                        <p>
+                            <img
+                                class="img-thumbnail lazy"
+                                :src="item.cover_url"
+                            />
+                        </p>
+                        <p>豆瓣评分:{{item.score}}</p>
+                        <p>主演:{{item.actor_count}} <span v-for="item_,i_ in item.actors"
+                                                         v-html="item_">{{item_+'/'}}</span>
+                        </p>
+                        <p>类型:<span v-for="item_1,i_1 in item.types" v-html="item_1">{{item_1}}</span></p>
+                        <p>制片国家/地区:<span v-for="item_2,i_2 in item.regions" v-html="item_2">{{item_2}}</span></p>
+                        <p>上映日期:{{item.release_date}}</p>
+                        <p>{{item.vote_count}}人评价</p>
+                        <p>下载地址:<a :href="item.url">{{item.url}}</a></p>
+                        <p>暂无简介</p>
+                    </li>
+                </ol>
             </section>
             <div style="display: inline-block;position: fixed;bottom: 10px;left: 10px;">
                 <el-button id="prev" :disabled="isPrev" @click="prev(searchkeyword,result.pageNo-1)">上一页</el-button>
@@ -59,10 +62,14 @@
                     </li>
                 </ol>
             </section>
-            <!-- <div style="display: inline-block;position: fixed;bottom: 10px;left: 10px;">
-                 <el-button id="prev" :disabled="isPrev" @click="prev(searchkeyword,result.pageNo-1)">上一页</el-button>
-                 <el-button id="next" :disabled="isNext" @click="next(searchkeyword,result.pageNo+1)">下一页</el-button>
-             </div>-->
+            <div style="display: inline-block;position: fixed;bottom: 10px;left: 10px;">
+                <el-button id="prevArticle" :disabled="isPrevArticle"
+                           @click="prevarticle(articlesearchkeyword,articleresult.pageNo-1)">上一页
+                </el-button>
+                <el-button id="nextArticle" :disabled="isNextArticle"
+                           @click="nextarticle(articlesearchkeyword,articleresult.pageNo+1)">下一页
+                </el-button>
+            </div>
         </div>
     </div>
 </template>
@@ -75,6 +82,8 @@ var store = {
     //是否禁用
     isPrev: false,
     isNext: false,
+    isPrevArticle: false,
+    isNextArticle: false,
     /*模式*/
     pattern: '',
     /*便签的默认提示*/
@@ -91,16 +100,20 @@ var store = {
     articleresult: {},
     searchkeyword: '',
     articlesearchkeyword: '',
-    platform: ''
+    platform: '',
+    searchurl: ''
 }
 export default {
     name: 'index',
     data () {
         return store
     },
+    created: function () {
+
+    },
     methods: {
         toArticleDetail: function (id) {
-            var vueThis = this;
+            var vueThis = this
             this.$router.push({
                 path: '/article',
                 query: {
@@ -121,6 +134,21 @@ export default {
                 this.isPrev = true
             } else {
                 this.isPrev = false
+
+            }
+        },
+        isNextDisabledArticle: function (page) {
+            if (page * this.articleresult.size >= this.articleresult.total) {
+                this.isNextArticle = true
+            } else {
+                this.isNextArticle = false
+            }
+        },
+        isPrevDisabledArticle: function (page) {
+            if (page <= 1) {
+                this.isPrevArticle = true
+            } else {
+                this.isPrevArticle = false
 
             }
         },
@@ -152,7 +180,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: '/s?wd=' + keyword + '&pn=' + page
+                url: '/s' + '?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
                     vueThis.data = response.data.data.list
@@ -161,6 +189,48 @@ export default {
                     $('#result').show()
                     vueThis.isNextDisabled(vueThis.result.pageNo)
                     vueThis.isPrevDisabled(vueThis.result.pageNo)
+                })
+                .catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })
+        },
+        nextarticle: function (keyword, page) {
+            var vueThis = this
+            axios({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'get',
+                url: '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
+            })
+                .then(function (response) {
+                    vueThis.articledata = response.data.data.list
+                    vueThis.articleresult = response.data.data
+                    vueThis.articlesearchkeyword = response.data.msg
+                    $('#articleresult').show()
+                    vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                    vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+                })
+                .catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })
+        },
+        prevarticle: function (keyword, page) {
+            var vueThis = this
+            axios({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'get',
+                url: '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
+            })
+                .then(function (response) {
+                    vueThis.articledata = response.data.data.list
+                    vueThis.articleresult = response.data.data
+                    vueThis.articlesearchkeyword = response.data.msg
+                    $('#articleresult').show()
+                    vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                    vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
                 })
                 .catch(function (error) {
                     console.log(vueThis.items + '-=================')
@@ -181,6 +251,8 @@ export default {
 
         /*由enter()调用,非转发模式*/
         other: function (keyword) {
+            $('#result').hide()
+            $('#articleresult').hide()
             var isNote = keyword.startsWith('\'')
             var isCommand = keyword.startsWith(':')
             /*2.便签模式*/
@@ -222,6 +294,7 @@ export default {
                     var command = keyword.substring(1, index + 1)
                     var isEnd = keyword.lastIndexOf(' ')
                     if (command == 'js ') {
+                        vueThis.searchurl = 'searchjianshu'
                         var articlesearchkeyword = keyword.substring(4)
                         axios({
                             headers: {
@@ -235,14 +308,15 @@ export default {
                             vueThis.articlesearchkeyword = response.data.msg
                             vueThis.platform = 'jianshu_article'
                             $('#articleresult').show()
-                            /* vueThis.isNextDisabled(vueThis.result.pageNo)
-                             vueThis.isPrevDisabled(vueThis.result.pageNo)*/
+                            vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                            vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
                         }).catch(function (error) {
                             console.log(vueThis.items + '-=================')
                         })
                     }
                     if (command == 'csdn ') {
-                        var articlesearchkeyword = keyword.substring(4)
+                        vueThis.searchurl = 'searchcsdn'
+                        var articlesearchkeyword = keyword.substring(6)
                         axios({
                             headers: {
                                 'Content-Type': 'application/json'
@@ -255,14 +329,15 @@ export default {
                             vueThis.articlesearchkeyword = response.data.msg
                             vueThis.platform = 'article'
                             $('#articleresult').show()
-                            /* vueThis.isNextDisabled(vueThis.result.pageNo)
-                             vueThis.isPrevDisabled(vueThis.result.pageNo)*/
+                            vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                            vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
                         }).catch(function (error) {
                             console.log(vueThis.items + '-=================')
                         })
                     }
                     if (command == 'bky ') {
-                        var articlesearchkeyword = keyword.substring(4)
+                        vueThis.searchurl = 'searchbky'
+                        var articlesearchkeyword = keyword.substring(5)
                         axios({
                             headers: {
                                 'Content-Type': 'application/json'
@@ -275,8 +350,8 @@ export default {
                             vueThis.articlesearchkeyword = response.data.msg
                             vueThis.platform = 'bky_article'
                             $('#articleresult').show()
-                            /* vueThis.isNextDisabled(vueThis.result.pageNo)
-                             vueThis.isPrevDisabled(vueThis.result.pageNo)*/
+                            vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                            vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
                         }).catch(function (error) {
                             console.log(vueThis.items + '-=================')
                         })
@@ -397,5 +472,21 @@ em {
 .articlecontent:hover {
     color: blue;
     text-decoration: underline;
+}
+
+#prevArticle {
+    filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6;
+}
+
+#nextArticle {
+    filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6;
+}
+
+#next {
+    filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6;
+}
+
+#prev {
+    filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6;
 }
 </style>
