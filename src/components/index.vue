@@ -18,7 +18,7 @@
             <section>
                 <div v-for="(item,i) in data">
                     <p v-html="item.title">
-                            {{item.title}}
+                        {{item.title}}
                     </p>
                     <p>
                         <img
@@ -36,6 +36,10 @@
                     <p>暂无简介</p>
                 </div>
             </section>
+            <div style="display: inline-block;position: fixed;bottom: 10px;left: 10px;">
+                <el-button id="prev" :disabled="isPrev" @click="prev(searchkeyword,result.pageNo-1)">上一页</el-button>
+                <el-button id="next" :disabled="isNext" @click="next(searchkeyword,result.pageNo+1)">下一页</el-button>
+            </div>
         </div>
     </div>
 </template>
@@ -45,6 +49,9 @@ import axios from 'axios'
 import $ from 'jquery'
 
 var store = {
+    //是否禁用
+    isPrev: false,
+    isNext: false,
     /*模式*/
     pattern: '',
     /*便签的默认提示*/
@@ -56,7 +63,8 @@ var store = {
     /*输入框内容*/
     keyword: '',
     data: [],
-    result: {}
+    result: {},
+    searchkeyword: ''
 }
 export default {
     name: 'index',
@@ -64,6 +72,63 @@ export default {
         return store
     },
     methods: {
+        isNextDisabled: function (page) {
+            if (page * this.result.size >= this.result.total) {
+                this.isNext = true
+            } else {
+                this.isNext = false
+            }
+        },
+        isPrevDisabled: function (page) {
+            if (page <= 1) {
+                this.isPrev = true
+            } else {
+                this.isPrev = false
+
+            }
+        },
+        next: function (keyword, page) {
+            var vueThis = this
+            axios({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'get',
+                url: '/s?wd=' + keyword + '&pn=' + page
+            })
+                .then(function (response) {
+                    vueThis.data = response.data.data.list
+                    vueThis.result = response.data.data
+                    vueThis.searchkeyword = response.data.msg
+                    $('#result').show()
+                    vueThis.isNextDisabled(vueThis.result.pageNo)
+                    vueThis.isPrevDisabled(vueThis.result.pageNo)
+                })
+                .catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })
+        },
+        prev: function (keyword, page) {
+            var vueThis = this
+            axios({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'get',
+                url: '/s?wd=' + keyword + '&pn=' + page
+            })
+                .then(function (response) {
+                    vueThis.data = response.data.data.list
+                    vueThis.result = response.data.data
+                    vueThis.searchkeyword = response.data.msg
+                    $('#result').show()
+                    vueThis.isNextDisabled(vueThis.result.pageNo)
+                    vueThis.isPrevDisabled(vueThis.result.pageNo)
+                })
+                .catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })
+        },
         //enter激发
         enter: function (keyword) {
             if (keyword != '') {
@@ -129,9 +194,12 @@ export default {
                             url: '/s?wd=' + searchkeyword
                         })
                             .then(function (response) {
-                                vueThis.data = response.data.list
-                                vueThis.result = response.data;
-                                $("#result").show();
+                                vueThis.data = response.data.data.list
+                                vueThis.result = response.data.data
+                                vueThis.searchkeyword = response.data.msg
+                                $('#result').show()
+                                vueThis.isNextDisabled(vueThis.result.pageNo)
+                                vueThis.isPrevDisabled(vueThis.result.pageNo)
                             })
                             .catch(function (error) {
                                 console.log(vueThis.items + '-=================')
@@ -160,7 +228,7 @@ export default {
                                 })
                         } else if ((store.pattern == ':clear ')) {
                             store.note = ''
-                            $("#result").hide();
+                            $('#result').hide()
                         }
                     }
                 }
@@ -216,8 +284,9 @@ export default {
 
 <style>
 em {
-    color:orangered;
+    color: orangered;
 }
+
 /*输入框水平居中*/
 .center {
     position: fixed;
