@@ -51,7 +51,7 @@
             </section>
             <section>
                 <ol>
-                    <li v-for="(item,i) in articledata" >
+                    <li v-for="(item,i) in articledata">
                         <span>标题:</span>
                         <p v-html="item.title">{{item.title}}</p>
                         <span>正文:</span>
@@ -59,7 +59,9 @@
                             {{item.content}}</p>
                         <span>id:{{item.id}}</span>|
                         <span>创建时间:{{item.createtime}}</span>
-                    <div>-------------------------------------------------------------------------------我是可爱的分割线---------------------------------------------------------------------------------------</div>
+                        <div>
+                            -------------------------------------------------------------------------------我是可爱的分割线---------------------------------------------------------------------------------------
+                        </div>
                     </li>
                 </ol>
             </section>
@@ -102,15 +104,19 @@ var store = {
     searchkeyword: '',
     articlesearchkeyword: '',
     platform: '',
-    searchurl: ''
+    searchurl: '',
+    articleCurrentPage:""
 }
 export default {
     name: 'index',
     data () {
         return store
     },
-    created: function () {
-
+    mounted: function () {
+        //实现返回回到最初的浏览位置
+        if (this.keword != '') {
+            this.nextarticle(this.articlesearchkeyword, this.articleCurrentPage)
+        }
     },
     methods: {
         toArticleDetail: function (id) {
@@ -205,6 +211,7 @@ export default {
                 url: '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
+                    vueThis.articleCurrentPage = page;
                     vueThis.articledata = response.data.data.list
                     vueThis.articleresult = response.data.data
                     vueThis.articlesearchkeyword = response.data.msg
@@ -226,6 +233,7 @@ export default {
                 url: '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
+                    vueThis.articleCurrentPage = page;
                     vueThis.articledata = response.data.data.list
                     vueThis.articleresult = response.data.data
                     vueThis.articlesearchkeyword = response.data.msg
@@ -477,18 +485,26 @@ em {
 
 /*半透明*/
 #prevArticle {
-    filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6;
+    filter: alpha(Opacity=60);
+    -moz-opacity: 0.6;
+    opacity: 0.6;
 }
 
 #nextArticle {
-    filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6;
+    filter: alpha(Opacity=60);
+    -moz-opacity: 0.6;
+    opacity: 0.6;
 }
 
 #next {
-    filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6;
+    filter: alpha(Opacity=60);
+    -moz-opacity: 0.6;
+    opacity: 0.6;
 }
 
 #prev {
-    filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6;
+    filter: alpha(Opacity=60);
+    -moz-opacity: 0.6;
+    opacity: 0.6;
 }
 </style>
