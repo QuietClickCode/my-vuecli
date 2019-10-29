@@ -52,15 +52,13 @@
             <section>
                 <ol>
                     <li v-for="(item,i) in articledata">
-                        <span>标题:</span>
-                        <p v-html="item.title">{{item.title}}</p>
-                        <span>正文:</span>
-                        <p v-html="item.content" @click="toArticleDetail(item.id)" class="articlecontent">
+                        <p v-html="item.title" @click="toArticleDetail(item.id)" class="articlecontent">{{item.title}}</p>
+                        <p v-html="item.content"  >
                             {{item.content}}</p>
                         <span>id:{{item.id}}</span>|
                         <span>创建时间:{{item.createtime}}</span>
                         <div>
-                            -------------------------------------------------------------------------------我是可爱的分割线---------------------------------------------------------------------------------------
+                            -------------------------------------------------------------------------------我是可爱的分割线------------------------------------------------------------------------------------
                         </div>
                     </li>
                 </ol>
