@@ -17,7 +17,7 @@
             </section>
             <section>
                 <ol>
-                    <li v-for="(item,i) in data">
+                    <li v-for="(item,i) in data" style="background-color: #DCDFE6">
                         <p v-html="item.title">
                             {{item.title}}
                         </p>
@@ -51,15 +51,12 @@
             </section>
             <section>
                 <ol>
-                    <li v-for="(item,i) in articledata">
+                    <li v-for="(item,i) in articledata" style="background-color: #DCDFE6">
                         <p v-html="item.title" @click="toArticleDetail(item.id)" class="articlecontent">{{item.title}}</p>
                         <p v-html="item.content"  >
                             {{item.content}}</p>
                         <span>id:{{item.id}}</span>|
                         <span>创建时间:{{item.createtime}}</span>
-                        <div>
-                            -------------------------------------------------------------------------------我是可爱的分割线------------------------------------------------------------------------------------
-                        </div>
                     </li>
                 </ol>
             </section>
