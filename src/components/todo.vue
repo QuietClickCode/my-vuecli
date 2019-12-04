@@ -234,12 +234,15 @@ export default {
 
         .list {
             list-style: none;
+
             li {
                 background-color: green;
+
+                &:hover {
+                    color: red;
+                }
             }
-            &:hover {
-                color: red;
-            }
+
         }
     }
 }
