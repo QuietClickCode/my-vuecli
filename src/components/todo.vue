@@ -18,7 +18,7 @@ import axios from 'axios'
 import $ from 'jquery'
 
 var store = {
-    todoList: ['打篮球', '养花', '种草', '养殖', '弹吉他'],
+    todoList: [],
     articledetail: '',
     article: [],
     IsShow: false,
@@ -36,19 +36,9 @@ export default {
         return store
     },
     created: function () {
-        $('body').css('background-color', '#C7EDCC')
-        if (this.$route.query.id != null && this.$route.query.platform != null) {
-            this.id = this.$route.query.id
-            this.platform = this.$route.query.platform
-            this.queryArticleById(this.id, this.platform)
-        } else {
-            /*不加动画或者,时间太少,都回补了顶部,这个速度可以滑到顶部,并且不影响后面的手动下滑*/
-            $('html,body').animate({ scrollTop: 0 }, 500)
-            /*this.toggleFullScreen();*/
-
-            this.queryArticle()
-
-        }
+        this.$axios.get("/todoList").then(res =>{
+            this.todoList = res.data;
+        })
     },
     mounted () {
         $('#table').hide()
