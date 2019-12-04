@@ -2,7 +2,7 @@
     <div class="container">
         <div class="header">待办事项</div>
         <div class="body">
-            <ul>
+            <ul class="list">
                 <li v-for="item in todoList">{{item}}</li>
                 <!--<li>弹吉他</li>
                 <li>写文章</li>
@@ -231,6 +231,16 @@ export default {
         text-align: center;
         border: 1px solid;
         box-sizing: border-box;
+
+        .list {
+            list-style: none;
+            li {
+                background-color: green;
+            }
+            &:hover {
+                color: red;
+            }
+        }
     }
 }
 </style>
