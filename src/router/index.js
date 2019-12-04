@@ -18,6 +18,7 @@ import logoutloglist from '@/components/logoutloglist'
 import systemloglist from '@/components/systemloglist'
 import markdown from '@/components/markdown'
 import editor from '@/components/editor'
+import todo from '@/components/todo'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
             path: '/',
             name: '/index',
             component: index
+        },
+        {
+            path: '/todo',
+            name: '待办事项',
+            component: todo
         },
         {
             path: '/detail',
@@ -113,8 +119,8 @@ export default new Router({
                         if (response.data.status == 0) {
                             next()
                         } else {
-                            var url = response.data.url;
-                            next(url);
+                            var url = response.data.url
+                            next(url)
                         }
                     })
                     .catch(function (error) {
