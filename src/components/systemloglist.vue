@@ -150,6 +150,7 @@
 
 <script>
 import axios from 'axios'
+
 export default {
     data () {
         return {
@@ -168,7 +169,7 @@ export default {
                 device: [],
                 items: [],
                 length: 0,
-                currentpage:1
+                currentpage: 1
             }
         }
     },
@@ -182,29 +183,26 @@ export default {
     methods: {
         handleCurrentChange (val) {
             this.data.queryForm.startpage = 0 + (val - 1) * 10
-            this.query();
+            this.query()
             this.data.currentpage = val
         },
         init: function () {
             var vueThis = this
-            axios.post('/queryBrowser', {
-            })
+            axios.post('/api' + '/queryBrowser', {})
                 .then(function (response) {
                     vueThis.data.browser = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
-            axios.post('/querySystem', {
-            })
+            axios.post('/api' + '/querySystem', {})
                 .then(function (response) {
                     vueThis.data.system = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
-            axios.post('/queryDevice', {
-            })
+            axios.post('/api' + '/queryDevice', {})
                 .then(function (response) {
                     vueThis.data.device = response.data
                 })
@@ -214,38 +212,38 @@ export default {
         },
         query: function () {
             var vueThis = this
-             axios({
-                 url: '/querySystemLog',
-                 method: 'post',
-                 data: vueThis.data.queryForm,
-             })
-                 .then(function (response) {
-                     vueThis.data.items = response.data
-                     console.log(JSON.stringify(vueThis.items) + '----------------')
-                 })
-                 .catch(function (error) {
-                     console.log('--------------------')
-                     console.log(error)
-                 })
-             axios({
-                 url: '/queryCount',
-                 method: 'post',
-                 data: vueThis.data.queryForm,
-             })
-                 .then(function (response) {
-                     vueThis.length = response.data
-                 })
-                 .catch(function (error) {
-                     console.log(error)
-                 })
+            axios({
+                url: '/api' + '/querySystemLog',
+                method: 'post',
+                data: vueThis.data.queryForm,
+            })
+                .then(function (response) {
+                    vueThis.data.items = response.data
+                    console.log(JSON.stringify(vueThis.items) + '----------------')
+                })
+                .catch(function (error) {
+                    console.log('--------------------')
+                    console.log(error)
+                })
+            axios({
+                url: '/api' + '/queryCount',
+                method: 'post',
+                data: vueThis.data.queryForm,
+            })
+                .then(function (response) {
+                    vueThis.length = response.data
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
         },
         btnquery: function () {
             var vueThis = this
             /*条件查询就要清空起始页这个查询条件,不然会出问题*/
-            vueThis.data.queryForm.startpage = 0;
-            vueThis.data.currentpage = 1;
+            vueThis.data.queryForm.startpage = 0
+            vueThis.data.currentpage = 1
             axios({
-                url: '/querySystemLog',
+                url: '/api' + '/querySystemLog',
                 method: 'post',
                 data: vueThis.data.queryForm,
             })
@@ -255,17 +253,17 @@ export default {
                 .catch(function (error) {
                     console.log(vueThis.items + '-=================')
                 })
-              axios({
-                  url: '/queryCount',
-                  method: 'post',
-                  data: vueThis.data.queryForm,
-              })
-                  .then(function (response) {
-                      vueThis.data.length = response.data
-                  })
-                  .catch(function (error) {
-                      console.log(error)
-                  })
+            axios({
+                url: '/api' + '/queryCount',
+                method: 'post',
+                data: vueThis.data.queryForm,
+            })
+                .then(function (response) {
+                    vueThis.data.length = response.data
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
         }
     }
 }

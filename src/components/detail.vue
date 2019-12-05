@@ -55,7 +55,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'post',
-                url: '/detaillist',
+                url: '/api'+'/detaillist',
                 data: JSON.stringify({
                     'content': vueThis.keyword.substring(1)
                 }),

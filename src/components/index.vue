@@ -3,7 +3,7 @@
     <div>
         <!--便签内容框放在最顶部,可清空,可无限扩展-->
         <el-input type="textarea" autosize :placeholder="notePlaceholder" class="textarea" v-model="note"
-                  :style="{display:isSee}"  
+                  :style="{display:isSee}"
         ></el-input>
         <div class="center" @keyup.enter="enter(keyword)">
             <el-input autofocus id="el-input" style="width: 500px;"
@@ -52,8 +52,9 @@
             <section>
                 <ol>
                     <li v-for="(item,i) in articledata" style="background-color: #DCDFE6">
-                        <p v-html="item.title" @click="toArticleDetail(item.id)" class="articlecontent">{{item.title}}</p>
-                        <p v-html="item.content"  >
+                        <p v-html="item.title" @click="toArticleDetail(item.id)" class="articlecontent">
+                            {{item.title}}</p>
+                        <p v-html="item.content">
                             {{item.content}}</p>
                         <span>id:{{item.id}}</span>|
                         <span>创建时间:{{item.createtime}}</span>
@@ -100,7 +101,7 @@ var store = {
     articlesearchkeyword: '',
     platform: '',
     searchurl: '',
-    articleCurrentPage:""
+    articleCurrentPage: ''
 }
 export default {
     name: 'index',
@@ -161,7 +162,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: '/s?wd=' + keyword + '&pn=' + page
+                url: '/api'+'/s?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
                     vueThis.data = response.data.data.list
@@ -182,7 +183,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: '/s' + '?wd=' + keyword + '&pn=' + page
+                url: '/api'+'/s' + '?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
                     vueThis.data = response.data.data.list
@@ -203,10 +204,10 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
+                url: '/api'+'/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
-                    vueThis.articleCurrentPage = page;
+                    vueThis.articleCurrentPage = page
                     vueThis.articledata = response.data.data.list
                     vueThis.articleresult = response.data.data
                     vueThis.articlesearchkeyword = response.data.msg
@@ -225,10 +226,10 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
+                url: '/api'+'/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
-                    vueThis.articleCurrentPage = page;
+                    vueThis.articleCurrentPage = page
                     vueThis.articledata = response.data.data.list
                     vueThis.articleresult = response.data.data
                     vueThis.articlesearchkeyword = response.data.msg
@@ -246,7 +247,8 @@ export default {
                 var isForward = keyword.startsWith('/')
                 /*1.转发模式*/
                 if (isForward) {
-                    window.location.href = keyword.substring(1)
+                    /*window.location.href = keyword.substring(1)*/
+                    this.$router.push('/' + keyword.substring(1))
                 } else {
                     this.other(keyword)
                 }
@@ -270,7 +272,7 @@ export default {
                             'Content-Type': 'application/json'
                         },
                         method: 'post',
-                        url: '/note',
+                        url: '/api' + '/note',
                         data: JSON.stringify({
                             'content': keyword.substring(1)
                         }),
@@ -305,7 +307,7 @@ export default {
                                 'Content-Type': 'application/json'
                             },
                             method: 'get',
-                            url: '/searchjianshu?wd=' + articlesearchkeyword
+                            url: '/api'+'/searchjianshu?wd=' + articlesearchkeyword
                         }).then(function (response) {
                             vueThis.articledata = response.data.data.list
                             vueThis.articleresult = response.data.data
@@ -326,7 +328,7 @@ export default {
                                 'Content-Type': 'application/json'
                             },
                             method: 'get',
-                            url: '/searchcsdn?wd=' + articlesearchkeyword
+                            url: '/api'+'/searchcsdn?wd=' + articlesearchkeyword
                         }).then(function (response) {
                             vueThis.articledata = response.data.data.list
                             vueThis.articleresult = response.data.data
@@ -347,7 +349,7 @@ export default {
                                 'Content-Type': 'application/json'
                             },
                             method: 'get',
-                            url: '/searchbky?wd=' + articlesearchkeyword
+                            url:'/api'+ '/searchbky?wd=' + articlesearchkeyword
                         }).then(function (response) {
                             vueThis.articledata = response.data.data.list
                             vueThis.articleresult = response.data.data
@@ -367,7 +369,7 @@ export default {
                                 'Content-Type': 'application/json'
                             },
                             method: 'get',
-                            url: '/s?wd=' + searchkeyword
+                            url: '/api'+'/s?wd=' + searchkeyword
                         }).then(function (response) {
                             vueThis.data = response.data.data.list
                             vueThis.result = response.data.data
@@ -388,12 +390,13 @@ export default {
                                     'Content-Type': 'application/json'
                                 },
                                 method: 'get',
-                                url: '/logout'
+                                url: '/api' + '/logout'
                             })
                                 .then(function (response) {
                                     vueThis.$message(response.data.msg)
                                     setTimeout(function () {
-                                            window.location.href = response.data.url
+                                            /* window.location.href = response.data.url*/
+                                            vueThis.$router.push('/' + response.data.url)
                                         }, 1000
                                     )
                                 })
@@ -413,13 +416,14 @@ export default {
                         'Content-Type': 'application/json'
                     },
                     method: 'post',
-                    url: '/todetail',
+                    url: '/api'+'/todetail',
                     data: JSON.stringify({
                         'keyword': keyword
                     }),
                 })
                     .then(function (response) {
-                        window.location.href = 'detail'
+                        /*window.location.href = 'detail'*/
+                        vueThis.$router.push('/' + 'detail')
                     })
                     .catch(function (error) {
                         console.log(vueThis.items + '-=================')

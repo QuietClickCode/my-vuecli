@@ -103,7 +103,7 @@ var store = {
     rowstyle: {
         height: 50
     },
-    date:""
+    date: ''
 }
 export default {
     name: 'ainotelist',
@@ -111,36 +111,36 @@ export default {
         return store
     },
     created: function () {
-        $("body").css("background-color", "#C7EDCC")
-        if(this.$route.query.id!=null&&this.$route.query.platform!=null) {
+        $('body').css('background-color', '#C7EDCC')
+        if (this.$route.query.id != null && this.$route.query.platform != null) {
             this.id = this.$route.query.id
             this.platform = this.$route.query.platform
-            this.queryArticleById(this.id,this.platform);
-        }else {
-        /*不加动画或者,时间太少,都回补了顶部,这个速度可以滑到顶部,并且不影响后面的手动下滑*/
-        $('html,body').animate({ scrollTop: 0 }, 500)
-        /*this.toggleFullScreen();*/
+            this.queryArticleById(this.id, this.platform)
+        } else {
+            /*不加动画或者,时间太少,都回补了顶部,这个速度可以滑到顶部,并且不影响后面的手动下滑*/
+            $('html,body').animate({ scrollTop: 0 }, 500)
+            /*this.toggleFullScreen();*/
 
-        this.queryArticle();
+            this.queryArticle()
 
         }
     },
-    mounted() {
+    mounted () {
         $('#table').hide()
-        $(".el-textarea__inner").css("background", "#C7EDCC");
-        $(".el-input__inner").css("background", "#C7EDCC");
-        let _this = this; // 声明一个变量指向Vue实例this，保证作用域一致
+        $('.el-textarea__inner').css('background', '#C7EDCC')
+        $('.el-input__inner').css('background', '#C7EDCC')
+        let _this = this // 声明一个变量指向Vue实例this，保证作用域一致
         this.timer = setInterval(() => {
-            _this.date = new Date(); // 修改数据date
+            _this.date = new Date() // 修改数据date
         }, 1000)
     },
-    beforeDestroy() {
+    beforeDestroy () {
         //清楚样式
-        $("body").css("background-color", "white");
-        $(".el-textarea__inner").css("background", "white");
-        $(".el-input__inner").css("background", "white");
+        $('body').css('background-color', 'white')
+        $('.el-textarea__inner').css('background', 'white')
+        $('.el-input__inner').css('background', 'white')
         if (this.timer) {
-            clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
+            clearInterval(this.timer) // 在Vue实例销毁前，清除我们的定时器
         }
     },
     methods: {
@@ -172,7 +172,7 @@ export default {
         queryArticle: function () {
             var vueThis = this
             axios({
-                url: '/queryarticle',
+                url: '/api' + '/queryarticle',
                 method: 'post',
                 data: {
                     'id': store.id,
@@ -196,10 +196,10 @@ export default {
                     console.log(error)
                 })
         },
-        queryArticleById: function (id,platform) {
+        queryArticleById: function (id, platform) {
             var vueThis = this
             axios({
-                url: '/queryarticle',
+                url:'/api'+ '/queryarticle',
                 method: 'post',
                 data: {
                     'id': id,
@@ -283,6 +283,7 @@ export default {
     /* WebKit browsers */
     color: gray;
 }
+
 /*网上找的方法实现,高度控制,最小41px*/
 /*https://www.cnblogs.com/secretAngel/p/10241791.html*/
 .el-table__header tr,

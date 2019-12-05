@@ -20,19 +20,19 @@ import * as myregist from '@/assets/my-regist'
 
 export var store = {
     labelPosition: 'right',
-    user: {username: "", password: ""},
+    user: { username: '', password: '' },
     rules: {
-        username: [{required: true, message: '用户名不能为空', trigger: 'blur'}, {
+        username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }, {
             validator: validateUsername,
             trigger: 'blur'
         }],
-        password: {required: true, message: '密码不能为空', trigger: 'blur'}
+        password: { required: true, message: '密码不能为空', trigger: 'blur' }
     }
 }
 export default {
     name: 'login',
     data () {
-        return store;
+        return store
     },
     methods: {
         /*用户名或者密码任意一个点击enter都会触发*/
@@ -52,7 +52,7 @@ export default {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    url: '/toregist',
+                    url: '/api' + '/toregist',
                     method: 'post',
                     data: JSON.stringify({
                         'user': user,
@@ -64,12 +64,13 @@ export default {
                 })
                     .then(function (response) {
                         if (response.data.status == 0) {
-                            vueThis.$message(response.data.msg);
+                            vueThis.$message(response.data.msg)
                             setTimeout(function () {
-                                window.location.href = response.data.url;
+                                /*window.location.href = response.data.url;*/
+                                vueThis.$router.push('/' + response.data.url)
                             }, 2000)
                         } else {
-                            vueThis.$message(response.data.msg);
+                            vueThis.$message(response.data.msg)
                         }
                     })
                     .catch(function (error) {
@@ -79,10 +80,11 @@ export default {
         }
     }
 }
+
 //自定义校验
-function validateUsername(rule, value, callback) {
+function validateUsername (rule, value, callback) {
     axios({
-        url: "/validateUsername?username=" + value,
+        url: '/api' + '/validateUsername?username=' + value,
         method: 'get'
     })
         .then(function (response) {

@@ -29,7 +29,7 @@ export var store = {
 export default {
     name: 'login',
     data () {
-        return store;
+        return store
     },
     methods: {
         /*用户名或者密码任意一个点击enter都会触发*/
@@ -49,7 +49,7 @@ export default {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    url: '/tologin',
+                    url: 'api' + '/tologin',
                     method: 'post',
                     data: JSON.stringify({
                         'user': user,
@@ -61,7 +61,8 @@ export default {
                 })
                     .then(function (response) {
                         if (response.data.status == 0) {
-                            window.location.href = response.data.url
+                            /*window.location.href = '/#' + |response.data.url*/
+                            vueThis.$router.push('/' + response.data.url)
                         } else {
                             vueThis.$message(response.data.msg)
                         }

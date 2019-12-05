@@ -46,7 +46,7 @@ export default {
         save: function () {
             var vueThis = this
             axios({
-                url: "/savemarkdown",
+                url: '/api'+"/savemarkdown",
                 method: 'post',
                 data: { 'title': vueThis.title, 'content': vueThis.content },
             })

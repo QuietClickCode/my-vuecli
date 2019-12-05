@@ -21,9 +21,12 @@ import editor from '@/components/editor'
 import todo from '@/components/todo'
 
 Vue.use(Router)
-
+const routerPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+    return routerPush.call(this, location).catch(error=> error)
+}
 export default new Router({
-    mode: 'history',
+    /*mode: 'history',*/
     routes: [
         {
             path: '/',
