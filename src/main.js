@@ -34,8 +34,8 @@ router.beforeEach((to, from, next) => {
     if (to.path == '/login') {
         next()
     } else {
-        /*axios({
-            url: '/islogin',
+        axios({
+            url: '/api'+'/islogin',
             method: 'post',
             data: { path: to.path },
         })
@@ -49,7 +49,7 @@ router.beforeEach((to, from, next) => {
             .catch(function (error) {
                 console.log('--------------------')
                 console.log(error)
-            })*/
+            })
         next()
     }
 
