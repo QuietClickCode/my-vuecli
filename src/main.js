@@ -15,7 +15,7 @@ import axios from 'axios'
 
 Vue.prototype.$axios = axios
 axios.defaults.withCredentials = true
-axios.defaults.baseURL = '/api'  //关键代码
+/*axios.defaults.baseURL = '/api'*/  //关键代码
 // use
 Vue.use(mavonEditor)
 Vue.use(ElementUI)
@@ -34,7 +34,7 @@ router.beforeEach((to, from, next) => {
     if (to.path == '/login') {
         next()
     } else {
-        axios({
+        /*axios({
             url: '/islogin',
             method: 'post',
             data: { path: to.path },
@@ -49,7 +49,8 @@ router.beforeEach((to, from, next) => {
             .catch(function (error) {
                 console.log('--------------------')
                 console.log(error)
-            })
+            })*/
+        next()
     }
 
 })
