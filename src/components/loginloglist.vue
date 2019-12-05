@@ -207,8 +207,8 @@ export default {
         query: function () {
             var vueThis = this
             axios({
-                url: "/queryLoginLogList",
-                method:'/api'+ 'post',
+                url: '/api'+"/queryLoginLogList",
+                method: 'post',
                 data: vueThis.queryForm,
             })
                 .then(function (response) {
