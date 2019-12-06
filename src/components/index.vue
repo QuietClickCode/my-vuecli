@@ -162,7 +162,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: '/api'+'/s?wd=' + keyword + '&pn=' + page
+                url: '/api' + '/s?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
                     vueThis.data = response.data.data.list
@@ -183,7 +183,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: '/api'+'/s' + '?wd=' + keyword + '&pn=' + page
+                url: '/api' + '/s' + '?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
                     vueThis.data = response.data.data.list
@@ -204,7 +204,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: '/api'+'/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
+                url: '/api' + '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
                     vueThis.articleCurrentPage = page
@@ -226,7 +226,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: '/api'+'/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
+                url: '/api' + '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
                     vueThis.articleCurrentPage = page
@@ -307,7 +307,7 @@ export default {
                                 'Content-Type': 'application/json'
                             },
                             method: 'get',
-                            url: '/api'+'/searchjianshu?wd=' + articlesearchkeyword
+                            url: '/api' + '/searchjianshu?wd=' + articlesearchkeyword
                         }).then(function (response) {
                             vueThis.articledata = response.data.data.list
                             vueThis.articleresult = response.data.data
@@ -328,7 +328,7 @@ export default {
                                 'Content-Type': 'application/json'
                             },
                             method: 'get',
-                            url: '/api'+'/searchcsdn?wd=' + articlesearchkeyword
+                            url: '/api' + '/searchcsdn?wd=' + articlesearchkeyword
                         }).then(function (response) {
                             vueThis.articledata = response.data.data.list
                             vueThis.articleresult = response.data.data
@@ -349,7 +349,7 @@ export default {
                                 'Content-Type': 'application/json'
                             },
                             method: 'get',
-                            url:'/api'+ '/searchbky?wd=' + articlesearchkeyword
+                            url: '/api' + '/searchbky?wd=' + articlesearchkeyword
                         }).then(function (response) {
                             vueThis.articledata = response.data.data.list
                             vueThis.articleresult = response.data.data
@@ -369,7 +369,7 @@ export default {
                                 'Content-Type': 'application/json'
                             },
                             method: 'get',
-                            url: '/api'+'/s?wd=' + searchkeyword
+                            url: '/api' + '/s?wd=' + searchkeyword
                         }).then(function (response) {
                             vueThis.data = response.data.data.list
                             vueThis.result = response.data.data
@@ -396,6 +396,8 @@ export default {
                                     vueThis.$message(response.data.msg)
                                     setTimeout(function () {
                                             /* window.location.href = response.data.url*/
+                                            sessionStorage.clear()
+                                            localStorage.clear()
                                             vueThis.$router.push('/' + response.data.url)
                                         }, 1000
                                     )
@@ -416,7 +418,7 @@ export default {
                         'Content-Type': 'application/json'
                     },
                     method: 'post',
-                    url: '/api'+'/todetail',
+                    url: '/api' + '/todetail',
                     data: JSON.stringify({
                         'keyword': keyword
                     }),

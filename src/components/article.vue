@@ -198,8 +198,9 @@ export default {
         },
         queryArticleById: function (id, platform) {
             var vueThis = this
+            alert(localStorage.getItem('token'))
             axios({
-                url:'/api'+ '/queryarticle',
+                url: '/api' + '/queryarticle',
                 method: 'post',
                 data: {
                     'id': id,

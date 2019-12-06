@@ -59,9 +59,12 @@ export default {
                         'localIp': localIp
                     }),
                 })
+
                     .then(function (response) {
                         if (response.data.status == 0) {
                             /*window.location.href = '/#' + |response.data.url*/
+                            sessionStorage.setItem('userToken', response.data.msg)
+                            localStorage.setItem('token', response.data.msg)
                             vueThis.$router.push('/' + response.data.url)
                         } else {
                             vueThis.$message(response.data.msg)

@@ -21,6 +21,19 @@ Vue.use(mavonEditor)
 Vue.use(ElementUI)
 Vue.use(VueQuillEditor)
 Vue.config.productionTip = false
+// 添加请求拦截器
+let token = localStorage.getItem('token')
+axios.interceptors.request.use(
+    config => {
+        if (token) {
+            config.headers.token = token
+        }
+        return config
+    },
+    err => {
+        return Promise.reject(err)
+    }
+)
 router.beforeEach((to, from, next) => {
     // to,from,next 3个参数
     // to: Route， 即将要进入的路由对象
@@ -34,23 +47,12 @@ router.beforeEach((to, from, next) => {
     if (to.path == '/login') {
         next()
     } else {
-        axios({
-            url: '/api'+'/islogin',
-            method: 'post',
-            data: { path: to.path },
-        })
-            .then(function (response) {
-                if (response.data.status == 0) {
-                    next()
-                } else {
-                    next('/login')
-                }
-            })
-            .catch(function (error) {
-                console.log('--------------------')
-                console.log(error)
-            })
-        next()
+        if (sessionStorage.getItem('userToken') == null) {
+            router.app.$router.push('/login')
+        } else {
+
+            next()
+        }
     }
 
 })
