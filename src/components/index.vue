@@ -413,6 +413,7 @@ export default {
                 }
                 /*正常搜索*/
             } else {
+                var vueThis = this
                 axios({
                     headers: {
                         'Content-Type': 'application/json'
@@ -425,7 +426,7 @@ export default {
                 })
                     .then(function (response) {
                         /*window.location.href = 'detail'*/
-                        vueThis.$router.push('/' + 'detail')
+                        vueThis.$router.push('/' + response.data.url)
                     })
                     .catch(function (error) {
                         console.log(vueThis.items + '-=================')
