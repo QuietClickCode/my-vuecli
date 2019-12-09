@@ -65,6 +65,9 @@ export default {
                             /*window.location.href = '/#' + |response.data.url*/
                             sessionStorage.setItem('userToken', response.data.msg)
                             localStorage.setItem('token', response.data.msg)
+                            /*sessionStorage.setItem('userToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ6amoifQ.WduZcdFyZSMdrx82JOYFbAKoDPQ4evDFPvt6i6USK5Y')
+                            localStorage.setItem('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ6amoifQ.WduZcdFyZSMdrx82JOYFbAKoDPQ4evDFPvt6i6USK5Y')*/
+
                             vueThis.$router.push('/' + response.data.url)
                         } else {
                             vueThis.$message(response.data.msg)

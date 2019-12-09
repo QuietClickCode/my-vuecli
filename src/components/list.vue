@@ -51,7 +51,7 @@
                     </el-option>
                 </el-select>
                 <span style="margin-left: 80px;">设备</span>
-                <el-select style="margin-bottom:5px;width: 300px"  v-model="queryForm.device" placeholder="请选择">
+                <el-select style="margin-bottom:5px;width: 300px" v-model="queryForm.device" placeholder="请选择">
                     <el-option
                         label="请选择"
                         value="">
@@ -139,14 +139,14 @@
 import axios from 'axios'
 
 var store = {
-    queryForm: {keyword: "", startpage: 0, location: "", system: "", createtime: [], browser: "", device: ""},
+    queryForm: { keyword: '', startpage: 0, location: '', system: '', createtime: [], browser: '', device: '' },
     system: [],
     browser: [],
     device: [],
     items: [],
     length: 0,
-    currentpage:1
-};
+    currentpage: 1
+}
 export default {
     name: 'ainotelist',
     data () {
@@ -162,24 +162,21 @@ export default {
     methods: {
         init: function () {
             var vueThis = this
-            axios.post('/api'+'/queryBrowser', {
-            })
+            axios.post('/api' + '/queryBrowser', {})
                 .then(function (response) {
                     vueThis.browser = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
-            axios.post('/api'+'/querySystem', {
-            })
+            axios.post('/api' + '/querySystem', {})
                 .then(function (response) {
                     vueThis.system = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
-            axios.post('/api'+'/queryDevice', {
-            })
+            axios.post('/api' + '/queryDevice', {})
                 .then(function (response) {
                     vueThis.device = response.data
                 })
@@ -189,13 +186,13 @@ export default {
         },
         handleCurrentChange (val) {
             this.queryForm.startpage = 0 + (val - 1) * 10
-            this.query();
+            this.query()
             this.currentpage = val
         },
         query: function () {
             var vueThis = this
             axios({
-                url: "/queryList",
+                url: '/api' + '/queryList',
                 method: 'post',
                 data: vueThis.queryForm,
             })
@@ -208,7 +205,7 @@ export default {
                     console.log(error)
                 })
             axios({
-                url: '/api'+"/queryListCount",
+                url: '/api' + '/queryListCount',
                 method: 'post',
                 data: vueThis.queryForm,
             })
@@ -222,22 +219,22 @@ export default {
         btnquery: function () {
             var vueThis = this
             /*条件查询就要清空起始页这个查询条件,不然会出问题*/
-            vueThis.queryForm.startpage = 0;
-            vueThis.currentpage = 1;
+            vueThis.queryForm.startpage = 0
+            vueThis.currentpage = 1
             axios({
-                url:'/api'+"/queryList",
+                url: '/api' + '/queryList',
                 method: 'post',
                 data: vueThis.queryForm,
             })
                 .then(function (response) {
-                    vueThis.items = response.data;
+                    vueThis.items = response.data
                     console.log(JSON.stringify(vueThis.items))
                 })
                 .catch(function (error) {
                     console.log(vueThis.items + '-=================')
                 })
             axios({
-                url: '/api'+"/queryListCount",
+                url: '/api' + '/queryListCount',
                 method: 'post',
                 data: vueThis.queryForm,
             })
