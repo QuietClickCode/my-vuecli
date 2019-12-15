@@ -19,6 +19,7 @@ import systemloglist from '@/components/systemloglist'
 import markdown from '@/components/markdown'
 import editor from '@/components/editor'
 import todo from '@/components/todo'
+import picturebed from '@/components/picturebed'
 
 Vue.use(Router)
 const routerPush = Router.prototype.push
@@ -103,6 +104,11 @@ export default new Router({
             path: '/regist',
             name: 'regist',
             component: regist
+        },
+        {
+            path: '/picturebed',
+            name: '图床',
+            component: picturebed
         },
         {
             path: '/markdownlist',
