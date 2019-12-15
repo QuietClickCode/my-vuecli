@@ -5,6 +5,7 @@
         </div>
 
         <input type="file" name="file" id="file" @change="uploadImage">
+        {{progress}}
     </div>
 </template>
 
@@ -12,14 +13,14 @@
 import axios from 'axios'
 import $ from 'jquery'
 
-var store = {
-    article: [],
-    keyword: ''
-}
 export default {
     name: 'index',
     data () {
-        return store
+        return {
+            article: [],
+            keyword: '',
+            progress: 0,
+        }
     },
     created: function () {
         this.query()
@@ -31,6 +32,11 @@ export default {
             // debugger
             formData.append('file', $('#file')[0].files[0])
             axios({
+                onUploadProgress: function (progressEvent) {
+                    // 对原生进度事件的处理
+                    var complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
+                    vueThis.progress = complete
+                },
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },
