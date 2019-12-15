@@ -10,7 +10,7 @@
 
 <script>
 import axios from 'axios'
-import $ from "jquery"
+import $ from 'jquery'
 
 var store = {
     article: [],
@@ -26,9 +26,10 @@ export default {
     },
     methods: {
         uploadImage: function (file) {
+            var vueThis = this
             var formData = new FormData()
             // debugger
-            formData.append("file",$("#file")[0].files[0]);
+            formData.append('file', $('#file')[0].files[0])
             axios({
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -38,8 +39,7 @@ export default {
                 data: formData
             })
                 .then(function (response) {
-                    console.log(response)
-
+                    vueThis.$message(response.data.msg)
                 })
                 .catch(function (error) {
                     console.log(error)
