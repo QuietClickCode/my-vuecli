@@ -36,7 +36,7 @@ export default {
                 onUploadProgress: function (progressEvent) {
                     // 对原生进度事件的处理
                     var complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
-                    vueThis.progress = (progressEvent.loaded / progressEvent.total * 100).toFixed(0)
+                    vueThis.progress = parseInt((progressEvent.loaded / progressEvent.total * 100).toFixed(0))
                 },
                 headers: {
                     'Content-Type': 'multipart/form-data'
