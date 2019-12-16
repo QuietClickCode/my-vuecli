@@ -7,9 +7,17 @@
         <input type="file" name="file" id="file" @change="uploadImage">
         {{progress}}%
         <el-progress type="circle" :percentage="progress"></el-progress>
+        <el-upload
+            :headers="header"
+            :on-exceed="beyondNumber"
+            :on-success="handleLogoSuccess"
+            action="/api/uploadImg"
+            list-type="picture-card"
+            :on-remove="handleRemove">
+            <i class="el-icon-plus"></i>
+        </el-upload>
     </div>
 </template>
-
 <script>
 import axios from 'axios'
 import $ from 'jquery'
@@ -18,6 +26,9 @@ export default {
     name: 'index',
     data () {
         return {
+            header:{
+              token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ6amoifQ.WduZcdFyZSMdrx82JOYFbAKoDPQ4evDFPvt6i6USK5Y"
+            },
             article: [],
             keyword: '',
             progress: 0,
@@ -27,6 +38,11 @@ export default {
         this.query()
     },
     methods: {
+        beyondNumber: function () {
+
+        },
+        handleLogoSuccess: function () {},
+        handleRemove: function () {},
         uploadImage: function (file) {
             var vueThis = this
             var formData = new FormData()
