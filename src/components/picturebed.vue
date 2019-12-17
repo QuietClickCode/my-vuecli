@@ -4,13 +4,13 @@
             <el-link type="primary" style="font-size: large">图床</el-link>
         </div>
 
-        <input type="file" name="file" id="file" @change="uploadImage">
-        {{progress}}%
-        <el-progress type="circle" :percentage="progress"></el-progress>
+        <!--   <input type="file" name="file" id="file" @change="uploadImage">
+           {{progress}}%
+           <el-progress type="circle" :percentage="progress"></el-progress>-->
         <el-upload
             :headers="header"
             :on-exceed="beyondNumber"
-            :on-success="handleLogoSuccess"
+            :on-success="handleAvatarSuccess"
             action="/api/uploadImg"
             list-type="picture-card"
             :on-remove="handleRemove">
@@ -26,8 +26,9 @@ export default {
     name: 'index',
     data () {
         return {
-            header:{
-              token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ6amoifQ.WduZcdFyZSMdrx82JOYFbAKoDPQ4evDFPvt6i6USK5Y"
+            imageUrl: '',
+            header: {
+                token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ6amoifQ.WduZcdFyZSMdrx82JOYFbAKoDPQ4evDFPvt6i6USK5Y'
             },
             article: [],
             keyword: '',
@@ -38,6 +39,12 @@ export default {
         this.query()
     },
     methods: {
+        handleAvatarSuccess (res, file, fileList) {
+            console.log(res)
+            console.log(file)
+            console.log(fileList)
+            this.$message(res.msg)
+        },
         beyondNumber: function () {
 
         },
