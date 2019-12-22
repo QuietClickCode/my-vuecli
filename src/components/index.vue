@@ -138,7 +138,7 @@ export default {
             this.$notify({
                 title: '自定义位置',
                 duration: this.duration,
-                message: '左上角弹出的消息',
+                message: store.note,
                 position: 'top-right'
             })
             this.count++
@@ -314,6 +314,7 @@ export default {
                                     store.note += '\n'.concat(response.data.data).concat('---').concat(new Date().toLocaleString())
                                     /*vueThis.duration += 10000*/
                                     vueThis.haha++
+                                    vueThis.open4()
                                     vueThis.open3()
                                     console.log(vueThis.obj.length)
                                     console.log(vueThis.obj)
