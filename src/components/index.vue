@@ -389,7 +389,7 @@ export default {
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
-                                method: 'get',
+                                method: 'post',
                                 url: '/api' + '/logout'
                             })
                                 .then(function (response) {
