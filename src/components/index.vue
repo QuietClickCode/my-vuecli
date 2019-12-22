@@ -5,6 +5,7 @@
         <el-input type="textarea" autosize :placeholder="notePlaceholder" class="textarea" v-model="note"
                   :style="{display:isSee}"
         ></el-input>
+        <el-button @click="closehaha">dd</el-button>
         <div class="center" @keyup.enter="enter(keyword)">
             <el-input autofocus id="el-input" style="width: 500px;"
                       @input="input(keyword)"
@@ -68,6 +69,7 @@
                 <el-button id="nextArticle" :disabled="isNextArticle"
                            @click="nextarticle(articlesearchkeyword,articleresult.pageNo+1)">下一页
                 </el-button>
+
             </div>
         </div>
     </div>
@@ -78,6 +80,10 @@ import axios from 'axios'
 import $ from 'jquery'
 
 var store = {
+    obj: [],
+    haha: 1,
+    count: 1,
+    duration: 0,
     //是否禁用
     isPrev: false,
     isNext: false,
@@ -115,6 +121,28 @@ export default {
         }
     },
     methods: {
+        closehaha: function () {
+            this.obj.close()
+        },
+        open3 () {
+            var temp = this.$notify({
+                title: '自定义位置',
+                duration: this.duration,
+                message: '左上角弹出的消息',
+                position: 'top-left'
+            })
+            this.obj.push(temp)
+            this.count++
+        },
+        open4 () {
+            this.$notify({
+                title: '自定义位置',
+                duration: this.duration,
+                message: '左上角弹出的消息',
+                position: 'top-right'
+            })
+            this.count++
+        },
         toArticleDetail: function (id) {
             var vueThis = this
             this.$router.push({
@@ -257,6 +285,7 @@ export default {
 
         /*由enter()调用,非转发模式*/
         other: function (keyword) {
+            var vueThis = this
             $('#result').hide()
             $('#articleresult').hide()
             var isNote = keyword.startsWith('\'')
@@ -283,6 +312,22 @@ export default {
                                     store.note = response.data.data.concat('---').concat(new Date().toLocaleString())
                                 } else {
                                     store.note += '\n'.concat(response.data.data).concat('---').concat(new Date().toLocaleString())
+                                    /*vueThis.duration += 10000*/
+                                    vueThis.haha++
+                                    vueThis.open3()
+                                    console.log(vueThis.obj.length)
+                                    console.log(vueThis.obj)
+                                    if (vueThis.obj.length >= 6) {
+                                        vueThis.obj[0].close();
+                                        vueThis.obj.splice(0,1);
+                                    }
+                                    /*if (vueThis.haha % 2 == 0) {
+                                        vueThis.open4()
+
+                                    } else {
+
+                                        vueThis.open3()
+                                    }*/
                                 }
                                 store.keyword = '\''
                             }
