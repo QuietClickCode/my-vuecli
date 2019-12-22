@@ -129,7 +129,7 @@ export default {
                 title: '自定义位置',
                 duration: this.duration,
                 message: '左上角弹出的消息',
-                position: 'top-left'
+                position: 'top-right'
             })
             this.obj.push(temp)
             this.count++
@@ -139,7 +139,7 @@ export default {
                 title: '自定义位置',
                 duration: this.duration,
                 message: store.note,
-                position: 'top-right'
+                position: 'top-left'
             })
             this.count++
         },
