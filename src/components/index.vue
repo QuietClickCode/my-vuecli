@@ -134,6 +134,7 @@ export default {
             this.obj.push(temp)
             this.count++
         },
+
         open4 () {
             this.$notify({
                 title: '自定义位置',
