@@ -1,5 +1,4 @@
 <template>
-
     <div>
         <!--便签内容框放在最顶部,可清空,可无限扩展-->
         <el-input type="textarea" autosize :placeholder="notePlaceholder" class="textarea" v-model="note"
