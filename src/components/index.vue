@@ -337,60 +337,65 @@ export default {
                     store.note = ''
                     store.keyword = '\''
                 } else {
-                    axios({
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        method: 'post',
-                        url: '/api' + '/note',
-                        data: JSON.stringify({
-                            'content': keyword.substring(1)
-                        }),
-                    })
-                        .then(function (response) {
-                            if (response.data.status == 0) {
-                                if (store.note == '') {
-                                    vueThis.bookArray = vueThis.bookcontent.trim().split('\n')
-                                    store.note = response.data.data.concat('---').concat(new Date().toLocaleString())
-                                    vueThis.open3(response.data.data)
-                                    vueThis.open4(vueThis.bookArray[vueThis.count])
-                                    vueThis.count++
-                                } else {
-                                    var temp = ''
-                                    vueThis.bookcontent.trim().split('\n').forEach(function (v, i) {
-                                        temp = v
-                                    })
-                                    store.note += '\n'.concat(response.data.data).concat('---').concat(new Date().toLocaleString())
-                                    /*vueThis.duration += 10000*/
-                                    vueThis.haha++
-                                    vueThis.open3(response.data.data)
-                                    vueThis.open4(vueThis.bookArray[vueThis.count])
-                                    vueThis.count++
-                                    console.log(vueThis.obj.length)
-                                    console.log(vueThis.obj)
-                                    //只保留5个,增加一个就删除数组第一个
-                                    if (vueThis.obj.length >= 6) {
-                                        vueThis.obj[0].close()
-                                        vueThis.obj.splice(0, 1)
-                                    }
-                                    if (vueThis.obj4.length >= 6) {
-                                        vueThis.obj4[0].close()
-                                        vueThis.obj4.splice(0, 1)
-                                    }
-                                    /*if (vueThis.haha % 2 == 0) {
-                                        vueThis.open4()
+                    if (keyword.substring(1).length == 0) {
+                        vueThis.bookArray = vueThis.bookcontent.trim().split('\n')
+                        vueThis.open4(vueThis.bookArray[vueThis.count])
+                        vueThis.count++
+                        if (vueThis.obj.length >= 2) {
+                            vueThis.obj[0].close()
+                            vueThis.obj.splice(0, 1)
+                        }
+                    } else {
 
+                        axios({
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            method: 'post',
+                            url: '/api' + '/note',
+                            data: JSON.stringify({
+                                'content': keyword.substring(1)
+                            }),
+                        })
+                            .then(function (response) {
+                                if (response.data.status == 0) {
+                                    if (store.note == '') {
+                                        /*vueThis.bookArray = vueThis.bookcontent.trim().split('\n')*/
+                                        store.note = response.data.data.concat('---').concat(new Date().toLocaleString())
+                                        vueThis.open3(response.data.data)
+                                        /*vueThis.open4(vueThis.bookArray[vueThis.count])*/
+                                        /*vueThis.count++*/
                                     } else {
 
-                                        vueThis.open3()
-                                    }*/
+                                        store.note += '\n'.concat(response.data.data).concat('---').concat(new Date().toLocaleString())
+                                        /*vueThis.duration += 10000*/
+                                        vueThis.haha++
+                                        vueThis.open3(response.data.data)
+
+                                        vueThis.count++
+                                        console.log(vueThis.obj.length)
+                                        console.log(vueThis.obj)
+                                        //只保留5个,增加一个就删除数组第一个
+
+                                        if (vueThis.obj4.length >= 6) {
+                                            vueThis.obj4[0].close()
+                                            vueThis.obj4.splice(0, 1)
+                                        }
+                                        /*if (vueThis.haha % 2 == 0) {
+                                            vueThis.open4()
+
+                                        } else {
+
+                                            vueThis.open3()
+                                        }*/
+                                    }
+                                    store.keyword = '\''
                                 }
-                                store.keyword = '\''
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(vueThis.items + '-=================')
-                        })
+                            })
+                            .catch(function (error) {
+                                console.log(vueThis.items + '-=================')
+                            })
+                    }
                 }
                 /*3.命令模式*/
             } else if (isCommand) {
