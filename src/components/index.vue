@@ -5,7 +5,6 @@
         <el-input type="textarea" autosize :placeholder="notePlaceholder" class="textarea" v-model="note"
                   :style="{display:isSee}"
         ></el-input>
-        <el-button @click="closehaha">dd</el-button>
         <div class="center" @keyup.enter="enter(keyword)">
             <el-input autofocus id="el-input" style="width: 500px;"
                       @input="input(keyword)"
@@ -81,6 +80,7 @@ import $ from 'jquery'
 
 var store = {
     obj: [],
+    obj4: [],
     haha: 1,
     count: 1,
     duration: 0,
@@ -121,27 +121,40 @@ export default {
         }
     },
     methods: {
+        randomString: function (len) {
+            len = len || 32
+            var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
+            /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+            var maxPos = $chars.length
+            var pwd = ''
+            for (var i = 0; i < len; i++) {
+                pwd += $chars.charAt(Math.floor(Math.random() * maxPos))
+            }
+            return pwd
+        },
         closehaha: function () {
             this.obj.close()
         },
-        open3 () {
+        //右上角系统弹出的消息
+        open4 () {
             var temp = this.$notify({
-                title: '自定义位置',
+                title: new Date().toLocaleString(),
                 duration: this.duration,
-                message: '左上角弹出的消息',
-                position: 'top-right'
+                message: this.randomString(32),
+                position: 'top-left'
             })
             this.obj.push(temp)
             this.count++
         },
 
-        open4 () {
-            this.$notify({
-                title: '自定义位置',
+        open3 (data) {
+            var temp = this.$notify({
+                title: new Date().toLocaleString(),
                 duration: this.duration,
-                message: store.note,
-                position: 'top-left'
+                message: data,
+                position: 'top-right'
             })
+            this.obj4.push(temp)
             this.count++
         },
         toArticleDetail: function (id) {
@@ -311,17 +324,24 @@ export default {
                             if (response.data.status == 0) {
                                 if (store.note == '') {
                                     store.note = response.data.data.concat('---').concat(new Date().toLocaleString())
+                                    vueThis.open3(response.data.data)
+                                    vueThis.open4()
                                 } else {
                                     store.note += '\n'.concat(response.data.data).concat('---').concat(new Date().toLocaleString())
                                     /*vueThis.duration += 10000*/
                                     vueThis.haha++
+                                    vueThis.open3(response.data.data)
                                     vueThis.open4()
-                                    vueThis.open3()
                                     console.log(vueThis.obj.length)
                                     console.log(vueThis.obj)
+                                    //只保留5个,增加一个就删除数组第一个
                                     if (vueThis.obj.length >= 6) {
-                                        vueThis.obj[0].close();
-                                        vueThis.obj.splice(0,1);
+                                        vueThis.obj[0].close()
+                                        vueThis.obj.splice(0, 1)
+                                    }
+                                    if (vueThis.obj4.length >= 6) {
+                                        vueThis.obj4[0].close()
+                                        vueThis.obj4.splice(0, 1)
                                     }
                                     /*if (vueThis.haha % 2 == 0) {
                                         vueThis.open4()
@@ -555,5 +575,11 @@ em {
     filter: alpha(Opacity=60);
     -moz-opacity: 0.6;
     opacity: 0.6;
+}
+
+.el-notification__content {
+    /*width:100px;*/
+    /*设置自动换行*/
+    word-break: break-word;
 }
 </style>
