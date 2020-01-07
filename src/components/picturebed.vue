@@ -16,6 +16,11 @@
             :on-remove="handleRemove">
             <i class="el-icon-plus"></i>
         </el-upload>
+
+        <el-input v-model="deleteid"></el-input>
+        <el-button @click="deleteDocument">删除文档</el-button>
+        <el-input v-model="keyword"></el-input>
+        <el-button @click="queryDocument">查询文档</el-button>
     </div>
 </template>
 <script>
@@ -26,6 +31,8 @@ export default {
     name: 'index',
     data () {
         return {
+            keyword:"",
+            deleteid: '',
             imageUrl: '',
             header: {
                 token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ6amoifQ.WduZcdFyZSMdrx82JOYFbAKoDPQ4evDFPvt6i6USK5Y'
@@ -39,6 +46,40 @@ export default {
         this.query()
     },
     methods: {
+        queryDocument:function() {
+            var vueThis = this;
+            axios({
+                method: 'post',
+
+                url: '/api' + '/queryDocument',
+                data: {
+                    keyword: vueThis.keyword
+                },
+            })
+                .then(function (response) {
+                    vueThis.$message(response.data.msg)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+        },
+        deleteDocument:function() {
+            var vueThis = this;
+            axios({
+                method: 'post',
+
+                url: '/api' + '/deleteDocumentById',
+                data: {
+                    deleteid: vueThis.deleteid
+                },
+            })
+                .then(function (response) {
+                    vueThis.$message(response.data.msg)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+        },
         handleAvatarSuccess (res, file, fileList) {
             console.log(res)
             console.log(file)

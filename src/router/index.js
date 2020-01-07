@@ -20,6 +20,7 @@ import markdown from '@/components/markdown'
 import editor from '@/components/editor'
 import todo from '@/components/todo'
 import picturebed from '@/components/picturebed'
+import upload from '@/components/upload'
 
 Vue.use(Router)
 const routerPush = Router.prototype.push
@@ -29,6 +30,11 @@ Router.prototype.push = function push(location) {
 export default new Router({
     /*mode: 'history',*/
     routes: [
+        {
+            path: '/upload',
+            name: '上传文件',
+            component: upload
+        },
         {
             path: '/',
             name: '/index',

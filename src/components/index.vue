@@ -516,7 +516,7 @@ export default {
                         }
                     }
                 }
-                /*正常搜索*/
+                /*正常搜索,全文检索*/
             } else {
                 var vueThis = this
                 axios({
