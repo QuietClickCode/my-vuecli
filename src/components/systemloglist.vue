@@ -212,12 +212,14 @@ export default {
         },
         query: function () {
             var vueThis = this
+            alert("dd")
             axios({
                 url: '/api' + '/querySystemLog',
                 method: 'post',
                 data: vueThis.data.queryForm,
             })
                 .then(function (response) {
+                    console.log(response)
                     vueThis.data.items = response.data
                     console.log(JSON.stringify(vueThis.items) + '----------------')
                 })
@@ -238,6 +240,7 @@ export default {
                 })
         },
         btnquery: function () {
+            alert("dddd")
             var vueThis = this
             /*条件查询就要清空起始页这个查询条件,不然会出问题*/
             vueThis.data.queryForm.startpage = 0
@@ -249,8 +252,10 @@ export default {
             })
                 .then(function (response) {
                     vueThis.data.items = response.data
+                    console.log(response)
                 })
                 .catch(function (error) {
+                    console.log(error)
                     console.log(vueThis.items + '-=================')
                 })
             axios({

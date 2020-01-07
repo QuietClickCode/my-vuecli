@@ -21,6 +21,9 @@
         <el-button @click="deleteDocument">删除文档</el-button>
         <el-input v-model="keyword"></el-input>
         <el-button @click="queryDocument">查询文档</el-button>
+        <ul>
+            <li v-for="i in result">id:{{i.id}}--content:{{i.fileContent}}--name:{{i.fileName}}</li>
+        </ul>
     </div>
 </template>
 <script>
@@ -31,6 +34,7 @@ export default {
     name: 'index',
     data () {
         return {
+            result:[],
             keyword:"",
             deleteid: '',
             imageUrl: '',
@@ -57,6 +61,9 @@ export default {
                 },
             })
                 .then(function (response) {
+                    console.log(response)
+                    console.log("--------")
+                    vueThis.result = response.data.data;
                     vueThis.$message(response.data.msg)
                 })
                 .catch(function (error) {
@@ -74,6 +81,7 @@ export default {
                 },
             })
                 .then(function (response) {
+                    console.log(response)
                     vueThis.$message(response.data.msg)
                 })
                 .catch(function (error) {
