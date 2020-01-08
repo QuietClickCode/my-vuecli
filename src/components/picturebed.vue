@@ -21,9 +21,41 @@
         <el-button @click="deleteDocument">删除文档</el-button>
         <el-input v-model="keyword"></el-input>
         <el-button @click="queryDocument">查询文档</el-button>
-        <ul>
-            <li v-for="i in result">id:{{i.id}}--content:{{i.fileContent}}--name:{{i.fileName}}</li>
-        </ul>
+
+
+        <el-table height="430"
+                  :data="result"
+        >
+            <el-table-column
+                prop="id"
+                label="Id" fixed
+                width="100px"
+            ></el-table-column>
+            <el-table-column width="100px"
+                             prop="fileName"
+                             label="文件名"
+            ></el-table-column>
+            <el-table-column width="100px"
+                             prop="filePath"
+                             label="文件路径"
+            ></el-table-column>
+            <el-table-column
+                             prop="fileContent"
+                             label="文件内容">
+            </el-table-column>
+            <el-table-column width="120px"
+                             prop="fileType"
+                             label="文件类型">
+            </el-table-column>
+            <el-table-column width="150px"
+                             prop="createtime"
+                             label="创建时间">
+            </el-table-column>
+            <el-table-column width="100px"
+                             prop="createuser"
+                             label="创建人">
+            </el-table-column>
+        </el-table>
     </div>
 </template>
 <script>
