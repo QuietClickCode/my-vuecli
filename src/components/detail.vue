@@ -4,21 +4,37 @@
             <el-link type="primary" style="font-size: large">搜索结果详情</el-link>
         </div>
 
-        <el-table height="550"
+        <el-table height="430"
                   :data="article"
-                  style="width: 100%">
+        >
             <el-table-column
-                prop="title"
-                label="标题" min-width="100px"
-            >
+                prop="id"
+                label="Id" fixed
+                width="100px"
+            ></el-table-column>
+            <el-table-column width="100px"
+                             prop="fileName"
+                             label="文件名"
+            ></el-table-column>
+            <el-table-column width="100px"
+                             prop="filePath"
+                             label="文件路径"
+            ></el-table-column>
+            <el-table-column
+                prop="fileContent"
+                label="文件内容">
             </el-table-column>
-            <el-table-column
-                prop="sellPoint"
-                label="卖点" min-width="100px">
+            <el-table-column width="120px"
+                             prop="fileType"
+                             label="文件类型">
             </el-table-column>
-            <el-table-column
-                prop="price" width="100px"
-                label="价格">
+            <el-table-column width="150px"
+                             prop="createtime"
+                             label="创建时间">
+            </el-table-column>
+            <el-table-column width="100px"
+                             prop="createuser"
+                             label="创建人">
             </el-table-column>
         </el-table>
     </div>
@@ -55,10 +71,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'post',
-                url: '/api'+'/detaillist',
-                data: JSON.stringify({
-                    'content': vueThis.keyword.substring(1)
-                }),
+                url: '/api' + '/queryDocument'
             })
                 .then(function (response) {
                     vueThis.article = response.data.data

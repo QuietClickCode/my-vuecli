@@ -524,7 +524,7 @@ export default {
                         'Content-Type': 'application/json'
                     },
                     method: 'post',
-                    url: '/api' + '/todetail',
+                    url: '/api' + '/toqueryDocument',
                     data: JSON.stringify({
                         'keyword': keyword
                     }),
