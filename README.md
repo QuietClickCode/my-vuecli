@@ -11,3 +11,6 @@ aisearch架构转成前后端分离,这是aisearch的vue-cli前端工程,后端�
 利用elasticsearch完成csdn,简书,博客园搜索
 
 
+2020年1月14日
+文件上传解析为文本,导入到es中实现高亮搜索
+
