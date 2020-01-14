@@ -12,9 +12,11 @@
             :on-exceed="beyondNumber"
             :on-success="handleAvatarSuccess"
             action="/api/uploadImg"
-            list-type="picture-card"
+            :file-list="fileList"
+            multiple
             :on-remove="handleRemove">
-            <i class="el-icon-plus"></i>
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传文本文件</div>
         </el-upload>
 
         <el-input v-model="deleteid"></el-input>
@@ -87,14 +89,15 @@ export default {
             axios({
                 method: 'post',
 
-                url: '/api' + '/queryDocument',
+                url: '/api' + '/toqueryDocument',
                 data: {
                     keyword: vueThis.keyword
                 },
             })
                 .then(function (response) {
                     console.log(response)
-                    console.log("--------")
+                    console.log("--------");
+                    vueThis.$router.push('/' + response.data.url)
                     vueThis.result = response.data.data;
                     vueThis.$message(response.data.msg)
                 })

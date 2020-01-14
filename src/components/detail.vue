@@ -3,7 +3,6 @@
         <div style="text-align: center">
             <el-link type="primary" style="font-size: large">搜索结果详情</el-link>
         </div>
-
         <el-table height="430"
                   :data="article"
         >
@@ -21,8 +20,10 @@
                              label="文件路径"
             ></el-table-column>
             <el-table-column
-                prop="fileContent"
                 label="文件内容">
+                <template slot-scope="scope">
+                    <span v-html="scope.row.fileContent"></span>
+                </template>
             </el-table-column>
             <el-table-column width="120px"
                              prop="fileType"
@@ -97,5 +98,8 @@ export default {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+em {
+    color: orangered;
 }
 </style>
