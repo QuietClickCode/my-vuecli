@@ -12,9 +12,12 @@
                 width="100px"
             ></el-table-column>
             <el-table-column width="100px"
-                             prop="fileName"
                              label="文件名"
-            ></el-table-column>
+            >
+                <template slot-scope="scope">
+                    <span v-html="scope.row.fileName"></span>
+                </template>
+            </el-table-column>
             <el-table-column width="100px"
                              prop="filePath"
                              label="文件路径"
