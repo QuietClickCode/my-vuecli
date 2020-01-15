@@ -74,7 +74,6 @@ export default {
                         }
                     })
                     .catch(function (error) {
-                        console.log(vueThis.items + '-=================')
                     })
             }
         }

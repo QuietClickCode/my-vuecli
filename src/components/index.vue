@@ -1,81 +1,83 @@
 <template>
-    <div class="center">
-        <!--便签内容框放在最顶部,可清空,可无限扩展-->
-        <el-input type="textarea" autosize :placeholder="notePlaceholder" class="textarea" v-model="note"
-                  :style="{display:isSee}"
-        ></el-input>
-        <div @keyup.enter="enter(keyword)">
-            <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="文件" name="file"></el-tab-pane>
-                <el-tab-pane label="简书" name="js"></el-tab-pane>
-                <el-tab-pane label="CSDN博客" name="csdn"></el-tab-pane>
-                <el-tab-pane label="博客园" name="bky"></el-tab-pane>
-                <el-tab-pane label="豆瓣电影" name="movie"></el-tab-pane>
-            </el-tabs>
-            <el-input autofocus id="el-input" style="width: 395px;"
-                      @input="input(keyword)"
-                      v-model="keyword">
-            </el-input>
-            <el-button @click="buttonEnter(keyword)" type="primary">AISearch</el-button>
-        </div>
-        <div id="result" >
-            <!--<section>
-                <p>共找到相关结果{{result.total}}个,耗时{{result.took}}ms</p>
-            </section>
-            <section>
-                <ol>
-                    <li v-for="(item,i) in data" style="background-color: #DCDFE6">
-                        <p v-html="item.title">
-                            {{item.title}}
-                        </p>
-                        <p>
-                            <img
-                                class="img-thumbnail lazy"
-                                :src="item.cover_url"
-                            />
-                        </p>
-                        <p>豆瓣评分:{{item.score}}</p>
-                        <p>主演:{{item.actor_count}} <span v-for="item_,i_ in item.actors"
-                                                         v-html="item_">{{item_+'/'}}</span>
-                        </p>
-                        <p>类型:<span v-for="item_1,i_1 in item.types" v-html="item_1">{{item_1}}</span></p>
-                        <p>制片国家/地区:<span v-for="item_2,i_2 in item.regions" v-html="item_2">{{item_2}}</span></p>
-                        <p>上映日期:{{item.release_date}}</p>
-                        <p>{{item.vote_count}}人评价</p>
-                        <p>下载地址:<a :href="item.url">{{item.url}}</a></p>
-                        <p>暂无简介</p>
-                    </li>
-                </ol>
-            </section>-->
-            <!--<div style="display: inline-block;position: fixed;bottom: 10px;left: 600px;">
-                <el-button id="prev" :disabled="isPrev" @click="prev(searchkeyword,result.pageNo-1)">上一页</el-button>
-                <el-button id="next" :disabled="isNext" @click="next(searchkeyword,result.pageNo+1)">下一页</el-button>
-            </div>-->
-        </div>
-        <div id="articleresult" style="display: none">
-            <section>
-                <p>共找到相关结果{{articleresult.total}}个,耗时{{articleresult.took}}ms</p>
-            </section>
-            <section>
-                <ol>
-                    <li v-for="(item,i) in articledata" style="background-color: #DCDFE6">
-                        <p v-html="item.title" @click="toArticleDetail(item.id)" class="articlecontent">
-                            {{item.title}}</p>
-                        <p v-html="item.content">
-                            {{item.content}}</p>
-                        <span>id:{{item.id}}</span>|
-                        <span>创建时间:{{item.createtime}}</span>
-                    </li>
-                </ol>
-            </section>
-            <div style="display: inline-block;position: fixed;bottom: 10px;left: 600px;">
-                <el-button id="prevArticle" :disabled="isPrevArticle"
-                           @click="prevarticle(articlesearchkeyword,articleresult.pageNo-1)">上一页
-                </el-button>
-                <el-button id="nextArticle" :disabled="isNextArticle"
-                           @click="nextarticle(articlesearchkeyword,articleresult.pageNo+1)">下一页
-                </el-button>
+    <div style="width:1366px;height:150px" >
+        <div class="center">
+            <!--便签内容框放在最顶部,可清空,可无限扩展-->
+            <el-input type="textarea" autosize :placeholder="notePlaceholder" class="textarea" v-model="note"
+                      :style="{display:isSee}"
+            ></el-input>
+            <div @keyup.enter="enter(keyword)">
+                <el-tabs v-model="activeName" @tab-click="handleClick">
+                    <el-tab-pane label="文件" name="file"></el-tab-pane>
+                    <el-tab-pane label="简书" name="js"></el-tab-pane>
+                    <el-tab-pane label="CSDN博客" name="csdn"></el-tab-pane>
+                    <el-tab-pane label="博客园" name="bky"></el-tab-pane>
+                    <el-tab-pane label="豆瓣电影" name="movie"></el-tab-pane>
+                </el-tabs>
+                <el-input autofocus id="el-input" style="width: 395px;"
+                          @input="input(keyword)"
+                          v-model="keyword">
+                </el-input>
+                <el-button @click="buttonEnter(keyword)" type="primary">AISearch</el-button>
+            </div>
+            <div id="result">
+                <!--<section>
+                    <p>共找到相关结果{{result.total}}个,耗时{{result.took}}ms</p>
+                </section>
+                <section>
+                    <ol>
+                        <li v-for="(item,i) in data" style="background-color: #DCDFE6">
+                            <p v-html="item.title">
+                                {{item.title}}
+                            </p>
+                            <p>
+                                <img
+                                    class="img-thumbnail lazy"
+                                    :src="item.cover_url"
+                                />
+                            </p>
+                            <p>豆瓣评分:{{item.score}}</p>
+                            <p>主演:{{item.actor_count}} <span v-for="item_,i_ in item.actors"
+                                                             v-html="item_">{{item_+'/'}}</span>
+                            </p>
+                            <p>类型:<span v-for="item_1,i_1 in item.types" v-html="item_1">{{item_1}}</span></p>
+                            <p>制片国家/地区:<span v-for="item_2,i_2 in item.regions" v-html="item_2">{{item_2}}</span></p>
+                            <p>上映日期:{{item.release_date}}</p>
+                            <p>{{item.vote_count}}人评价</p>
+                            <p>下载地址:<a :href="item.url">{{item.url}}</a></p>
+                            <p>暂无简介</p>
+                        </li>
+                    </ol>
+                </section>-->
+                <!--<div style="display: inline-block;position: fixed;bottom: 10px;left: 600px;">
+                    <el-button id="prev" :disabled="isPrev" @click="prev(searchkeyword,result.pageNo-1)">上一页</el-button>
+                    <el-button id="next" :disabled="isNext" @click="next(searchkeyword,result.pageNo+1)">下一页</el-button>
+                </div>-->
+            </div>
+            <div id="articleresult" style="display: none">
+                <section>
+                    <p>共找到相关结果{{articleresult.total}}个,耗时{{articleresult.took}}ms</p>
+                </section>
+                <section>
+                    <ol>
+                        <li v-for="(item,i) in articledata" style="background-color: #DCDFE6">
+                            <p v-html="item.title" @click="toArticleDetail(item.id)" class="articlecontent">
+                                {{item.title}}</p>
+                            <p v-html="item.content">
+                                {{item.content}}</p>
+                            <span>id:{{item.id}}</span>|
+                            <span>创建时间:{{item.createtime}}</span>
+                        </li>
+                    </ol>
+                </section>
+                <div style="display: inline-block;position: fixed;bottom: 10px;left: 600px;">
+                    <el-button id="prevArticle" :disabled="isPrevArticle"
+                               @click="prevarticle(articlesearchkeyword,articleresult.pageNo-1)">上一页
+                    </el-button>
+                    <el-button id="nextArticle" :disabled="isNextArticle"
+                               @click="nextarticle(articlesearchkeyword,articleresult.pageNo+1)">下一页
+                    </el-button>
 
+                </div>
             </div>
         </div>
     </div>
@@ -153,6 +155,18 @@ export default {
     name: 'index',
     data () {
         return store
+    },
+    created: function () {
+        if (this.keyword != '') {
+
+            localStorage.setItem('keyword', this.keyword)
+            localStorage.setItem('activeName', this.activeName)
+        } else {
+            this.keyword = localStorage.getItem('keyword')
+            this.activeName = localStorage.getItem('activeName')
+
+        }
+
     },
     mounted: function () {
         //实现返回回到最初的浏览位置
@@ -243,7 +257,6 @@ export default {
                         vueThis.$router.push('/' + response.data.url)
 
                     }
-
 
                 })
                 .catch(function (error) {
@@ -488,7 +501,7 @@ export default {
          * 搜索选项
          */
         handleClick: function (tab, event) {
-            this.enter(this.keyword);
+            this.enter(this.keyword)
         },
         randomString: function (len) {
             len = len || 32
@@ -625,7 +638,6 @@ export default {
                     vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
                 })
                 .catch(function (error) {
-                    console.log(vueThis.items + '-=================')
                 })
         },
         prevarticle: function (keyword, page) {
@@ -921,6 +933,7 @@ export default {
 
 /*输入框水平居中*/
 .center {
+    background-color: white;
     position: fixed;
     left: 50%;
     top: 50%;

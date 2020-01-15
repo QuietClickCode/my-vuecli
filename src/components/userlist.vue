@@ -236,7 +236,6 @@ export default {
                     vueThis.items = response.data
                 })
                 .catch(function (error) {
-                    console.log(vueThis.items + '-=================')
                 })
             axios({
                 url: '/api'+"/queryUserListCount",

@@ -10,7 +10,7 @@
                 <el-link type="primary" style="font-size: large">文件</el-link>
             </div>
 
-            <el-table height="430"
+            <el-table
                       :data="article"
                       v-loading="loading"
             >
@@ -119,8 +119,6 @@ export default {
 
 .table-div {
     margin-top: 150px;
-    height: 450px;
-    overflow: scroll;
 }
 
 em {

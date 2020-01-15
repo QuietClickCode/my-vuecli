@@ -8,12 +8,10 @@
             <div style="text-align: center">
                 <el-link type="primary" style="font-size: large">CSDN</el-link>
             </div>
-            <section>
-                <p>共找到相关结果{{articleresult.total}}个,耗时{{articleresult.took}}ms</p>
-            </section>
-            <section>
+            <section class="centertest">
+                <p style="margin-left: 50px;">共找到相关结果{{articleresult.total}}个,耗时{{articleresult.took}}ms</p>
                 <ol>
-                    <li v-for="(item,i) in articledata" style="background-color: #DCDFE6">
+                    <li v-for="(item,i) in articledata">
                         <el-card class="box-card">
                             <p v-html="item.title" @click="toArticleDetail(item.id)" class="articlecontent">
                                 {{item.title}}</p>
@@ -130,17 +128,35 @@ export default {
     top: 10% !important;
     transform: translate(-50%, -50%);
     z-index: 10000;
+    background-color: white;
+}
+
+.centertest {
+    transform: translate(10%, 0%);
+    width:1200px;
+    z-index: 10000;
+    background-color: white;
 }
 
 .table-div {
     margin-top: 150px;
-    height: 450px;
-    overflow: scroll;
 }
 
 em {
     color: orangered;
 }
 
-ol{list-style:none;}
+.box-card {
+    margin-top: 20px;
+    width: 1000px;
+}
+
+ol {
+    list-style: none;
+}
+
+.section {
+
+}
 </style>
+

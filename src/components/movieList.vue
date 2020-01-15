@@ -1,5 +1,6 @@
 <template>
     <div id="articleresult">
+
         <div class="input-div">
             <index></index>
         </div>
@@ -8,12 +9,10 @@
                 <el-link type="primary" style="font-size: large">豆瓣电影</el-link>
             </div>
             <div id="result">
-                <section>
-                    <p>共找到相关结果{{result.total}}个,耗时{{result.took}}ms</p>
-                </section>
-                <section>
+                <section class="centertest">
+                    <p style="margin-left: 50px;"> 共找到相关结果{{result.total}}个,耗时{{result.took}}ms</p>
                     <ol>
-                        <li v-for="(item,i) in data" style="background-color: #DCDFE6">
+                        <li v-for="(item,i) in data">
                             <el-card class="box-card">
                                 <p v-html="item.title">
                                     {{item.title}}
@@ -115,7 +114,6 @@ export default {
                 vueThis.isNextDisabled(vueThis.result.pageNo)
                 vueThis.isPrevDisabled(vueThis.result.pageNo)
             }).catch(function (error) {
-                console.log(vueThis.items + '-=================')
             })
         },
     }
@@ -130,17 +128,34 @@ export default {
     top: 10% !important;
     transform: translate(-50%, -50%);
     z-index: 10000;
+    background-color: white;
+}
+
+.centertest {
+    transform: translate(10%, 0%);
+    z-index: 10000;
+    width: 1200px;
+    background-color: white;
 }
 
 .table-div {
     margin-top: 150px;
-    height: 450px;
-    overflow: scroll;
 }
 
 em {
     color: orangered;
 }
 
-ol{list-style:none;}
+.box-card {
+    margin-top: 20px;
+    width: 1000px;
+}
+
+ol {
+    list-style: none;
+}
+
+.section {
+
+}
 </style>
