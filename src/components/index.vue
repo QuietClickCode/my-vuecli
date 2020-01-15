@@ -1,6 +1,6 @@
 <template>
-    <div style="width:1366px;height:150px" >
-        <div class="center">
+    <div style="width:1366px;height:150px;" class="backgroundimg">
+        <div class="center" >
             <!--便签内容框放在最顶部,可清空,可无限扩展-->
             <el-input type="textarea" autosize :placeholder="notePlaceholder" class="textarea" v-model="note"
                       :style="{display:isSee}"
@@ -933,7 +933,7 @@ export default {
 
 /*输入框水平居中*/
 .center {
-    background-color: white;
+    /*background-color: white;*/
     position: fixed;
     left: 50%;
     top: 50%;
@@ -979,5 +979,8 @@ export default {
     /*width:100px;*/
     /*设置自动换行*/
     word-break: break-word;
+}
+.backgroundimg {
+    background:url(../assets/test.jpg) no-repeat;
 }
 </style>
