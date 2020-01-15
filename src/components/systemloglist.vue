@@ -276,9 +276,6 @@ export default {
 
 <style>
 
-#app {
-    text-align: center;
-}
 
 /*输入框水平居中*/
 .center {
