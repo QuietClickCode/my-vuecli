@@ -3,7 +3,11 @@
         <div class="input-div">
             <index></index>
         </div>
+
         <div class="table-div" v-loading="loading">
+            <div style="text-align: center">
+                <el-link type="primary" style="font-size: large">简书</el-link>
+            </div>
             <section>
                 <p>共找到相关结果{{articleresult.total}}个,耗时{{articleresult.took}}ms</p>
             </section>
