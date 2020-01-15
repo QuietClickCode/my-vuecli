@@ -1,10 +1,10 @@
 <template>
-    <div class="center">
+    <div>
         <!--便签内容框放在最顶部,可清空,可无限扩展-->
         <el-input type="textarea" autosize :placeholder="notePlaceholder" class="textarea" v-model="note"
                   :style="{display:isSee}"
         ></el-input>
-        <div @keyup.enter="enter(keyword)">
+        <div class="center" @keyup.enter="enter(keyword)">
             <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="文件" name="file"></el-tab-pane>
                 <el-tab-pane label="简书" name="js"></el-tab-pane>
@@ -12,7 +12,7 @@
                 <el-tab-pane label="博客园" name="bky"></el-tab-pane>
                 <el-tab-pane label="豆瓣电影" name="movie"></el-tab-pane>
             </el-tabs>
-            <el-input autofocus id="el-input" style="width: 395px;"
+            <el-input autofocus id="el-input" style="width: 500px;"
                       @input="input(keyword)"
                       v-model="keyword">
             </el-input>
@@ -237,13 +237,8 @@ export default {
                 }),
             })
                 .then(function (response) {
-                    if (vueThis.$route.path == "/detail") {
-                        vueThis.$router.push('/blank')
-                    } else {
-                        vueThis.$router.push('/' + response.data.url)
-
-                    };
-
+                    /*window.location.href = 'detail'*/
+                    vueThis.$router.push('/' + response.data.url)
                 })
                 .catch(function (error) {
                     console.log(vueThis.items + '-=================')
@@ -272,7 +267,7 @@ export default {
         },
         //AISearch按钮触发调用
         searchJianShuButton: function () {
-            /*var vueThis = this
+            var vueThis = this
             vueThis.searchurl = 'searchjianshu'
             var articlesearchkeyword = vueThis.keyword
             axios({
@@ -291,31 +286,7 @@ export default {
                 vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
             }).catch(function (error) {
                 console.log(vueThis.items + '-=================')
-            })*/
-            var vueThis = this
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'post',
-                url: '/api' + '/toqueryDocument',
-                data: JSON.stringify({
-                    'keyword': vueThis.keyword
-                }),
             })
-                .then(function (response) {
-                    /*window.location.href = 'detail'*/
-                    if (vueThis.$route.path == "/jianshuList") {
-                        vueThis.$router.push('/blank')
-                    } else {
-                    vueThis.$router.push('/jianshuList')
-
-                    };
-                })
-                .catch(function (error) {
-                    console.log(vueThis.items + '-=================')
-                })
-
         },
         //直接调用
         searchJianShu: function () {
@@ -773,7 +744,9 @@ export default {
 </script>
 
 <style>
-
+em {
+    color: orangered;
+}
 
 /*输入框水平居中*/
 .center {
@@ -781,7 +754,6 @@ export default {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 500px;
 }
 
 .articlecontent {

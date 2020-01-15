@@ -21,6 +21,8 @@ import editor from '@/components/editor'
 import todo from '@/components/todo'
 import picturebed from '@/components/picturebed'
 import upload from '@/components/upload'
+import jianshuList from '@/components/jianshuList'
+import blank from '@/components/blank'
 
 Vue.use(Router)
 const routerPush = Router.prototype.push
@@ -30,6 +32,16 @@ Router.prototype.push = function push(location) {
 export default new Router({
     /*mode: 'history',*/
     routes: [
+        {
+            path: '/blank',
+            name: '空白页',
+            component: blank
+        },
+        {
+            path: '/jianshuList',
+            name: '简书搜索结果列表',
+            component: jianshuList
+        },
         {
             path: '/upload',
             name: '上传文件',
