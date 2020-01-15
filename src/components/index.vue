@@ -157,8 +157,8 @@ export default {
         return store
     },
     created: function () {
+        localStorage.setItem('activeName', this.activeName)
         if (this.keyword != '') {
-
             localStorage.setItem('keyword', this.keyword)
             localStorage.setItem('activeName', this.activeName)
         } else {
