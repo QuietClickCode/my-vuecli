@@ -18,8 +18,8 @@
             </el-input>
             <el-button @click="buttonEnter(keyword)" type="primary">AISearch</el-button>
         </div>
-        <div id="result" style="display: none">
-            <section>
+        <div id="result" >
+            <!--<section>
                 <p>共找到相关结果{{result.total}}个,耗时{{result.took}}ms</p>
             </section>
             <section>
@@ -46,11 +46,11 @@
                         <p>暂无简介</p>
                     </li>
                 </ol>
-            </section>
-            <div style="display: inline-block;position: fixed;bottom: 10px;left: 600px;">
+            </section>-->
+            <!--<div style="display: inline-block;position: fixed;bottom: 10px;left: 600px;">
                 <el-button id="prev" :disabled="isPrev" @click="prev(searchkeyword,result.pageNo-1)">上一页</el-button>
                 <el-button id="next" :disabled="isNext" @click="next(searchkeyword,result.pageNo+1)">下一页</el-button>
-            </div>
+            </div>-->
         </div>
         <div id="articleresult" style="display: none">
             <section>
@@ -214,11 +214,11 @@ export default {
             if (this.activeName == 'js') {
                 this.searchJianShuButton()
             } else if (this.activeName == 'csdn') {
-                this.searchCSDN()
+                this.searchCSDNButton()
             } else if (this.activeName == 'bky') {
-                this.searchBKY()
+                this.searchBKYButton()
             } else if (this.activeName == 'movie') {
-                this.searchMovie()
+                this.searchMovieButton()
             } else if (this.activeName == 'file') {
                 this.searchFile()
             }
@@ -237,12 +237,13 @@ export default {
                 }),
             })
                 .then(function (response) {
-                    if (vueThis.$route.path == "/detail") {
+                    if (vueThis.$route.path == '/detail') {
                         vueThis.$router.push('/blank')
                     } else {
                         vueThis.$router.push('/' + response.data.url)
 
-                    };
+                    }
+
 
                 })
                 .catch(function (error) {
@@ -305,12 +306,155 @@ export default {
             })
                 .then(function (response) {
                     /*window.location.href = 'detail'*/
-                    if (vueThis.$route.path == "/jianshuList") {
+                    if (vueThis.$route.path == '/jianshuList') {
                         vueThis.$router.push('/blank')
                     } else {
-                    vueThis.$router.push('/jianshuList')
+                        vueThis.$router.push('/jianshuList')
 
-                    };
+                    }
+
+                })
+                .catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })
+
+        },
+        //AISearch按钮触发调用
+        searchCSDNButton: function () {
+            /*var vueThis = this
+            vueThis.searchurl = 'searchjianshu'
+            var articlesearchkeyword = vueThis.keyword
+            axios({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'get',
+                url: '/api' + '/searchjianshu?wd=' + articlesearchkeyword
+            }).then(function (response) {
+                vueThis.articledata = response.data.data.list
+                vueThis.articleresult = response.data.data
+                vueThis.articlesearchkeyword = response.data.msg
+                vueThis.platform = 'jianshu_article'
+                $('#articleresult').show()
+                vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+            }).catch(function (error) {
+                console.log(vueThis.items + '-=================')
+            })*/
+            var vueThis = this
+            axios({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'post',
+                url: '/api' + '/toqueryDocument',
+                data: JSON.stringify({
+                    'keyword': vueThis.keyword
+                }),
+            })
+                .then(function (response) {
+                    /*window.location.href = 'detail'*/
+                    if (vueThis.$route.path == '/CSDNList') {
+                        vueThis.$router.push('/blank')
+                    } else {
+                        vueThis.$router.push('/CSDNList')
+
+                    }
+
+                })
+                .catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })
+
+        },
+        searchBKYButton: function () {
+            /*var vueThis = this
+            vueThis.searchurl = 'searchjianshu'
+            var articlesearchkeyword = vueThis.keyword
+            axios({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'get',
+                url: '/api' + '/searchjianshu?wd=' + articlesearchkeyword
+            }).then(function (response) {
+                vueThis.articledata = response.data.data.list
+                vueThis.articleresult = response.data.data
+                vueThis.articlesearchkeyword = response.data.msg
+                vueThis.platform = 'jianshu_article'
+                $('#articleresult').show()
+                vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+            }).catch(function (error) {
+                console.log(vueThis.items + '-=================')
+            })*/
+            var vueThis = this
+            axios({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'post',
+                url: '/api' + '/toqueryDocument',
+                data: JSON.stringify({
+                    'keyword': vueThis.keyword
+                }),
+            })
+                .then(function (response) {
+                    /*window.location.href = 'detail'*/
+                    if (vueThis.$route.path == '/BKYList') {
+                        vueThis.$router.push('/blank')
+                    } else {
+                        vueThis.$router.push('/BKYList')
+
+                    }
+
+                })
+                .catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })
+
+        },
+        searchMovieButton: function () {
+            /*var vueThis = this
+            vueThis.searchurl = 'searchjianshu'
+            var articlesearchkeyword = vueThis.keyword
+            axios({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'get',
+                url: '/api' + '/searchjianshu?wd=' + articlesearchkeyword
+            }).then(function (response) {
+                vueThis.articledata = response.data.data.list
+                vueThis.articleresult = response.data.data
+                vueThis.articlesearchkeyword = response.data.msg
+                vueThis.platform = 'jianshu_article'
+                $('#articleresult').show()
+                vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+            }).catch(function (error) {
+                console.log(vueThis.items + '-=================')
+            })*/
+            var vueThis = this
+            axios({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'post',
+                url: '/api' + '/toqueryDocument',
+                data: JSON.stringify({
+                    'keyword': vueThis.keyword
+                }),
+            })
+                .then(function (response) {
+                    /*window.location.href = 'detail'*/
+                    if (vueThis.$route.path == '/movieList') {
+                        vueThis.$router.push('/blank')
+                    } else {
+                        vueThis.$router.push('/movieList')
+
+                    }
+
                 })
                 .catch(function (error) {
                     console.log(vueThis.items + '-=================')
@@ -344,7 +488,7 @@ export default {
          * 搜索选项
          */
         handleClick: function (tab, event) {
-
+            this.enter(this.keyword);
         },
         randomString: function (len) {
             len = len || 32

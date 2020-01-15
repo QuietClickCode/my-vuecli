@@ -23,6 +23,9 @@ import picturebed from '@/components/picturebed'
 import upload from '@/components/upload'
 import jianshuList from '@/components/jianshuList'
 import blank from '@/components/blank'
+import CSDNList from '@/components/CSDNList'
+import BKYList from '@/components/BKYList'
+import movieList from '@/components/movieList'
 
 Vue.use(Router)
 const routerPush = Router.prototype.push
@@ -32,6 +35,21 @@ Router.prototype.push = function push(location) {
 export default new Router({
     /*mode: 'history',*/
     routes: [
+        {
+            path: '/movieList',
+            name: '豆瓣电影搜索结果列表',
+            component: movieList
+        },
+        {
+            path: '/CSDNList',
+            name: 'CSDN搜索结果列表',
+            component: CSDNList
+        },
+        {
+            path: '/BKYList',
+            name: '博客园搜索结果列表',
+            component: BKYList
+        },
         {
             path: '/blank',
             name: '空白页',
