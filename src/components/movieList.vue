@@ -14,25 +14,28 @@
                 <section>
                     <ol>
                         <li v-for="(item,i) in data" style="background-color: #DCDFE6">
-                            <p v-html="item.title">
-                                {{item.title}}
-                            </p>
-                            <p>
-                                <img
-                                    class="img-thumbnail lazy"
-                                    :src="item.cover_url"
-                                />
-                            </p>
-                            <p>豆瓣评分:{{item.score}}</p>
-                            <p>主演:{{item.actor_count}} <span v-for="item_,i_ in item.actors"
-                                                             v-html="item_">{{item_+'/'}}</span>
-                            </p>
-                            <p>类型:<span v-for="item_1,i_1 in item.types" v-html="item_1">{{item_1}}</span></p>
-                            <p>制片国家/地区:<span v-for="item_2,i_2 in item.regions" v-html="item_2">{{item_2}}</span></p>
-                            <p>上映日期:{{item.release_date}}</p>
-                            <p>{{item.vote_count}}人评价</p>
-                            <p>下载地址:<a :href="item.url">{{item.url}}</a></p>
-                            <p>暂无简介</p>
+                            <el-card class="box-card">
+                                <p v-html="item.title">
+                                    {{item.title}}
+                                </p>
+                                <p>
+                                    <img
+                                        class="img-thumbnail lazy"
+                                        :src="item.cover_url"
+                                    />
+                                </p>
+                                <p>豆瓣评分:{{item.score}}</p>
+                                <p>主演:{{item.actor_count}} <span v-for="item_,i_ in item.actors"
+                                                                 v-html="item_+'/'">{{item_}}"</span>
+                                </p>
+                                <p>类型:<span v-for="item_1,i_1 in item.types" v-html="item_1">{{item_1}}</span></p>
+                                <p>制片国家/地区:<span v-for="item_2,i_2 in item.regions" v-html="item_2">{{item_2}}</span>
+                                </p>
+                                <p>上映日期:{{item.release_date}}</p>
+                                <p>{{item.vote_count}}人评价</p>
+                                <p>下载地址:<a :href="item.url">{{item.url}}</a></p>
+                                <p>暂无简介</p>
+                            </el-card>
                         </li>
                     </ol>
                 </section>
@@ -138,4 +141,6 @@ export default {
 em {
     color: orangered;
 }
+
+ol{list-style:none;}
 </style>

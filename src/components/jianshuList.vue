@@ -14,12 +14,15 @@
             <section>
                 <ol>
                     <li v-for="(item,i) in articledata" style="background-color: #DCDFE6">
+                        <el-card class="box-card">
+
                         <p v-html="item.title" @click="toArticleDetail(item.id)" class="articlecontent">
                             {{item.title}}</p>
                         <p v-html="item.content">
                             {{item.content}}</p>
                         <span>id:{{item.id}}</span>|
                         <span>创建时间:{{item.createtime}}</span>
+                        </el-card>
                     </li>
                 </ol>
             </section>
@@ -139,4 +142,10 @@ export default {
 em {
     color: orangered;
 }
+
+.box-card {
+    margin-top: 20px;
+}
+
+ol{list-style:none;}
 </style>

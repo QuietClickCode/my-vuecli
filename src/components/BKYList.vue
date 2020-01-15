@@ -14,12 +14,14 @@
             <section>
                 <ol>
                     <li v-for="(item,i) in articledata" style="background-color: #DCDFE6">
-                        <p v-html="item.title" @click="toArticleDetail(item.id)" class="articlecontent">
-                            {{item.title}}</p>
-                        <p v-html="item.content">
-                            {{item.content}}</p>
-                        <span>id:{{item.id}}</span>|
-                        <span>创建时间:{{item.createtime}}</span>
+                        <el-card class="box-card">
+                            <p v-html="item.title" @click="toArticleDetail(item.id)" class="articlecontent">
+                                {{item.title}}</p>
+                            <p v-html="item.content">
+                                {{item.content}}</p>
+                            <span>id:{{item.id}}</span>|
+                            <span>创建时间:{{item.createtime}}</span>
+                        </el-card>
                     </li>
                 </ol>
             </section>
@@ -41,7 +43,7 @@ import axios from 'axios'
 import index from './index'
 
 var store = {
-    loading:true,
+    loading: true,
     keyword: '',
     //结果列表
     articleresult: {},
@@ -63,7 +65,7 @@ export default {
         index
     },
     created: function () {
-        this.loading = true;
+        this.loading = true
         this.query()
     },
     methods: {
@@ -77,8 +79,8 @@ export default {
                 }
             })
         },
-        query:function() {
-            var vueThis = this;
+        query: function () {
+            var vueThis = this
             axios({
                 headers: {
                     'Content-Type': 'application/json'
@@ -105,7 +107,7 @@ export default {
             }).then(function (response) {
                 vueThis.articledata = response.data.data.list
                 vueThis.articleresult = response.data.data
-                vueThis.loading = false;
+                vueThis.loading = false
                 vueThis.articlesearchkeyword = response.data.msg
                 vueThis.platform = 'bky_article'
                 $('#articleresult').show()
@@ -126,16 +128,20 @@ export default {
     left: 50%;
     top: 10% !important;
     transform: translate(-50%, -50%);
-    z-index:10000;
+    z-index: 10000;
 }
 
 .table-div {
     margin-top: 150px;
-    height:450px;
+    height: 450px;
     overflow: scroll;
 }
 
 em {
     color: orangered;
+}
+
+ol {
+    list-style: none;
 }
 </style>
