@@ -67,6 +67,16 @@ export default {
         this.query()
     },
     methods: {
+        toArticleDetail: function (id) {
+            var vueThis = this
+            this.$router.push({
+                path: '/article',
+                query: {
+                    platform: vueThis.platform,
+                    id: id
+                }
+            })
+        },
         query:function() {
             var vueThis = this;
             axios({
