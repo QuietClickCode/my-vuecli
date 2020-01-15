@@ -4,13 +4,14 @@
         <div class="input-div">
             <index></index>
         </div>
-        <div class="table-div">
+        <div class="table-div" >
             <div style="text-align: center">
                 <el-link type="primary" style="font-size: large">文件</el-link>
             </div>
 
             <el-table height="430"
                       :data="article"
+                      v-loading="loading"
             >
                 <el-table-column
                     prop="id"
@@ -56,9 +57,11 @@ import axios from 'axios'
 import index from './index'
 
 var store = {
-    article: [],
-    keyword: ''
+    loading: true,
 
+    article: [],
+    keyword: '',
+    isShow: false
 }
 export default {
     name: 'detail',
@@ -69,6 +72,7 @@ export default {
         return store
     },
     created: function () {
+        this.loading = true;
         this.query()
     },
     methods: {
@@ -90,12 +94,9 @@ export default {
             })
                 .then(function (response) {
                     vueThis.article = response.data.data
-                    console.log(response.data.data)
                     vueThis.keyword = response.data.msg
-                    //这儿必须延迟1秒执行,不然空白
-                    /*setTimeout(function () {
-                        vueThis.highlight()
-                    }, 100)*/
+                    vueThis.isShow = true
+                    vueThis.loading = false
                 })
                 .catch(function (error) {
                     console.log(vueThis.items + '-=================')
@@ -112,14 +113,15 @@ export default {
     left: 50%;
     top: 10% !important;
     transform: translate(-50%, -50%);
-    z-index:10000;
+    z-index: 10000;
 }
 
 .table-div {
     margin-top: 150px;
-    height:450px;
+    height: 450px;
     overflow: scroll;
 }
+
 em {
     color: orangered;
 }

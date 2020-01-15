@@ -3,7 +3,7 @@
         <div class="input-div">
             <index></index>
         </div>
-        <div class="table-div">
+        <div class="table-div" v-loading="loading">
             <section>
                 <p>共找到相关结果{{articleresult.total}}个,耗时{{articleresult.took}}ms</p>
             </section>
@@ -37,6 +37,7 @@ import axios from 'axios'
 import index from './index'
 
 var store = {
+    loading:true,
     keyword: '',
     //结果列表
     articleresult: {},
@@ -58,6 +59,7 @@ export default {
         index
     },
     created: function () {
+        this.loading = true;
         this.query()
     },
     methods: {
@@ -89,11 +91,13 @@ export default {
             }).then(function (response) {
                 vueThis.articledata = response.data.data.list
                 vueThis.articleresult = response.data.data
+                vueThis.loading = false;
                 vueThis.articlesearchkeyword = response.data.msg
                 vueThis.platform = 'jianshu_article'
                 $('#articleresult').show()
                 vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
                 vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+
             }).catch(function (error) {
                 console.log(vueThis.items + '-=================')
             })
