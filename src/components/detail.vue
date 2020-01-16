@@ -36,11 +36,19 @@
                         <span v-html="scope.row.fileContent"></span>
                     </template>
                 </el-table-column>
+                <el-table-column
+                    width="120px"
+                    label="文件大小">
+                    <template slot-scope="scope">
+                        <span v-html="scope.row.fileSize"></span>
+                    </template>
+                </el-table-column>
                 <el-table-column width="120px"
                                  prop="fileType"
                                  label="文件类型">
                 </el-table-column>
-                <el-table-column width="150px"
+                <el-table-column
+                    width="120px"
                                  prop="createtime"
                                  label="创建时间">
                 </el-table-column>
