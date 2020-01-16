@@ -48,12 +48,14 @@ router.beforeEach((to, from, next) => {
         next()
     } else {
         /*sessionStorage.setItem('userToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ6amoifQ.WduZcdFyZSMdrx82JOYFbAKoDPQ4evDFPvt6i6USK5Y')*/
-        if (sessionStorage.getItem('userToken') == null) {
+        //暂时不登录
+        next();
+       /* if (sessionStorage.getItem('userToken') == null) {
             router.app.$router.push('/login')
         } else {
 
             next()
-        }
+        }*/
     }
 
 })
