@@ -9,6 +9,7 @@
         name: 'App',
         created() {
             setTimeout(() => {
+
                 window.L2Dwidget.init({
                     pluginRootPath: 'static/live2dw/',
                     pluginJsPath: 'lib/',
