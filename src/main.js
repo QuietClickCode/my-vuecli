@@ -15,7 +15,7 @@ import axios from 'axios'
 
 Vue.prototype.$axios = axios
 axios.defaults.withCredentials = true
-/*axios.defaults.baseURL = '/api'*/  //关键代码
+/*axios.defaults.baseURL = 'https://114.55.94.186'*/  //关键代码
 // use
 Vue.use(mavonEditor)
 Vue.use(ElementUI)

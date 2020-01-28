@@ -84,7 +84,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'post',
-                url: '/api' + '/getKeyword'
+                url: 'https://114.55.94.186' + '/getKeyword'
             }).then(function (response) {
                 vueThis.keyword = response.data.msg
                 vueThis.searchCSDNButton()
@@ -102,7 +102,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: '/api' + '/searchcsdn?wd=' + articlesearchkeyword
+                url: 'https://114.55.94.186' + '/searchcsdn?wd=' + articlesearchkeyword
             }).then(function (response) {
                 vueThis.articledata = response.data.data.list
                 vueThis.articleresult = response.data.data

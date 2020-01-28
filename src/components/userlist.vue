@@ -165,7 +165,7 @@ export default {
     methods: {
         init: function () {
             var vueThis = this
-            axios.post('/api'+'/queryBrowser', {
+            axios.post('https://114.55.94.186'+'/queryBrowser', {
             })
                 .then(function (response) {
                     vueThis.browser = response.data
@@ -173,7 +173,7 @@ export default {
                 .catch(function (error) {
                     console.log(error)
                 })
-            axios.post('/api'+'/querySystem', {
+            axios.post('https://114.55.94.186'+'/querySystem', {
             })
                 .then(function (response) {
                     vueThis.system = response.data
@@ -181,7 +181,7 @@ export default {
                 .catch(function (error) {
                     console.log(error)
                 })
-            axios.post('/api'+'/queryDevice', {
+            axios.post('https://114.55.94.186'+'/queryDevice', {
             })
                 .then(function (response) {
                     vueThis.device = response.data
@@ -198,7 +198,7 @@ export default {
         query: function () {
             var vueThis = this
             axios({
-                url:'/api'+ "/queryUserList",
+                url:'https://114.55.94.186'+ "/queryUserList",
                 method: 'post',
                 data: vueThis.queryForm,
             })
@@ -211,7 +211,7 @@ export default {
                     console.log(error)
                 })
             axios({
-                url:'/api'+ "/queryUserListCount",
+                url:'https://114.55.94.186'+ "/queryUserListCount",
                 method: 'post',
                 data: vueThis.queryForm,
             })
@@ -228,7 +228,7 @@ export default {
             vueThis.queryForm.startpage = 0;
             vueThis.currentpage = 1;
             axios({
-                url: '/api'+"/queryUserList",
+                url: 'https://114.55.94.186'+"/queryUserList",
                 method: 'post',
                 data: vueThis.queryForm,
             })
@@ -238,7 +238,7 @@ export default {
                 .catch(function (error) {
                 })
             axios({
-                url: '/api'+"/queryUserListCount",
+                url: 'https://114.55.94.186'+"/queryUserListCount",
                 method: 'post',
                 data: vueThis.queryForm,
             })

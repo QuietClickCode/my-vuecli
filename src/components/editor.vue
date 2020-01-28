@@ -39,7 +39,7 @@ export default {
         save: function () {
             var vueThis = this
             axios({
-                url: '/api'+'/saveeditor',
+                url: 'https://114.55.94.186'+'/saveeditor',
                 method: 'post',
                 data: { 'title': vueThis.title, 'content': vueThis.content },
             })

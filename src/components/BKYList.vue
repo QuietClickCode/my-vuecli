@@ -84,7 +84,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'post',
-                url: '/api' + '/getKeyword'
+                url: 'https://114.55.94.186' + '/getKeyword'
             }).then(function (response) {
                 vueThis.keyword = response.data.msg
                 vueThis.searchBKYButton()
@@ -101,7 +101,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: '/api' + '/searchbky?wd=' + articlesearchkeyword
+                url: 'https://114.55.94.186' + '/searchbky?wd=' + articlesearchkeyword
             }).then(function (response) {
                 vueThis.articledata = response.data.data.list
                 vueThis.articleresult = response.data.data

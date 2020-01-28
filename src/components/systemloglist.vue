@@ -188,21 +188,21 @@ export default {
         },
         init: function () {
             var vueThis = this
-            axios.post('/api' + '/queryBrowser', {})
+            axios.post('https://114.55.94.186' + '/queryBrowser', {})
                 .then(function (response) {
                     vueThis.data.browser = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
-            axios.post('/api' + '/querySystem', {})
+            axios.post('https://114.55.94.186' + '/querySystem', {})
                 .then(function (response) {
                     vueThis.data.system = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
-            axios.post('/api' + '/queryDevice', {})
+            axios.post('https://114.55.94.186' + '/queryDevice', {})
                 .then(function (response) {
                     vueThis.data.device = response.data
                 })
@@ -214,7 +214,7 @@ export default {
             var vueThis = this
             alert("dd")
             axios({
-                url: '/api' + '/querySystemLog',
+                url: 'https://114.55.94.186' + '/querySystemLog',
                 method: 'post',
                 data: vueThis.data.queryForm,
             })
@@ -228,7 +228,7 @@ export default {
                     console.log(error)
                 })
             axios({
-                url: '/api' + '/queryCount',
+                url: 'https://114.55.94.186' + '/queryCount',
                 method: 'post',
                 data: vueThis.data.queryForm,
             })
@@ -246,7 +246,7 @@ export default {
             vueThis.data.queryForm.startpage = 0
             vueThis.data.currentpage = 1
             axios({
-                url: '/api' + '/querySystemLog',
+                url: 'https://114.55.94.186' + '/querySystemLog',
                 method: 'post',
                 data: vueThis.data.queryForm,
             })
@@ -259,7 +259,7 @@ export default {
                     console.log(vueThis.items + '-=================')
                 })
             axios({
-                url: '/api' + '/queryCount',
+                url: 'https://114.55.94.186' + '/queryCount',
                 method: 'post',
                 data: vueThis.data.queryForm,
             })

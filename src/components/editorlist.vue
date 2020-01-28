@@ -253,7 +253,7 @@ export default {
             var vueThis = this
             vueThis.dialogVisible = false
             axios({
-                url:'/api'+ '/deleteeditor',
+                url:'https://114.55.94.186'+ '/deleteeditor',
                 method: 'post',
                 data: {
                     'id': vueThis.currentRow.id
@@ -273,7 +273,7 @@ export default {
         updateeditor: function () {
             var vueThis = this
             axios({
-                url: '/api'+'/updateeditor',
+                url: 'https://114.55.94.186'+'/updateeditor',
                 method: 'post',
                 data: {
                     'title': vueThis.updateeditordetailtitle,
@@ -325,21 +325,21 @@ export default {
         },
         init: function () {
             var vueThis = this
-            axios.post('/api'+'/queryBrowser', {})
+            axios.post('https://114.55.94.186'+'/queryBrowser', {})
                 .then(function (response) {
                     vueThis.browser = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
-            axios.post('/api'+'/querySystem', {})
+            axios.post('https://114.55.94.186'+'/querySystem', {})
                 .then(function (response) {
                     vueThis.system = response.data
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
-            axios.post('/api'+'/queryDevice', {})
+            axios.post('https://114.55.94.186'+'/queryDevice', {})
                 .then(function (response) {
                     vueThis.device = response.data
                 })
@@ -355,7 +355,7 @@ export default {
         query: function () {
             var vueThis = this
             axios({
-                url: '/api'+'/queryEditor',
+                url: 'https://114.55.94.186'+'/queryEditor',
                 method: 'post',
                 data: vueThis.queryForm,
             })
@@ -367,7 +367,7 @@ export default {
                     console.log(error)
                 })
             axios({
-                url: '/api'+'/queryEditorCount',
+                url: 'https://114.55.94.186'+'/queryEditorCount',
                 method: 'post',
                 data: vueThis.queryForm,
             })
@@ -384,7 +384,7 @@ export default {
             vueThis.queryForm.startpage = 0
             vueThis.currentpage = 1
             axios({
-                url:'/api'+ '/queryEditor',
+                url:'https://114.55.94.186'+ '/queryEditor',
                 method: 'post',
                 data: vueThis.queryForm,
             })
@@ -394,7 +394,7 @@ export default {
                 .catch(function (error) {
                 })
             axios({
-                url: '/api'+'/queryEditorCount',
+                url: 'https://114.55.94.186'+'/queryEditorCount',
                 method: 'post',
                 data: vueThis.queryForm,
             })

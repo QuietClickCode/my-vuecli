@@ -89,7 +89,7 @@ export default {
             axios({
                 method: 'post',
 
-                url: '/api' + '/toqueryDocument',
+                url: 'https://114.55.94.186' + '/toqueryDocument',
                 data: {
                     keyword: vueThis.keyword
                 },
@@ -110,7 +110,7 @@ export default {
             axios({
                 method: 'post',
 
-                url: '/api' + '/deleteDocumentById',
+                url: 'https://114.55.94.186' + '/deleteDocumentById',
                 data: {
                     deleteid: vueThis.deleteid
                 },
@@ -149,7 +149,7 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 },
                 method: 'post',
-                url: '/api' + '/uploadImg',
+                url: 'https://114.55.94.186' + '/uploadImg',
                 data: formData
             })
                 .then(function (response) {
@@ -173,7 +173,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'post',
-                url: '/api' + '/detaillist',
+                url: 'https://114.55.94.186' + '/detaillist',
                 data: JSON.stringify({
                     'content': vueThis.keyword.substring(1)
                 }),

@@ -191,7 +191,7 @@
             queryArticle: function () {
                 var vueThis = this
                 axios({
-                    url: '/api' + '/queryarticle',
+                    url: 'https://114.55.94.186' + '/queryarticle',
                     method: 'post',
                     data: {
                         'id': store.id,
@@ -218,7 +218,7 @@
             queryArticleById: function (id, platform) {
                 var vueThis = this
                 axios({
-                    url: '/api' + '/queryarticle',
+                    url: 'https://114.55.94.186' + '/queryarticle',
                     method: 'post',
                     data: {
                         'id': id,
