@@ -245,7 +245,8 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'post',
-                url: '/api' + '/toqueryDocument',
+              /*  url: '/api' + '/toqueryDocument',*/
+                url: 'https://114.55.94.186/toqueryDocument',
                 data: JSON.stringify({
                     'keyword': vueThis.keyword
                 }),
