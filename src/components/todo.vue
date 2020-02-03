@@ -36,7 +36,7 @@ export default {
         return store
     },
     created: function () {
-        this.$axios.get('https://114.55.94.186'+"/todoList").then(res =>{
+        this.$axios.get('/api'+"/todoList").then(res =>{
             this.todoList = res.data;
         })
     },
@@ -87,7 +87,7 @@ export default {
         queryArticle: function () {
             var vueThis = this
             axios({
-                url: 'https://114.55.94.186'+'/queryarticle',
+                url: '/api'+'/queryarticle',
                 method: 'post',
                 data: {
                     'id': store.id,
@@ -114,7 +114,7 @@ export default {
         queryArticleById: function (id, platform) {
             var vueThis = this
             axios({
-                url: 'https://114.55.94.186'+'/queryarticle',
+                url: '/api'+'/queryarticle',
                 method: 'post',
                 data: {
                     'id': id,

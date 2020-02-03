@@ -3,5 +3,6 @@ const merge = require('webpack-merge')
 const prodEnv = require('./prod.env')
 module.exports = merge(prodEnv, {
     NODE_ENV: '"development"',
-    HOST: '"http://114.55.94.186:80"'
+    //阿里云8080端口才会转发
+    HOST: '"http://114.55.94.186:8082"'
 })

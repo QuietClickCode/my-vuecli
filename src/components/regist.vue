@@ -52,7 +52,7 @@ export default {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    url: 'https://114.55.94.186' + '/toregist',
+                    url: '/api' + '/toregist',
                     method: 'post',
                     data: JSON.stringify({
                         'user': user,
@@ -84,7 +84,7 @@ export default {
 //自定义校验
 function validateUsername (rule, value, callback) {
     axios({
-        url: 'https://114.55.94.186' + '/validateUsername?username=' + value,
+        url: '/api' + '/validateUsername?username=' + value,
         method: 'get'
     })
         .then(function (response) {

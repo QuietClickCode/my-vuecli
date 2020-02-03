@@ -99,8 +99,8 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'post',
-               /* url: 'https://114.55.94.186' + '/queryDocument'*/
-               url: 'https://114.55.94.186/queryDocument'
+               /* url: '/api' + '/queryDocument'*/
+               url: '/api/queryDocument'
             })
                 .then(function (response) {
                     vueThis.article = response.data.data
