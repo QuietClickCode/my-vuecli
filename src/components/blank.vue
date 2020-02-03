@@ -73,7 +73,7 @@ export default {
         queryArticle: function () {
             var vueThis = this
             axios({
-                url: 'https://114.55.94.186' + '/queryarticle',
+                url: process.env.HOST + '/queryarticle',
                 method: 'post',
                 data: {
                     'id': store.id,
@@ -100,7 +100,7 @@ export default {
         queryArticleById: function (id, platform) {
             var vueThis = this
             axios({
-                url: 'https://114.55.94.186' + '/queryarticle',
+                url: process.env.HOST + '/queryarticle',
                 method: 'post',
                 data: {
                     'id': id,

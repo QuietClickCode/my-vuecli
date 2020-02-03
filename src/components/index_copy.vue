@@ -172,7 +172,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: 'https://114.55.94.186' + '/searchcsdn?wd=' + articlesearchkeyword
+                url: process.env.HOST + '/searchcsdn?wd=' + articlesearchkeyword
             }).then(function (response) {
                 vueThis.articledata = response.data.data.list
                 vueThis.articleresult = response.data.data
@@ -195,7 +195,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: 'https://114.55.94.186' + '/searchbky?wd=' + articlesearchkeyword
+                url: process.env.HOST + '/searchbky?wd=' + articlesearchkeyword
             }).then(function (response) {
                 vueThis.articledata = response.data.data.list
                 vueThis.articleresult = response.data.data
@@ -231,7 +231,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'post',
-                url: 'https://114.55.94.186' + '/toqueryDocument',
+                url: process.env.HOST + '/toqueryDocument',
                 data: JSON.stringify({
                     'keyword': vueThis.keyword
                 }),
@@ -253,7 +253,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: 'https://114.55.94.186' + '/s?wd=' + searchkeyword
+                url: process.env.HOST + '/s?wd=' + searchkeyword
             }).then(function (response) {
                 vueThis.data = response.data.data.list
                 vueThis.result = response.data.data
@@ -275,7 +275,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: 'https://114.55.94.186' + '/searchjianshu?wd=' + articlesearchkeyword
+                url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
             }).then(function (response) {
                 vueThis.articledata = response.data.data.list
                 vueThis.articleresult = response.data.data
@@ -298,7 +298,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: 'https://114.55.94.186' + '/searchjianshu?wd=' + articlesearchkeyword
+                url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
             }).then(function (response) {
                 vueThis.articledata = response.data.data.list
                 vueThis.articleresult = response.data.data
@@ -398,7 +398,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: 'https://114.55.94.186' + '/s?wd=' + keyword + '&pn=' + page
+                url: process.env.HOST + '/s?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
                     vueThis.data = response.data.data.list
@@ -419,7 +419,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: 'https://114.55.94.186' + '/s' + '?wd=' + keyword + '&pn=' + page
+                url: process.env.HOST + '/s' + '?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
                     vueThis.data = response.data.data.list
@@ -440,7 +440,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: 'https://114.55.94.186' + '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
+                url: process.env.HOST + '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
                     vueThis.articleCurrentPage = page
@@ -462,7 +462,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: 'https://114.55.94.186' + '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
+                url: process.env.HOST + '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
             })
                 .then(function (response) {
                     vueThis.articleCurrentPage = page
@@ -525,7 +525,7 @@ export default {
                                 'Content-Type': 'application/json'
                             },
                             method: 'post',
-                            url: 'https://114.55.94.186' + '/note',
+                            url: process.env.HOST + '/note',
                             data: JSON.stringify({
                                 'content': keyword.substring(1)
                             }),
@@ -586,7 +586,7 @@ export default {
                                 'Content-Type': 'application/json'
                             },
                             method: 'get',
-                            url: 'https://114.55.94.186' + '/searchjianshu?wd=' + articlesearchkeyword
+                            url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
                         }).then(function (response) {
                             vueThis.articledata = response.data.data.list
                             vueThis.articleresult = response.data.data
@@ -608,7 +608,7 @@ export default {
                                 'Content-Type': 'application/json'
                             },
                             method: 'get',
-                            url: 'https://114.55.94.186' + '/searchcsdn?wd=' + articlesearchkeyword
+                            url: process.env.HOST + '/searchcsdn?wd=' + articlesearchkeyword
                         }).then(function (response) {
                             vueThis.articledata = response.data.data.list
                             vueThis.articleresult = response.data.data
@@ -629,7 +629,7 @@ export default {
                                 'Content-Type': 'application/json'
                             },
                             method: 'get',
-                            url: 'https://114.55.94.186' + '/searchbky?wd=' + articlesearchkeyword
+                            url: process.env.HOST + '/searchbky?wd=' + articlesearchkeyword
                         }).then(function (response) {
                             vueThis.articledata = response.data.data.list
                             vueThis.articleresult = response.data.data
@@ -649,7 +649,7 @@ export default {
                                 'Content-Type': 'application/json'
                             },
                             method: 'get',
-                            url: 'https://114.55.94.186' + '/s?wd=' + searchkeyword
+                            url: process.env.HOST + '/s?wd=' + searchkeyword
                         }).then(function (response) {
                             vueThis.data = response.data.data.list
                             vueThis.result = response.data.data
@@ -670,7 +670,7 @@ export default {
                                     'Content-Type': 'application/json'
                                 },
                                 method: 'post',
-                                url: 'https://114.55.94.186' + '/logout'
+                                url: process.env.HOST + '/logout'
                             })
                                 .then(function (response) {
                                     vueThis.$message(response.data.msg)
@@ -699,7 +699,7 @@ export default {
                         'Content-Type': 'application/json'
                     },
                     method: 'post',
-                    url: 'https://114.55.94.186' + '/toqueryDocument',
+                    url: process.env.HOST + '/toqueryDocument',
                     data: JSON.stringify({
                         'keyword': keyword
                     }),

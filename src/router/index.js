@@ -157,7 +157,7 @@ export default new Router({
             component: systemloglist,
             beforeEnter: (to, from, next) => {
                 axios({
-                    url: 'https://114.55.94.186'+'/issystemloglistpermission',
+                    url: process.env.HOST+'/issystemloglistpermission',
                     method: 'post'
                 })
                     .then(function (response) {

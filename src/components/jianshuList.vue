@@ -85,7 +85,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'post',
-                url: 'https://114.55.94.186' + '/getKeyword'
+                url: process.env.HOST + '/getKeyword'
             }).then(function (response) {
                 vueThis.keyword = response.data.msg
                 vueThis.searchJianShuButton()
@@ -102,7 +102,7 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 method: 'get',
-                url: 'https://114.55.94.186' + '/searchjianshu?wd=' + articlesearchkeyword
+                url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
             }).then(function (response) {
                 vueThis.articledata = response.data.data.list
                 vueThis.articleresult = response.data.data
