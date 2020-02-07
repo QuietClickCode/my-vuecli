@@ -35,7 +35,7 @@ export default {
         /*用户名或者密码任意一个点击enter都会触发*/
         login: function () {
             //my-login.js通过回调获取ip,系统信息,位置信息等
-            mylogin.getLocation(mylogin.cb, this)
+            mylogin .getLocation(mylogin.cb, this)
         },
         /*my-login.js中的app.tologin(store.user, result, localIp)
         * result:包含经度X,纬度Y,省市区,和公网IP
