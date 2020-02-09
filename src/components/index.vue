@@ -7,7 +7,8 @@
             ></el-input>
             <div @keyup.enter="enter(keyword)">
                 <el-tabs v-model="activeName" @tab-click="handleClick">
-                    <el-tab-pane label="文件" name="file"></el-tab-pane>
+                    <!--文件这个查询有问题,老是会触发es gc,非常慢,4g内存都不够,其他都是秒开,暂时去掉这个查询-->
+                    <!--<el-tab-pane label="文件" name="file"></el-tab-pane>-->
                     <el-tab-pane label="简书" name="js"></el-tab-pane>
                     <el-tab-pane label="CSDN博客" name="csdn"></el-tab-pane>
                     <el-tab-pane label="博客园" name="bky"></el-tab-pane>
@@ -91,7 +92,7 @@ var store = {
     //搜索关键字
     keyword: '',
     //搜索选项
-    activeName: 'file',
+    activeName: 'js',
     bookArray: [],
     bookcontent: '圣诞节后的第二个早晨，我怀着祝贺佳节的心情，前往探看我的朋友歇洛克·福尔摩斯。他身穿一件紫红色睡衣懒散地斜靠在一张长沙发上，右手边放着一个烟斗架，眼前还有一堆折皱了的晨报，显然是刚刚翻阅过的。沙发旁是一把木椅，椅子靠背上挂着一顶肮脏的褴褛不堪的硬胎毡帽。帽子简直糟得不能再戴了，有好几处都裂了缝。椅垫上放着一个放大镜和一把镊子，这说明那顶帽子之所以用这样的方式挂着，目的是为了便于检查。\n' +
         '“你正忙着呢，”我说，“也许我打搅你了。”\n' +
