@@ -8,7 +8,7 @@
             <div @keyup.enter="enter(keyword)">
                 <el-tabs v-model="activeName" @tab-click="handleClick">
                     <!--文件这个查询有问题,老是会触发es gc,非常慢,4g内存都不够,其他都是秒开,暂时去掉这个查询-->
-                    <!--<el-tab-pane label="文件" name="file"></el-tab-pane>-->
+                    <el-tab-pane label="文件" name="file"></el-tab-pane>
                     <el-tab-pane label="简书" name="js"></el-tab-pane>
                     <el-tab-pane label="CSDN博客" name="csdn"></el-tab-pane>
                     <el-tab-pane label="博客园" name="bky"></el-tab-pane>
