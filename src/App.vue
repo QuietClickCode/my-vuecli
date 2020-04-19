@@ -7,9 +7,8 @@
 <script>
     export default {
         name: 'App',
-        created() {
-            setTimeout(() => {
-
+        created () {
+              setTimeout(() => {
                 window.L2Dwidget.init({
                     pluginRootPath: 'static/live2dw/',
                     pluginJsPath: 'lib/',
