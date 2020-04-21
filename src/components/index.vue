@@ -1,6 +1,14 @@
 <template>
     <div style="width:1366px;height:150px;" class="backgroundimg">
         <div class="center" >
+            <el-drawer
+                style="z-index: 100000"
+                title="我是标题"
+                :visible.sync="drawer"
+                :direction="direction"
+                :before-close="handleClose">
+                <span>我来啦!</span>
+            </el-drawer>
             <!--便签内容框放在最顶部,可清空,可无限扩展-->
             <el-input type="textarea" autosize :placeholder="notePlaceholder" class="textarea" v-model="note"
                       :style="{display:isSee}"
@@ -13,6 +21,7 @@
                     <el-tab-pane label="CSDN博客" name="csdn"></el-tab-pane>
                     <el-tab-pane label="博客园" name="bky"></el-tab-pane>
                     <el-tab-pane label="豆瓣电影" name="movie"></el-tab-pane>
+                    <el-tab-pane label="专区" name="area" ></el-tab-pane>
                 </el-tabs>
                 <el-input autofocus id="el-input" style="width: 395px;"
                           @input="input(keyword)"
@@ -89,6 +98,8 @@ import axios from 'axios'
 import $ from 'jquery'
 
 var store = {
+    drawer: false,
+    direction: 'ltr',
     //搜索关键字
     keyword: '',
     //搜索选项
@@ -236,6 +247,8 @@ export default {
                 this.searchMovieButton()
             } else if (this.activeName == 'file') {
                 this.searchFile()
+            } else if (this.activeName == 'area') {
+                this.drawer = true;
             }
         },
         //文件搜索

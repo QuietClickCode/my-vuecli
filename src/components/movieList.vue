@@ -131,13 +131,13 @@
         left: 50%;
         top: 10% !important;
         transform: translate(-50%, -50%);
-        z-index: 10000;
+        z-index: 100;
         background-color: white;
     }
 
     .centertest {
         transform: translate(10%, 0%);
-        z-index: 10000;
+        z-index: 100;
         width: 1200px;
         background-color: white;
     }
