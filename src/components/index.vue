@@ -1,6 +1,7 @@
 <template>
     <div style="width:1366px;height:150px;" class="backgroundimg">
         <el-drawer
+            append-to-body
             style="z-index: 100000"
             title="我是标题"
             :visible.sync="drawer"
