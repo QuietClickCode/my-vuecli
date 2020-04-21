@@ -264,7 +264,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 /*输入框水平居中*/
 .center {
     position: absolute;

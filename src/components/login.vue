@@ -81,7 +81,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 /*登录框水平居中*/
 .center {
     position: absolute;

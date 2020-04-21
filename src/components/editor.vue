@@ -1,5 +1,5 @@
 <template>
-    <div id="editor">
+    <div id="editor" class="editor">
         <div style="text-align: center">标题</div>
         <el-row>
             <quill-editor id="title" v-model="title"
@@ -63,7 +63,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+    .editor {
+
 #title {
     height: 50px;
 }
@@ -71,4 +73,5 @@ export default {
 #content {
     height: 500px;
 }
+    }
 </style>

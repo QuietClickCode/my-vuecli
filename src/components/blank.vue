@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="blank">
     </div>
 </template>
 <script>
@@ -36,7 +36,7 @@ export default {
         }, 1000)
     },
     beforeDestroy () {
-        //清楚样式
+        // 清楚样式
         $('body').css('background-color', 'white')
         $('.el-textarea__inner').css('background', 'white')
         $('.el-input__inner').css('background', 'white')
@@ -57,7 +57,6 @@ export default {
             store.articledetail = result[0]
             $('#table').hide()
             this.id = id
-
         },
         next: function () {
             store.id++
@@ -81,7 +80,7 @@ export default {
                     'title': store.title,
                     'content': store.content,
                     'platform': store.platform
-                },
+                }
             })
                 .then(function (response) {
                     store.article = response.data
@@ -108,7 +107,7 @@ export default {
                     'title': store.title,
                     'content': store.content,
                     'platform': platform
-                },
+                }
             })
                 .then(function (response) {
                     store.article = response.data
@@ -125,7 +124,7 @@ export default {
                 })
         },
         music: function () {
-            /*window.location = "http://music.nbclass.com/"*/
+            /* window.location = "http://music.nbclass.com/" */
             this.IsShow = !this.IsShow
             if (this.IsShow) {
                 $('#402192905').show()
@@ -135,7 +134,7 @@ export default {
         },
         toggleFullScreen: function () {
             if (!document.fullscreenElement && // alternative standard method
-                !document.mozFullScreenElement && !document.webkitFullscreenElement) {// current working methods
+                !document.mozFullScreenElement && !document.webkitFullscreenElement) { // current working methods
                 if (document.documentElement.requestFullscreen) {
                     document.documentElement.requestFullscreen()
                 } else if (document.documentElement.mozRequestFullScreen) {
@@ -158,10 +157,11 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+
 @import "../assets/css/font-awesome-4.7.0/css/font-awesome.min.css";
 @import "../assets/css/APlayer.min.css";
-
+.blank {
 /*中间内容设置上下间距*/
 .content {
     margin-bottom: 35px;
@@ -197,5 +197,6 @@ export default {
 .el-table__body td {
     padding: 0;
     height: 20px;
+}
 }
 </style>

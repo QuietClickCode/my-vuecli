@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div class="detail">
         <div class="input-div">
             <index></index>
         </div>
@@ -106,7 +106,8 @@
     }
 </script>
 
-<style>
+<style lang="scss">
+    .detail {
     /*输入框水平居中*/
     .input-div {
         position: fixed;
@@ -122,5 +123,6 @@
 
     em {
         color: orangered;
+    }
     }
 </style>

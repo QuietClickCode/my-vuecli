@@ -1,5 +1,5 @@
 <template>
-    <div id="articleresult">
+    <div id="articleresult" class="BKYList">
         <div class="input-div">
             <index></index>
         </div>
@@ -43,7 +43,7 @@ import index from './index'
 var store = {
     loading: true,
     keyword: '',
-    //结果列表
+    // 结果列表
     articleresult: {},
     articledata: [],
     queryForm: { keyword: '', startpage: 0, location: '', system: '', createtime: [], browser: '', device: '' },
@@ -114,12 +114,14 @@ export default {
             }).catch(function (error) {
                 console.log(vueThis.items + '-=================')
             })
-        },
+        }
     }
 }
 </script>
 
-<style>
+<style lang="scss">
+    .BKYList {
+
 /*输入框水平居中*/
 .input-div {
     position: fixed;
@@ -151,5 +153,6 @@ em {
 ol{list-style:none;}
 .section {
 
+}
 }
 </style>

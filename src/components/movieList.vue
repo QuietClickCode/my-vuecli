@@ -124,7 +124,7 @@
     }
 </script>
 
-<style>
+<style lang="scss">
     /*输入框水平居中*/
     .input-div {
         position: fixed;

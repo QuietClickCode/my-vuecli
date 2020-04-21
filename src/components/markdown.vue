@@ -62,7 +62,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 #title {
     height: 50px; /*至少300px*/
 }

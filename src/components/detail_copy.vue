@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div class="detail_copy">
         <div class="input-div">
             <index></index>
         </div>
@@ -116,7 +116,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+    .detail_copy {
 /*输入框水平居中*/
 .input-div {
     position: fixed;
@@ -132,5 +133,6 @@ export default {
 
 em {
     color: orangered;
+}
 }
 </style>

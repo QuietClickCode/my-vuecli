@@ -743,7 +743,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 em {
     color: orangered;
 }

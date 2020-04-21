@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="editorlist">
         <div id="editorlist">
             <div style="text-align: center">
                 <el-link type="primary" style="font-size: large">editor详情</el-link>
@@ -410,8 +410,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 /*输入框水平居中*/
+.editorlist {
 .center {
     position: absolute;
     left: 50%;
@@ -427,5 +428,6 @@ export default {
 #content {
     height: 500px;
     width: 1300px;
+}
 }
 </style>

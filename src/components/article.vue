@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="article">
         <!--音乐播放器插件-->
         <!-- <div class="aplayer" id="player" style="display: block;color:black"
               data-id="402192905"
@@ -115,12 +115,12 @@
             height: 50
         },
         date: '',
-        content:null,
-        editorOption:{}
+        content: null,
+        editorOption: {}
     }
     export default {
         name: 'ainotelist',
-        data() {
+        data () {
             return store
         },
         created: function () {
@@ -130,15 +130,14 @@
                 this.platform = this.$route.query.platform
                 this.queryArticleById(this.id, this.platform)
             } else {
-                /*不加动画或者,时间太少,都回补了顶部,这个速度可以滑到顶部,并且不影响后面的手动下滑*/
+                /* 不加动画或者,时间太少,都回补了顶部,这个速度可以滑到顶部,并且不影响后面的手动下滑 */
                 $('html,body').animate({scrollTop: 0}, 500)
-                /*this.toggleFullScreen();*/
+                /* this.toggleFullScreen(); */
 
                 this.queryArticle()
-
             }
         },
-        mounted() {
+        mounted () {
             $('#table').hide()
             $('.el-textarea__inner').css('background', '#C7EDCC')
             $('.el-input__inner').css('background', '#C7EDCC')
@@ -147,8 +146,8 @@
                 _this.date = new Date() // 修改数据date
             }, 1000)
         },
-        beforeDestroy() {
-            //清楚样式
+        beforeDestroy () {
+            // 清楚样式
             $('body').css('background-color', 'white')
             $('.el-textarea__inner').css('background', 'white')
             $('.el-input__inner').css('background', 'white')
@@ -157,11 +156,11 @@
             }
         },
         methods: {
-            onEditorBlur(){//失去焦点事件
+            onEditorBlur () { // 失去焦点事件
             },
-            onEditorFocus(){//获得焦点事件
+            onEditorFocus () { // 获得焦点事件
             },
-            onEditorChange(){//内容改变事件
+            onEditorChange () { // 内容改变事件
             },
             closetable: function () {
                 if ($('#table').css('display') == 'none') {
@@ -175,7 +174,6 @@
                 store.articledetail = result[0]
                 $('#table').hide()
                 this.id = id
-
             },
             next: function () {
                 store.id++
@@ -199,7 +197,7 @@
                         'title': store.title,
                         'content': store.content,
                         'platform': store.platform
-                    },
+                    }
                 })
                     .then(function (response) {
                         store.article = response.data
@@ -226,7 +224,7 @@
                         'title': store.title,
                         'content': store.content,
                         'platform': platform
-                    },
+                    }
                 })
                     .then(function (response) {
                         store.article = response.data
@@ -243,7 +241,7 @@
                     })
             },
             music: function () {
-                /*window.location = "http://music.nbclass.com/"*/
+                /* window.location = "http://music.nbclass.com/" */
                 this.IsShow = !this.IsShow
                 if (this.IsShow) {
                     $('#402192905').show()
@@ -253,7 +251,7 @@
             },
             toggleFullScreen: function () {
                 if (!document.fullscreenElement && // alternative standard method
-                    !document.mozFullScreenElement && !document.webkitFullscreenElement) {// current working methods
+                    !document.mozFullScreenElement && !document.webkitFullscreenElement) { // current working methods
                     if (document.documentElement.requestFullscreen) {
                         document.documentElement.requestFullscreen()
                     } else if (document.documentElement.mozRequestFullScreen) {
@@ -276,9 +274,11 @@
     }
 </script>
 
-<style>
+<style lang="scss">
+
     @import "../assets/css/font-awesome-4.7.0/css/font-awesome.min.css";
     @import "../assets/css/APlayer.min.css";
+    .article {
 
     /*中间内容设置上下间距*/
     .content {
@@ -315,5 +315,6 @@
     .el-table__body td {
         padding: 0;
         height: 20px;
+    }
     }
 </style>
