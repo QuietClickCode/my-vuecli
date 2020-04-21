@@ -1,14 +1,14 @@
 <template>
     <div style="width:1366px;height:150px;" class="backgroundimg">
+        <el-drawer
+            style="z-index: 100000"
+            title="我是标题"
+            :visible.sync="drawer"
+            :direction="direction"
+            :before-close="handleClose">
+            <span>我来啦!</span>
+        </el-drawer>
         <div class="center" >
-            <el-drawer
-                style="z-index: 100000"
-                title="我是标题"
-                :visible.sync="drawer"
-                :direction="direction"
-                :before-close="handleClose">
-                <span>我来啦!</span>
-            </el-drawer>
             <!--便签内容框放在最顶部,可清空,可无限扩展-->
             <el-input type="textarea" autosize :placeholder="notePlaceholder" class="textarea" v-model="note"
                       :style="{display:isSee}"
