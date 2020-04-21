@@ -138,7 +138,6 @@ export default {
     z-index: 100;
     background-color: white;
 }
-
 .table-div {
     margin-top: 150px;
 }
