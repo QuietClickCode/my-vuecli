@@ -105,6 +105,7 @@
     import timeline from "./timeline"
     import ElAlert from "../element/alert"
 
+
     var store = {
         eventArray: [
             {

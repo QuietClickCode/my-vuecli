@@ -1,8 +1,8 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+// import ElementUI from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import router from './router'
 import mavonEditor from 'mavon-editor'
@@ -18,7 +18,7 @@ axios.defaults.withCredentials = true
 /*axios.defaults.baseURL = process.env.HOST*/  //关键代码
 // use
 Vue.use(mavonEditor)
-Vue.use(ElementUI)
+// Vue.use(ElementUI)
 Vue.use(VueQuillEditor)
 Vue.config.productionTip = false
 // 添加请求拦截器
