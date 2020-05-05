@@ -5,7 +5,7 @@
         </div>
         <div class="table-div" v-loading="loading">
             <div style="text-align: center">
-                <el-link type="primary" style="font-size: large">豆瓣电影</el-link>
+                   <el-link type="primary" style="font-size: large">豆瓣电影</el-link>
             </div>
             <div id="result">
                 <section class="centertest">

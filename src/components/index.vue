@@ -6,11 +6,12 @@
             title="我是标题"
             :visible.sync="drawer"
             :direction="direction"
-            :before-close="handleClose">
+        >
             <span>我来啦!</span>
         </el-drawer>
 
-        <div class="center" >
+        <div class="center">
+
             <!--便签内容框放在最顶部,可清空,可无限扩展-->
             <el-input type="textarea" autosize :placeholder="notePlaceholder" class="textarea" v-model="note"
                       :style="{display:isSee}"
@@ -23,14 +24,16 @@
                     <el-tab-pane label="CSDN博客" name="csdn"></el-tab-pane>
                     <el-tab-pane label="博客园" name="bky"></el-tab-pane>
                     <el-tab-pane label="豆瓣电影" name="movie"></el-tab-pane>
-                    <el-tab-pane label="专区" name="area" ></el-tab-pane>
+                    <el-tab-pane label="专区" name="area"></el-tab-pane>
                 </el-tabs>
                 <el-input autofocus id="el-input" style="width: 395px;"
                           @input="input(keyword)"
                           v-model="keyword">
                 </el-input>
                 <el-button @click="buttonEnter(keyword)" type="primary">AISearch</el-button>
+
             </div>
+
             <div id="result">
                 <!--<section>
                     <p>共找到相关结果{{result.total}}个,耗时{{result.took}}ms</p>
@@ -92,22 +95,56 @@
                 </div>
             </div>
         </div>
+        <!--<timeline :data-list="eventArray"/>-->
     </div>
 </template>
 
 <script>
-import axios from 'axios'
-import $ from 'jquery'
+    import axios from 'axios'
+    import $ from 'jquery'
+    import timeline from "./timeline"
 
-var store = {
-    drawer: false,
-    direction: 'ltr',
-    //搜索关键字
-    keyword: '',
-    //搜索选项
-    activeName: 'file',
-    bookArray: [],
-    bookcontent: '圣诞节后的第二个早晨，我怀着祝贺佳节的心情，前往探看我的朋友歇洛克·福尔摩斯。他身穿一件紫红色睡衣懒散地斜靠在一张长沙发上，右手边放着一个烟斗架，眼前还有一堆折皱了的晨报，显然是刚刚翻阅过的。沙发旁是一把木椅，椅子靠背上挂着一顶肮脏的褴褛不堪的硬胎毡帽。帽子简直糟得不能再戴了，有好几处都裂了缝。椅垫上放着一个放大镜和一把镊子，这说明那顶帽子之所以用这样的方式挂着，目的是为了便于检查。\n' +
+    var store = {
+        eventArray: [
+            {
+                time: 1522372393000,
+                img: 'static/touxiang.jpeg',
+                title: 'hzqing.com',
+                content: '这是衡钊清的个人博客'
+            },
+            {
+                time: '2018-03-30 14:36:35',
+                img: 'static/one.jpeg',
+                title: '这是一个简单的vue时间轴插件',
+                content: '这是一个简单的vue时间轴插件，使用非常的方便'
+            },
+            {
+                time: 1522372393000,
+                img: 'static/three.jpg',
+                title: '努力奋斗',
+                content: '当你发现你的才华撑不起野心时，就请安静下来学习吧~~~'
+            },
+            {
+                time: 1522372393000,
+                img: 'static/three.jpg',
+                title: '努力奋斗',
+                content: '当你发现你的才华撑不起野心时，就请安静下来学习吧~~~'
+            },
+            {
+                time: 1522372393000,
+                img: '',
+                title: '努力奋斗',
+                content: '当你发现你的才华撑不起野心时，就请安静下来学习吧~~~'
+            }
+        ],
+        drawer: false,
+        direction: 'ltr',
+        //搜索关键字
+        keyword: '',
+        //搜索选项
+        activeName: 'file',
+        bookArray: [],
+        bookcontent: '圣诞节后的第二个早晨，我怀着祝贺佳节的心情，前往探看我的朋友歇洛克·福尔摩斯。他身穿一件紫红色睡衣懒散地斜靠在一张长沙发上，右手边放着一个烟斗架，眼前还有一堆折皱了的晨报，显然是刚刚翻阅过的。沙发旁是一把木椅，椅子靠背上挂着一顶肮脏的褴褛不堪的硬胎毡帽。帽子简直糟得不能再戴了，有好几处都裂了缝。椅垫上放着一个放大镜和一把镊子，这说明那顶帽子之所以用这样的方式挂着，目的是为了便于检查。\n' +
         '“你正忙着呢，”我说，“也许我打搅你了。”\n' +
         '“没有的话，我很兴奋有一位朋友来和我一AE?讨论我研究所得的结果。这完全是一件毫无价值的东西。"说着，他竖AE?大拇指指了一下那顶帽子，“不过，同它有关联的几个题目却不是索然无味的，甚至还能给我们一些教益。”\n' +
         '*我坐在他那张扶手椅上，就着木柴劈啪作响的炉火热热自己的双手，由于严冷已经降临，窗户上的玻璃都结了晶莹的冰凌。"我猜想，"我说道，“尽管这顶帽子很不雅，但它却和某桩性命攸关的事故有所牵连，就是这条线索能引导你解开某个疑团，并且指导你往惩罚某种犯罪行为。”\n' +
@@ -135,767 +172,198 @@ var store = {
         '“恰恰相反，华生，你什么都能看出来，可是，你没有从所看到的东西作出推论。你对作出推论太缺乏信心了。”\n' +
         '“那么，请你告诉我你能够从这顶帽子作出什么推论呢？”\n' +
         '*他拿起帽子，并用他那独特的、足以表示他的性格的思考方式注视着它。“这顶帽子可能提供的引人联想的东西也许要少一些，"他说道，“不过，还是有几点推论是很明显的，而其它几点推论至少或然率是很大的。从帽子的外观来看，很明显这个人是个学问渊博的人，而且在过往三年里，生活相当富裕，尽管他目前已处于窘境。他过往很有远见，可是，已今非昔比，再加上家道中落，因此，精神日趋颓废，这仿佛说明了他受到某种有害的影响，也许染上了酗酒的恶习，恐怕这也是他AE?子已不再爱他这一明显事实的原因。”',
-    obj: [],
-    obj4: [],
-    haha: 1,
-    count: 0,
-    duration: 0,
-    //是否禁用
-    isPrev: false,
-    isNext: false,
-    isPrevArticle: false,
-    isNextArticle: false,
-    /*模式*/
-    pattern: '',
-    /*便签的默认提示*/
-    notePlaceholder: '写点什么吧～～',
-    /*便签内容*/
-    note: '',
-    /*便签是否可见*/
-    isSee: 'none',
-    /*输入框内容*/
-    keyword: '',
-    data: [],
-    articledata: [],
-    result: {},
-    articleresult: {},
-    searchkeyword: '',
-    articlesearchkeyword: '',
-    platform: '',
-    searchurl: '',
-    articleCurrentPage: ''
-}
-export default {
-    name: 'index',
-    data () {
-        return store
-    },
-    created: function () {
-        localStorage.setItem('activeName', this.activeName)
-        if (this.keyword != '') {
-            localStorage.setItem('keyword', this.keyword)
+        obj: [],
+        obj4: [],
+        haha: 1,
+        count: 0,
+        duration: 0,
+        //是否禁用
+        isPrev: false,
+        isNext: false,
+        isPrevArticle: false,
+        isNextArticle: false,
+        /*模式*/
+        pattern: '',
+        /*便签的默认提示*/
+        notePlaceholder: '写点什么吧～～',
+        /*便签内容*/
+        note: '',
+        /*便签是否可见*/
+        isSee: 'none',
+        /*输入框内容*/
+        keyword: '',
+        data: [],
+        articledata: [],
+        result: {},
+        articleresult: {},
+        searchkeyword: '',
+        articlesearchkeyword: '',
+        platform: '',
+        searchurl: '',
+        articleCurrentPage: ''
+    }
+    export default {
+        name: 'index',
+        components: {
+            timeline
+        },
+        data() {
+            return store
+        },
+        created: function () {
             localStorage.setItem('activeName', this.activeName)
-        } else {
-            this.keyword = localStorage.getItem('keyword')
-            this.activeName = localStorage.getItem('activeName')
-
-        }
-
-    },
-    mounted: function () {
-        //实现返回回到最初的浏览位置
-        if (this.keword != '') {
-            this.nextarticle(this.articlesearchkeyword, this.articleCurrentPage)
-        }
-    },
-    methods: {
-        //csdn搜索
-        searchCSDN: function () {
-            var vueThis = this
-            vueThis.searchurl = 'searchcsdn'
-
-            var articlesearchkeyword = vueThis.keyword
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'get',
-                url: process.env.HOST + '/searchcsdn?wd=' + articlesearchkeyword
-            }).then(function (response) {
-                vueThis.articledata = response.data.data.list
-                vueThis.articleresult = response.data.data
-                vueThis.articlesearchkeyword = response.data.msg
-                vueThis.platform = 'article'
-                $('#articleresult').show()
-                vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
-                vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
-            }).catch(function (error) {
-                console.log(vueThis.items + '-=================')
-            })
-        },
-        //博客园搜索
-        searchBKY: function () {
-            var vueThis = this
-            vueThis.searchurl = 'searchbky'
-            var articlesearchkeyword = vueThis.keyword
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'get',
-                url: process.env.HOST + '/searchbky?wd=' + articlesearchkeyword
-            }).then(function (response) {
-                vueThis.articledata = response.data.data.list
-                vueThis.articleresult = response.data.data
-                vueThis.articlesearchkeyword = response.data.msg
-                vueThis.platform = 'bky_article'
-                $('#articleresult').show()
-                vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
-                vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
-            }).catch(function (error) {
-                console.log(vueThis.items + '-=================')
-            })
-        },
-        //AISearch按钮触发:
-        buttonEnter: function (keyword) {
-            this.keyword = keyword
-            if (this.activeName == 'js') {
-                this.searchJianShuButton()
-            } else if (this.activeName == 'csdn') {
-                this.searchCSDNButton()
-            } else if (this.activeName == 'bky') {
-                this.searchBKYButton()
-            } else if (this.activeName == 'movie') {
-                this.searchMovieButton()
-            } else if (this.activeName == 'file') {
-                this.searchFile()
-            } else if (this.activeName == 'area') {
-                this.drawer = true;
-            }
-        },
-        //文件搜索
-        searchFile: function () {
-            var vueThis = this
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'post',
-                url: process.env.HOST + '/toqueryDocument',
-                /*url: 'https://114.55.94.186/toqueryDocument',*/
-                data: JSON.stringify({
-                    'keyword': vueThis.keyword
-                }),
-            })
-                .then(function (response) {
-                    if (vueThis.$route.path == '/detail') {
-                        vueThis.$router.push('/blank')
-                    } else {
-                        vueThis.$router.push('/' + response.data.url)
-
-                    }
-
-                })
-                .catch(function (error) {
-                    console.log(vueThis.items + '-=================')
-                })
-        },
-        //豆瓣电影搜索
-        searchMovie: function () {
-            var vueThis = this
-            var searchkeyword = this.keyword
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'get',
-                /*url: process.env.HOST + '/s?wd=' + searchkeyword*/
-                url: process.env.HOST + '/s?wd=' + searchkeyword
-            }).then(function (response) {
-                vueThis.data = response.data.data.list
-                vueThis.result = response.data.data
-                vueThis.searchkeyword = response.data.msg
-                $('#result').show()
-                vueThis.isNextDisabled(vueThis.result.pageNo)
-                vueThis.isPrevDisabled(vueThis.result.pageNo)
-            }).catch(function (error) {
-                console.log(vueThis.items + '-=================')
-            })
-        },
-        //AISearch按钮触发调用
-        searchJianShuButton: function () {
-            /*var vueThis = this
-            vueThis.searchurl = 'searchjianshu'
-            var articlesearchkeyword = vueThis.keyword
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'get',
-                url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
-            }).then(function (response) {
-                vueThis.articledata = response.data.data.list
-                vueThis.articleresult = response.data.data
-                vueThis.articlesearchkeyword = response.data.msg
-                vueThis.platform = 'jianshu_article'
-                $('#articleresult').show()
-                vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
-                vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
-            }).catch(function (error) {
-                console.log(vueThis.items + '-=================')
-            })*/
-            var vueThis = this
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'post',
-                url: process.env.HOST + '/toqueryDocument',
-                data: JSON.stringify({
-                    'keyword': vueThis.keyword
-                }),
-            })
-                .then(function (response) {
-                    /*window.location.href = 'detail'*/
-                    if (vueThis.$route.path == '/jianshuList') {
-                        vueThis.$router.push('/blank')
-                    } else {
-                        vueThis.$router.push('/jianshuList')
-
-                    }
-
-                })
-                .catch(function (error) {
-                    console.log(vueThis.items + '-=================')
-                })
-
-        },
-        //AISearch按钮触发调用
-        searchCSDNButton: function () {
-            /*var vueThis = this
-            vueThis.searchurl = 'searchjianshu'
-            var articlesearchkeyword = vueThis.keyword
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'get',
-                url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
-            }).then(function (response) {
-                vueThis.articledata = response.data.data.list
-                vueThis.articleresult = response.data.data
-                vueThis.articlesearchkeyword = response.data.msg
-                vueThis.platform = 'jianshu_article'
-                $('#articleresult').show()
-                vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
-                vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
-            }).catch(function (error) {
-                console.log(vueThis.items + '-=================')
-            })*/
-            var vueThis = this
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'post',
-                url: process.env.HOST + '/toqueryDocument',
-                data: JSON.stringify({
-                    'keyword': vueThis.keyword
-                }),
-            })
-                .then(function (response) {
-                    /*window.location.href = 'detail'*/
-                    if (vueThis.$route.path == '/CSDNList') {
-                        vueThis.$router.push('/blank')
-                    } else {
-                        vueThis.$router.push('/CSDNList')
-
-                    }
-
-                })
-                .catch(function (error) {
-                    console.log(vueThis.items + '-=================')
-                })
-
-        },
-        searchBKYButton: function () {
-            /*var vueThis = this
-            vueThis.searchurl = 'searchjianshu'
-            var articlesearchkeyword = vueThis.keyword
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'get',
-                url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
-            }).then(function (response) {
-                vueThis.articledata = response.data.data.list
-                vueThis.articleresult = response.data.data
-                vueThis.articlesearchkeyword = response.data.msg
-                vueThis.platform = 'jianshu_article'
-                $('#articleresult').show()
-                vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
-                vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
-            }).catch(function (error) {
-                console.log(vueThis.items + '-=================')
-            })*/
-            var vueThis = this
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'post',
-                url: process.env.HOST + '/toqueryDocument',
-                data: JSON.stringify({
-                    'keyword': vueThis.keyword
-                }),
-            })
-                .then(function (response) {
-                    /*window.location.href = 'detail'*/
-                    if (vueThis.$route.path == '/BKYList') {
-                        vueThis.$router.push('/blank')
-                    } else {
-                        vueThis.$router.push('/BKYList')
-
-                    }
-
-                })
-                .catch(function (error) {
-                    console.log(vueThis.items + '-=================')
-                })
-
-        },
-        searchMovieButton: function () {
-            /*var vueThis = this
-            vueThis.searchurl = 'searchjianshu'
-            var articlesearchkeyword = vueThis.keyword
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'get',
-                url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
-            }).then(function (response) {
-                vueThis.articledata = response.data.data.list
-                vueThis.articleresult = response.data.data
-                vueThis.articlesearchkeyword = response.data.msg
-                vueThis.platform = 'jianshu_article'
-                $('#articleresult').show()
-                vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
-                vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
-            }).catch(function (error) {
-                console.log(vueThis.items + '-=================')
-            })*/
-            var vueThis = this
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'post',
-                url: process.env.HOST + '/toqueryDocument',
-                data: JSON.stringify({
-                    'keyword': vueThis.keyword
-                }),
-            })
-                .then(function (response) {
-                    /*window.location.href = 'detail'*/
-                    if (vueThis.$route.path == '/movieList') {
-                        vueThis.$router.push('/blank')
-                    } else {
-                        vueThis.$router.push('/movieList')
-
-                    }
-
-                })
-                .catch(function (error) {
-                    console.log(vueThis.items + '-=================')
-                })
-
-        },
-        //直接调用
-        searchJianShu: function () {
-            var vueThis = this
-            vueThis.searchurl = 'searchjianshu'
-            var articlesearchkeyword = vueThis.keyword.substring(4)
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'get',
-                url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
-            }).then(function (response) {
-                vueThis.articledata = response.data.data.list
-                vueThis.articleresult = response.data.data
-                vueThis.articlesearchkeyword = response.data.msg
-                vueThis.platform = 'jianshu_article'
-                $('#articleresult').show()
-                vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
-                vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
-            }).catch(function (error) {
-                console.log(vueThis.items + '-=================')
-            })
-        },
-        /**
-         * 搜索选项
-         */
-        handleClick: function (tab, event) {
-            this.enter(this.keyword)
-        },
-        randomString: function (len) {
-            len = len || 32
-            var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
-            /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
-            var maxPos = $chars.length
-            var pwd = ''
-            for (var i = 0; i < len; i++) {
-                pwd += $chars.charAt(Math.floor(Math.random() * maxPos))
-            }
-            return pwd
-        },
-        closehaha: function () {
-            this.obj.close()
-        },
-        //右上角系统弹出的消息
-        open4 (data) {
-            var temp = this.$notify({
-                title: new Date().toLocaleString(),
-                duration: this.duration,
-                message: data,
-                position: 'top-left'
-            })
-            this.obj.push(temp)
-        },
-
-        open3 (data) {
-            var temp = this.$notify({
-                title: new Date().toLocaleString(),
-                duration: this.duration,
-                message: data,
-                position: 'top-right'
-            })
-            this.obj4.push(temp)
-        },
-        toArticleDetail: function (id) {
-            var vueThis = this
-            this.$router.push({
-                path: '/article',
-                query: {
-                    platform: vueThis.platform,
-                    id: id
-                }
-            })
-        },
-        isNextDisabled: function (page) {
-            if (page * this.result.size >= this.result.total) {
-                this.isNext = true
+            if (this.keyword != '') {
+                localStorage.setItem('keyword', this.keyword)
+                localStorage.setItem('activeName', this.activeName)
             } else {
-                this.isNext = false
-            }
-        },
-        isPrevDisabled: function (page) {
-            if (page <= 1) {
-                this.isPrev = true
-            } else {
-                this.isPrev = false
+                this.keyword = localStorage.getItem('keyword')
+                this.activeName = localStorage.getItem('activeName')
 
             }
+
         },
-        isNextDisabledArticle: function (page) {
-            if (page * this.articleresult.size >= this.articleresult.total) {
-                this.isNextArticle = true
-            } else {
-                this.isNextArticle = false
+        mounted: function () {
+            //实现返回回到最初的浏览位置
+            if (this.keword != '') {
+                this.nextarticle(this.articlesearchkeyword, this.articleCurrentPage)
             }
         },
-        isPrevDisabledArticle: function (page) {
-            if (page <= 1) {
-                this.isPrevArticle = true
-            } else {
-                this.isPrevArticle = false
-
-            }
-        },
-        next: function (keyword, page) {
-            var vueThis = this
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'get',
-                url: process.env.HOST + '/s?wd=' + keyword + '&pn=' + page
-            })
-                .then(function (response) {
-                    vueThis.data = response.data.data.list
-                    vueThis.result = response.data.data
-                    vueThis.searchkeyword = response.data.msg
-                    $('#result').show()
-                    vueThis.isNextDisabled(vueThis.result.pageNo)
-                    vueThis.isPrevDisabled(vueThis.result.pageNo)
-                })
-                .catch(function (error) {
-                    console.log(vueThis.items + '-=================')
-                })
-        },
-        prev: function (keyword, page) {
-            var vueThis = this
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'get',
-                url: process.env.HOST + '/s' + '?wd=' + keyword + '&pn=' + page
-            })
-                .then(function (response) {
-                    vueThis.data = response.data.data.list
-                    vueThis.result = response.data.data
-                    vueThis.searchkeyword = response.data.msg
-                    $('#result').show()
-                    vueThis.isNextDisabled(vueThis.result.pageNo)
-                    vueThis.isPrevDisabled(vueThis.result.pageNo)
-                })
-                .catch(function (error) {
-                    console.log(vueThis.items + '-=================')
-                })
-        },
-        nextarticle: function (keyword, page) {
-            var vueThis = this
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'get',
-                url: process.env.HOST + '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
-            })
-                .then(function (response) {
-                    vueThis.articleCurrentPage = page
-                    vueThis.articledata = response.data.data.list
-                    vueThis.articleresult = response.data.data
-                    vueThis.articlesearchkeyword = response.data.msg
-                    $('#articleresult').show()
-                    vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
-                    vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
-                })
-                .catch(function (error) {
-                })
-        },
-        prevarticle: function (keyword, page) {
-            var vueThis = this
-            axios({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'get',
-                url: process.env.HOST + '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
-            })
-                .then(function (response) {
-                    vueThis.articleCurrentPage = page
-                    vueThis.articledata = response.data.data.list
-                    vueThis.articleresult = response.data.data
-                    vueThis.articlesearchkeyword = response.data.msg
-                    $('#articleresult').show()
-                    vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
-                    vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
-                })
-                .catch(function (error) {
-                    console.log(vueThis.items + '-=================')
-                })
-        },
-        //enter激发
-        enter: function (keyword) {
-            if (this.activeName != '') {
-                this.buttonEnter(keyword)
-                return
-            }
-
-            if (keyword != '') {
-                var isForward = keyword.startsWith('/')
-                /*1.转发模式*/
-                if (isForward) {
-                    /*window.location.href = keyword.substring(1)*/
-                    this.$router.push('/' + keyword.substring(1))
-                } else {
-                    this.other(keyword)
-                }
-            }
-        },
-
-        /*由enter()调用,非转发模式*/
-        other: function (keyword) {
-            var vueThis = this
-            vueThis.keyword = keyword
-            $('#result').hide()
-            $('#articleresult').hide()
-            var isNote = keyword.startsWith('\'')
-            var isCommand = keyword.startsWith(':')
-            /*2.便签模式*/
-            if (isNote) {
-                if (keyword.substring(1) == 'clear ') {
-                    store.note = ''
-                    store.keyword = '\''
-                } else {
-                    if (keyword.substring(1).length == 0) {
-                        vueThis.bookArray = vueThis.bookcontent.trim().split('\n')
-                        vueThis.open4(vueThis.bookArray[vueThis.count])
-                        vueThis.count++
-                        if (vueThis.obj.length >= 2) {
-                            vueThis.obj[0].close()
-                            vueThis.obj.splice(0, 1)
-                        }
-                    } else {
-
-                        axios({
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            method: 'post',
-                            url: process.env.HOST + '/note',
-                            data: JSON.stringify({
-                                'content': keyword.substring(1)
-                            }),
-                        })
-                            .then(function (response) {
-                                if (response.data.status == 0) {
-                                    if (store.note == '') {
-                                        /*vueThis.bookArray = vueThis.bookcontent.trim().split('\n')*/
-                                        store.note = response.data.data.concat('---').concat(new Date().toLocaleString())
-                                        vueThis.open3(response.data.data)
-                                        /*vueThis.open4(vueThis.bookArray[vueThis.count])*/
-                                        /*vueThis.count++*/
-                                    } else {
-
-                                        store.note += '\n'.concat(response.data.data).concat('---').concat(new Date().toLocaleString())
-                                        /*vueThis.duration += 10000*/
-                                        vueThis.haha++
-                                        vueThis.open3(response.data.data)
-
-                                        vueThis.count++
-                                        console.log(vueThis.obj.length)
-                                        console.log(vueThis.obj)
-                                        //只保留5个,增加一个就删除数组第一个
-
-                                        if (vueThis.obj4.length >= 6) {
-                                            vueThis.obj4[0].close()
-                                            vueThis.obj4.splice(0, 1)
-                                        }
-                                        /*if (vueThis.haha % 2 == 0) {
-                                            vueThis.open4()
-
-                                        } else {
-
-                                            vueThis.open3()
-                                        }*/
-                                    }
-                                    store.keyword = '\''
-                                }
-                            })
-                            .catch(function (error) {
-                                console.log(vueThis.items + '-=================')
-                            })
-                    }
-                }
-                /*3.命令模式*/
-            } else if (isCommand) {
+        methods: {
+            //csdn搜索
+            searchCSDN: function () {
                 var vueThis = this
-                var index = keyword.indexOf(' ')
-                if (index != -1) {
-                    /*命令关键字后面必须有空格哦*/
-                    var command = keyword.substring(1, index + 1)
-                    var isEnd = keyword.lastIndexOf(' ')
-                    if (command == 'js ') {
-                        /*vueThis.searchurl = 'searchjianshu'
-                        var articlesearchkeyword = keyword.substring(4)
-                        axios({
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            method: 'get',
-                            url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
-                        }).then(function (response) {
-                            vueThis.articledata = response.data.data.list
-                            vueThis.articleresult = response.data.data
-                            vueThis.articlesearchkeyword = response.data.msg
-                            vueThis.platform = 'jianshu_article'
-                            $('#articleresult').show()
-                            vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
-                            vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
-                        }).catch(function (error) {
-                            console.log(vueThis.items + '-=================')
-                        })*/
-                        vueThis.searchJianShu()
-                    }
-                    if (command == 'csdn ') {
-                        vueThis.searchurl = 'searchcsdn'
-                        var articlesearchkeyword = keyword.substring(6)
-                        axios({
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            method: 'get',
-                            url: process.env.HOST + '/searchcsdn?wd=' + articlesearchkeyword
-                        }).then(function (response) {
-                            vueThis.articledata = response.data.data.list
-                            vueThis.articleresult = response.data.data
-                            vueThis.articlesearchkeyword = response.data.msg
-                            vueThis.platform = 'article'
-                            $('#articleresult').show()
-                            vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
-                            vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
-                        }).catch(function (error) {
-                            console.log(vueThis.items + '-=================')
-                        })
-                    }
-                    if (command == 'bky ') {
-                        vueThis.searchurl = 'searchbky'
-                        var articlesearchkeyword = keyword.substring(5)
-                        axios({
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            method: 'get',
-                            url: process.env.HOST + '/searchbky?wd=' + articlesearchkeyword
-                        }).then(function (response) {
-                            vueThis.articledata = response.data.data.list
-                            vueThis.articleresult = response.data.data
-                            vueThis.articlesearchkeyword = response.data.msg
-                            vueThis.platform = 'bky_article'
-                            $('#articleresult').show()
-                            vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
-                            vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
-                        }).catch(function (error) {
-                            console.log(vueThis.items + '-=================')
-                        })
-                    }
-                    if (command == 'movie ') {
-                        var searchkeyword = keyword.substring(7)
-                        axios({
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            method: 'get',
-                            url: process.env.HOST + '/s?wd=' + searchkeyword
-                        }).then(function (response) {
-                            vueThis.data = response.data.data.list
-                            vueThis.result = response.data.data
-                            vueThis.searchkeyword = response.data.msg
-                            $('#result').show()
-                            vueThis.isNextDisabled(vueThis.result.pageNo)
-                            vueThis.isPrevDisabled(vueThis.result.pageNo)
-                        }).catch(function (error) {
-                            console.log(vueThis.items + '-=================')
-                        })
-                    }
-                    if (isEnd + 1 == keyword.length) {
-                        store.pattern = ':' + command
-                        /*退出功能*/
-                        if (store.pattern == ':logout ') {
-                            axios({
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                method: 'post',
-                                url: process.env.HOST + '/logout'
-                            })
-                                .then(function (response) {
-                                    vueThis.$message(response.data.msg)
-                                    setTimeout(function () {
-                                            /* window.location.href = response.data.url*/
-                                            sessionStorage.clear()
-                                            localStorage.clear()
-                                            vueThis.$router.push('/' + response.data.url)
-                                        }, 1000
-                                    )
-                                })
-                                .catch(function (error) {
-                                    console.log(vueThis.items + '-=================')
-                                })
-                        } else if ((store.pattern == ':clear ')) {
-                            store.note = ''
-                            $('#result').hide()
-                        }
-                    }
+                vueThis.searchurl = 'searchcsdn'
+
+                var articlesearchkeyword = vueThis.keyword
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'get',
+                    url: process.env.HOST + '/searchcsdn?wd=' + articlesearchkeyword
+                }).then(function (response) {
+                    vueThis.articledata = response.data.data.list
+                    vueThis.articleresult = response.data.data
+                    vueThis.articlesearchkeyword = response.data.msg
+                    vueThis.platform = 'article'
+                    $('#articleresult').show()
+                    vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                    vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+                }).catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })
+            },
+            //博客园搜索
+            searchBKY: function () {
+                var vueThis = this
+                vueThis.searchurl = 'searchbky'
+                var articlesearchkeyword = vueThis.keyword
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'get',
+                    url: process.env.HOST + '/searchbky?wd=' + articlesearchkeyword
+                }).then(function (response) {
+                    vueThis.articledata = response.data.data.list
+                    vueThis.articleresult = response.data.data
+                    vueThis.articlesearchkeyword = response.data.msg
+                    vueThis.platform = 'bky_article'
+                    $('#articleresult').show()
+                    vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                    vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+                }).catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })
+            },
+            //AISearch按钮触发:
+            buttonEnter: function (keyword) {
+                this.keyword = keyword
+                if (this.activeName == 'js') {
+                    this.searchJianShuButton()
+                } else if (this.activeName == 'csdn') {
+                    this.searchCSDNButton()
+                } else if (this.activeName == 'bky') {
+                    this.searchBKYButton()
+                } else if (this.activeName == 'movie') {
+                    this.searchMovieButton()
+                } else if (this.activeName == 'file') {
+                    this.searchFile()
+                } else if (this.activeName == 'area') {
+                    this.drawer = true;
                 }
-                /*正常搜索,全文检索*/
-            } else {
+            },
+            //文件搜索
+            searchFile: function () {
+                var vueThis = this
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'post',
+                    url: process.env.HOST + '/toqueryDocument',
+                    /*url: 'https://114.55.94.186/toqueryDocument',*/
+                    data: JSON.stringify({
+                        'keyword': vueThis.keyword
+                    }),
+                })
+                    .then(function (response) {
+                        if (vueThis.$route.path == '/detail') {
+                            vueThis.$router.push('/blank')
+                        } else {
+                            vueThis.$router.push('/' + response.data.url)
+
+                        }
+
+                    })
+                    .catch(function (error) {
+                        console.log(vueThis.items + '-=================')
+                    })
+            },
+            //豆瓣电影搜索
+            searchMovie: function () {
+                var vueThis = this
+                var searchkeyword = this.keyword
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'get',
+                    /*url: process.env.HOST + '/s?wd=' + searchkeyword*/
+                    url: process.env.HOST + '/s?wd=' + searchkeyword
+                }).then(function (response) {
+                    vueThis.data = response.data.data.list
+                    vueThis.result = response.data.data
+                    vueThis.searchkeyword = response.data.msg
+                    $('#result').show()
+                    vueThis.isNextDisabled(vueThis.result.pageNo)
+                    vueThis.isPrevDisabled(vueThis.result.pageNo)
+                }).catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })
+            },
+            //AISearch按钮触发调用
+            searchJianShuButton: function () {
+                /*var vueThis = this
+                vueThis.searchurl = 'searchjianshu'
+                var articlesearchkeyword = vueThis.keyword
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'get',
+                    url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
+                }).then(function (response) {
+                    vueThis.articledata = response.data.data.list
+                    vueThis.articleresult = response.data.data
+                    vueThis.articlesearchkeyword = response.data.msg
+                    vueThis.platform = 'jianshu_article'
+                    $('#articleresult').show()
+                    vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                    vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+                }).catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })*/
                 var vueThis = this
                 axios({
                     headers: {
@@ -904,101 +372,675 @@ export default {
                     method: 'post',
                     url: process.env.HOST + '/toqueryDocument',
                     data: JSON.stringify({
-                        'keyword': keyword
+                        'keyword': vueThis.keyword
                     }),
                 })
                     .then(function (response) {
                         /*window.location.href = 'detail'*/
-                        vueThis.$router.push('/' + response.data.url)
+                        if (vueThis.$route.path == '/jianshuList') {
+                            vueThis.$router.push('/blank')
+                        } else {
+                            vueThis.$router.push('/jianshuList')
+
+                        }
+
                     })
                     .catch(function (error) {
                         console.log(vueThis.items + '-=================')
                     })
-            }
-        },
 
-        /*输入触发*/
-        input: function (keyword) {
-            /*是否"开头*/
-            var isNote = keyword.startsWith('\'')
-            /*是否/开头*/
-            var isForward = keyword.startsWith('/')
-            /*是否:开头*/
-            var isCommand = keyword.startsWith(':')
-            /*开启转发模式,什么都不做,不向后台提交数据*/
-            if (isForward) {
-                /*开启命令模式*/
-            } else if (isCommand) {
+            },
+            //AISearch按钮触发调用
+            searchCSDNButton: function () {
+                /*var vueThis = this
+                vueThis.searchurl = 'searchjianshu'
+                var articlesearchkeyword = vueThis.keyword
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'get',
+                    url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
+                }).then(function (response) {
+                    vueThis.articledata = response.data.data.list
+                    vueThis.articleresult = response.data.data
+                    vueThis.articlesearchkeyword = response.data.msg
+                    vueThis.platform = 'jianshu_article'
+                    $('#articleresult').show()
+                    vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                    vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+                }).catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })*/
+                var vueThis = this
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'post',
+                    url: process.env.HOST + '/toqueryDocument',
+                    data: JSON.stringify({
+                        'keyword': vueThis.keyword
+                    }),
+                })
+                    .then(function (response) {
+                        /*window.location.href = 'detail'*/
+                        if (vueThis.$route.path == '/CSDNList') {
+                            vueThis.$router.push('/blank')
+                        } else {
+                            vueThis.$router.push('/CSDNList')
 
-                /*开启便签模式*/
-            } else if (isNote) {
-                this.isSee = 'block'
-                /*关闭便签模式*/
-            } else if (keyword == '') {
-                this.isSee = 'none'
-                this.article = []
-                /*正常模式,提交关键字到后台查询*/
-            } else {
+                        }
 
+                    })
+                    .catch(function (error) {
+                        console.log(vueThis.items + '-=================')
+                    })
+
+            },
+            searchBKYButton: function () {
+                /*var vueThis = this
+                vueThis.searchurl = 'searchjianshu'
+                var articlesearchkeyword = vueThis.keyword
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'get',
+                    url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
+                }).then(function (response) {
+                    vueThis.articledata = response.data.data.list
+                    vueThis.articleresult = response.data.data
+                    vueThis.articlesearchkeyword = response.data.msg
+                    vueThis.platform = 'jianshu_article'
+                    $('#articleresult').show()
+                    vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                    vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+                }).catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })*/
+                var vueThis = this
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'post',
+                    url: process.env.HOST + '/toqueryDocument',
+                    data: JSON.stringify({
+                        'keyword': vueThis.keyword
+                    }),
+                })
+                    .then(function (response) {
+                        /*window.location.href = 'detail'*/
+                        if (vueThis.$route.path == '/BKYList') {
+                            vueThis.$router.push('/blank')
+                        } else {
+                            vueThis.$router.push('/BKYList')
+
+                        }
+
+                    })
+                    .catch(function (error) {
+                        console.log(vueThis.items + '-=================')
+                    })
+
+            },
+            searchMovieButton: function () {
+                /*var vueThis = this
+                vueThis.searchurl = 'searchjianshu'
+                var articlesearchkeyword = vueThis.keyword
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'get',
+                    url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
+                }).then(function (response) {
+                    vueThis.articledata = response.data.data.list
+                    vueThis.articleresult = response.data.data
+                    vueThis.articlesearchkeyword = response.data.msg
+                    vueThis.platform = 'jianshu_article'
+                    $('#articleresult').show()
+                    vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                    vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+                }).catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })*/
+                var vueThis = this
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'post',
+                    url: process.env.HOST + '/toqueryDocument',
+                    data: JSON.stringify({
+                        'keyword': vueThis.keyword
+                    }),
+                })
+                    .then(function (response) {
+                        /*window.location.href = 'detail'*/
+                        if (vueThis.$route.path == '/movieList') {
+                            vueThis.$router.push('/blank')
+                        } else {
+                            vueThis.$router.push('/movieList')
+
+                        }
+
+                    })
+                    .catch(function (error) {
+                        console.log(vueThis.items + '-=================')
+                    })
+
+            },
+            //直接调用
+            searchJianShu: function () {
+                var vueThis = this
+                vueThis.searchurl = 'searchjianshu'
+                var articlesearchkeyword = vueThis.keyword.substring(4)
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'get',
+                    url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
+                }).then(function (response) {
+                    vueThis.articledata = response.data.data.list
+                    vueThis.articleresult = response.data.data
+                    vueThis.articlesearchkeyword = response.data.msg
+                    vueThis.platform = 'jianshu_article'
+                    $('#articleresult').show()
+                    vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                    vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+                }).catch(function (error) {
+                    console.log(vueThis.items + '-=================')
+                })
+            },
+            /**
+             * 搜索选项
+             */
+            handleClick: function (tab, event) {
+                this.enter(this.keyword)
+            },
+            randomString: function (len) {
+                len = len || 32
+                var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
+                /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+                var maxPos = $chars.length
+                var pwd = ''
+                for (var i = 0; i < len; i++) {
+                    pwd += $chars.charAt(Math.floor(Math.random() * maxPos))
+                }
+                return pwd
+            },
+            closehaha: function () {
+                this.obj.close()
+            },
+            //右上角系统弹出的消息
+            open4(data) {
+                var temp = this.$notify({
+                    title: new Date().toLocaleString(),
+                    duration: this.duration,
+                    message: data,
+                    position: 'top-left'
+                })
+                this.obj.push(temp)
+            },
+
+            open3(data) {
+                var temp = this.$notify({
+                    title: new Date().toLocaleString(),
+                    duration: this.duration,
+                    message: data,
+                    position: 'top-right'
+                })
+                this.obj4.push(temp)
+            },
+            toArticleDetail: function (id) {
+                var vueThis = this
+                this.$router.push({
+                    path: '/article',
+                    query: {
+                        platform: vueThis.platform,
+                        id: id
+                    }
+                })
+            },
+            isNextDisabled: function (page) {
+                if (page * this.result.size >= this.result.total) {
+                    this.isNext = true
+                } else {
+                    this.isNext = false
+                }
+            },
+            isPrevDisabled: function (page) {
+                if (page <= 1) {
+                    this.isPrev = true
+                } else {
+                    this.isPrev = false
+
+                }
+            },
+            isNextDisabledArticle: function (page) {
+                if (page * this.articleresult.size >= this.articleresult.total) {
+                    this.isNextArticle = true
+                } else {
+                    this.isNextArticle = false
+                }
+            },
+            isPrevDisabledArticle: function (page) {
+                if (page <= 1) {
+                    this.isPrevArticle = true
+                } else {
+                    this.isPrevArticle = false
+
+                }
+            },
+            next: function (keyword, page) {
+                var vueThis = this
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'get',
+                    url: process.env.HOST + '/s?wd=' + keyword + '&pn=' + page
+                })
+                    .then(function (response) {
+                        vueThis.data = response.data.data.list
+                        vueThis.result = response.data.data
+                        vueThis.searchkeyword = response.data.msg
+                        $('#result').show()
+                        vueThis.isNextDisabled(vueThis.result.pageNo)
+                        vueThis.isPrevDisabled(vueThis.result.pageNo)
+                    })
+                    .catch(function (error) {
+                        console.log(vueThis.items + '-=================')
+                    })
+            },
+            prev: function (keyword, page) {
+                var vueThis = this
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'get',
+                    url: process.env.HOST + '/s' + '?wd=' + keyword + '&pn=' + page
+                })
+                    .then(function (response) {
+                        vueThis.data = response.data.data.list
+                        vueThis.result = response.data.data
+                        vueThis.searchkeyword = response.data.msg
+                        $('#result').show()
+                        vueThis.isNextDisabled(vueThis.result.pageNo)
+                        vueThis.isPrevDisabled(vueThis.result.pageNo)
+                    })
+                    .catch(function (error) {
+                        console.log(vueThis.items + '-=================')
+                    })
+            },
+            nextarticle: function (keyword, page) {
+                var vueThis = this
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'get',
+                    url: process.env.HOST + '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
+                })
+                    .then(function (response) {
+                        vueThis.articleCurrentPage = page
+                        vueThis.articledata = response.data.data.list
+                        vueThis.articleresult = response.data.data
+                        vueThis.articlesearchkeyword = response.data.msg
+                        $('#articleresult').show()
+                        vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                        vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+                    })
+                    .catch(function (error) {
+                    })
+            },
+            prevarticle: function (keyword, page) {
+                var vueThis = this
+                axios({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'get',
+                    url: process.env.HOST + '/' + vueThis.searchurl + '?wd=' + keyword + '&pn=' + page
+                })
+                    .then(function (response) {
+                        vueThis.articleCurrentPage = page
+                        vueThis.articledata = response.data.data.list
+                        vueThis.articleresult = response.data.data
+                        vueThis.articlesearchkeyword = response.data.msg
+                        $('#articleresult').show()
+                        vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                        vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+                    })
+                    .catch(function (error) {
+                        console.log(vueThis.items + '-=================')
+                    })
+            },
+            //enter激发
+            enter: function (keyword) {
+                if (this.activeName != '') {
+                    this.buttonEnter(keyword)
+                    return
+                }
+
+                if (keyword != '') {
+                    var isForward = keyword.startsWith('/')
+                    /*1.转发模式*/
+                    if (isForward) {
+                        /*window.location.href = keyword.substring(1)*/
+                        this.$router.push('/' + keyword.substring(1))
+                    } else {
+                        this.other(keyword)
+                    }
+                }
+            },
+
+            /*由enter()调用,非转发模式*/
+            other: function (keyword) {
+                var vueThis = this
+                vueThis.keyword = keyword
+                $('#result').hide()
+                $('#articleresult').hide()
+                var isNote = keyword.startsWith('\'')
+                var isCommand = keyword.startsWith(':')
+                /*2.便签模式*/
+                if (isNote) {
+                    if (keyword.substring(1) == 'clear ') {
+                        store.note = ''
+                        store.keyword = '\''
+                    } else {
+                        if (keyword.substring(1).length == 0) {
+                            vueThis.bookArray = vueThis.bookcontent.trim().split('\n')
+                            vueThis.open4(vueThis.bookArray[vueThis.count])
+                            vueThis.count++
+                            if (vueThis.obj.length >= 2) {
+                                vueThis.obj[0].close()
+                                vueThis.obj.splice(0, 1)
+                            }
+                        } else {
+
+                            axios({
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                method: 'post',
+                                url: process.env.HOST + '/note',
+                                data: JSON.stringify({
+                                    'content': keyword.substring(1)
+                                }),
+                            })
+                                .then(function (response) {
+                                    if (response.data.status == 0) {
+                                        if (store.note == '') {
+                                            /*vueThis.bookArray = vueThis.bookcontent.trim().split('\n')*/
+                                            store.note = response.data.data.concat('---').concat(new Date().toLocaleString())
+                                            vueThis.open3(response.data.data)
+                                            /*vueThis.open4(vueThis.bookArray[vueThis.count])*/
+                                            /*vueThis.count++*/
+                                        } else {
+
+                                            store.note += '\n'.concat(response.data.data).concat('---').concat(new Date().toLocaleString())
+                                            /*vueThis.duration += 10000*/
+                                            vueThis.haha++
+                                            vueThis.open3(response.data.data)
+
+                                            vueThis.count++
+                                            console.log(vueThis.obj.length)
+                                            console.log(vueThis.obj)
+                                            //只保留5个,增加一个就删除数组第一个
+
+                                            if (vueThis.obj4.length >= 6) {
+                                                vueThis.obj4[0].close()
+                                                vueThis.obj4.splice(0, 1)
+                                            }
+                                            /*if (vueThis.haha % 2 == 0) {
+                                                vueThis.open4()
+
+                                            } else {
+
+                                                vueThis.open3()
+                                            }*/
+                                        }
+                                        store.keyword = '\''
+                                    }
+                                })
+                                .catch(function (error) {
+                                    console.log(vueThis.items + '-=================')
+                                })
+                        }
+                    }
+                    /*3.命令模式*/
+                } else if (isCommand) {
+                    var vueThis = this
+                    var index = keyword.indexOf(' ')
+                    if (index != -1) {
+                        /*命令关键字后面必须有空格哦*/
+                        var command = keyword.substring(1, index + 1)
+                        var isEnd = keyword.lastIndexOf(' ')
+                        if (command == 'js ') {
+                            /*vueThis.searchurl = 'searchjianshu'
+                            var articlesearchkeyword = keyword.substring(4)
+                            axios({
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                method: 'get',
+                                url: process.env.HOST + '/searchjianshu?wd=' + articlesearchkeyword
+                            }).then(function (response) {
+                                vueThis.articledata = response.data.data.list
+                                vueThis.articleresult = response.data.data
+                                vueThis.articlesearchkeyword = response.data.msg
+                                vueThis.platform = 'jianshu_article'
+                                $('#articleresult').show()
+                                vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                                vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+                            }).catch(function (error) {
+                                console.log(vueThis.items + '-=================')
+                            })*/
+                            vueThis.searchJianShu()
+                        }
+                        if (command == 'csdn ') {
+                            vueThis.searchurl = 'searchcsdn'
+                            var articlesearchkeyword = keyword.substring(6)
+                            axios({
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                method: 'get',
+                                url: process.env.HOST + '/searchcsdn?wd=' + articlesearchkeyword
+                            }).then(function (response) {
+                                vueThis.articledata = response.data.data.list
+                                vueThis.articleresult = response.data.data
+                                vueThis.articlesearchkeyword = response.data.msg
+                                vueThis.platform = 'article'
+                                $('#articleresult').show()
+                                vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                                vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+                            }).catch(function (error) {
+                                console.log(vueThis.items + '-=================')
+                            })
+                        }
+                        if (command == 'bky ') {
+                            vueThis.searchurl = 'searchbky'
+                            var articlesearchkeyword = keyword.substring(5)
+                            axios({
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                method: 'get',
+                                url: process.env.HOST + '/searchbky?wd=' + articlesearchkeyword
+                            }).then(function (response) {
+                                vueThis.articledata = response.data.data.list
+                                vueThis.articleresult = response.data.data
+                                vueThis.articlesearchkeyword = response.data.msg
+                                vueThis.platform = 'bky_article'
+                                $('#articleresult').show()
+                                vueThis.isNextDisabledArticle(vueThis.articleresult.pageNo)
+                                vueThis.isPrevDisabledArticle(vueThis.articleresult.pageNo)
+                            }).catch(function (error) {
+                                console.log(vueThis.items + '-=================')
+                            })
+                        }
+                        if (command == 'movie ') {
+                            var searchkeyword = keyword.substring(7)
+                            axios({
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                method: 'get',
+                                url: process.env.HOST + '/s?wd=' + searchkeyword
+                            }).then(function (response) {
+                                vueThis.data = response.data.data.list
+                                vueThis.result = response.data.data
+                                vueThis.searchkeyword = response.data.msg
+                                $('#result').show()
+                                vueThis.isNextDisabled(vueThis.result.pageNo)
+                                vueThis.isPrevDisabled(vueThis.result.pageNo)
+                            }).catch(function (error) {
+                                console.log(vueThis.items + '-=================')
+                            })
+                        }
+                        if (isEnd + 1 == keyword.length) {
+                            store.pattern = ':' + command
+                            /*退出功能*/
+                            if (store.pattern == ':logout ') {
+                                axios({
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    method: 'post',
+                                    url: process.env.HOST + '/logout'
+                                })
+                                    .then(function (response) {
+                                        vueThis.$message(response.data.msg)
+                                        setTimeout(function () {
+                                                /* window.location.href = response.data.url*/
+                                                sessionStorage.clear()
+                                                localStorage.clear()
+                                                vueThis.$router.push('/' + response.data.url)
+                                            }, 1000
+                                        )
+                                    })
+                                    .catch(function (error) {
+                                        console.log(vueThis.items + '-=================')
+                                    })
+                            } else if ((store.pattern == ':clear ')) {
+                                store.note = ''
+                                $('#result').hide()
+                            }
+                        }
+                    }
+                    /*正常搜索,全文检索*/
+                } else {
+                    var vueThis = this
+                    axios({
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        method: 'post',
+                        url: process.env.HOST + '/toqueryDocument',
+                        data: JSON.stringify({
+                            'keyword': keyword
+                        }),
+                    })
+                        .then(function (response) {
+                            /*window.location.href = 'detail'*/
+                            vueThis.$router.push('/' + response.data.url)
+                        })
+                        .catch(function (error) {
+                            console.log(vueThis.items + '-=================')
+                        })
+                }
+            },
+
+            /*输入触发*/
+            input: function (keyword) {
+                /*是否"开头*/
+                var isNote = keyword.startsWith('\'')
+                /*是否/开头*/
+                var isForward = keyword.startsWith('/')
+                /*是否:开头*/
+                var isCommand = keyword.startsWith(':')
+                /*开启转发模式,什么都不做,不向后台提交数据*/
+                if (isForward) {
+                    /*开启命令模式*/
+                } else if (isCommand) {
+
+                    /*开启便签模式*/
+                } else if (isNote) {
+                    this.isSee = 'block'
+                    /*关闭便签模式*/
+                } else if (keyword == '') {
+                    this.isSee = 'none'
+                    this.article = []
+                    /*正常模式,提交关键字到后台查询*/
+                } else {
+
+                }
             }
         }
     }
-}
 </script>
 
 <style lang="scss">
 
 
-/*输入框水平居中*/
-.center {
-    /*background-color: white;*/
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 500px;
-}
+    /*输入框水平居中*/
+    .center {
+        height: 166px;
+        /*background-color: white;*/
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%); // https://www.cnblogs.com/milo-wjh/p/6364138.html https://www.jianshu.com/p/47a091078c98 transform会模糊
+        width: 500px;
+    }
 
-.articlecontent {
-    color: blue;
-}
+    .articlecontent {
+        color: blue;
+    }
 
-.articlecontent:hover {
-    color: blue;
-    text-decoration: underline;
-}
+    .articlecontent:hover {
+        color: blue;
+        text-decoration: underline;
+    }
 
-/*半透明*/
-#prevArticle {
-    filter: alpha(Opacity=60);
-    -moz-opacity: 0.6;
-    opacity: 0.6;
-}
+    /*半透明*/
+    #prevArticle {
+        filter: alpha(Opacity=60);
+        -moz-opacity: 0.6;
+        opacity: 0.6;
+    }
 
-#nextArticle {
-    filter: alpha(Opacity=60);
-    -moz-opacity: 0.6;
-    opacity: 0.6;
-}
+    #nextArticle {
+        filter: alpha(Opacity=60);
+        -moz-opacity: 0.6;
+        opacity: 0.6;
+    }
 
-#next {
-    filter: alpha(Opacity=60);
-    -moz-opacity: 0.6;
-    opacity: 0.6;
-}
+    #next {
+        filter: alpha(Opacity=60);
+        -moz-opacity: 0.6;
+        opacity: 0.6;
+    }
 
-#prev {
-    filter: alpha(Opacity=60);
-    -moz-opacity: 0.6;
-    opacity: 0.6;
-}
+    #prev {
+        filter: alpha(Opacity=60);
+        -moz-opacity: 0.6;
+        opacity: 0.6;
+    }
 
-.el-notification__content {
-    /*width:100px;*/
-    /*设置自动换行*/
-    word-break: break-word;
-}
-.backgroundimg {
-    background:url(../assets/test.jpg) no-repeat;
-}
+    .el-notification__content {
+        /*width:100px;*/
+        /*设置自动换行*/
+        word-break: break-word;
+    }
+
+    .backgroundimg {
+        background: url(../assets/test.jpg) no-repeat;
+    }
 </style>
