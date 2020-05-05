@@ -9,7 +9,13 @@
         >
             <span>我来啦!</span>
         </el-drawer>
-
+        <el-alert
+            :closable="false"
+            effect="dark"
+            center
+            title="消息提示的文案"
+            type="info">
+        </el-alert>
         <div class="center">
 
             <!--便签内容框放在最顶部,可清空,可无限扩展-->
@@ -103,6 +109,7 @@
     import axios from 'axios'
     import $ from 'jquery'
     import timeline from "./timeline"
+    import ElAlert from "../element/alert"
 
     var store = {
         eventArray: [
@@ -205,7 +212,8 @@
     export default {
         name: 'index',
         components: {
-            timeline
+            timeline,
+            ElAlert
         },
         data() {
             return store
