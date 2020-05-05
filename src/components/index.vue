@@ -9,13 +9,7 @@
         >
             <span>我来啦!</span>
         </el-drawer>
-        <el-alert
-            :closable="false"
-            effect="dark"
-            center
-            title="消息提示的文案"
-            type="info">
-        </el-alert>
+
         <div class="center">
 
             <!--便签内容框放在最顶部,可清空,可无限扩展-->

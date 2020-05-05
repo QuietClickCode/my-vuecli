@@ -27,6 +27,7 @@ import CSDNList from '@/components/CSDNList'
 import BKYList from '@/components/BKYList'
 import movieList from '@/components/movieList'
 import timeline from '@/components/timeline'
+import element from '@/components/element'
 
 Vue.use(Router)
 const routerPush = Router.prototype.push
@@ -125,6 +126,11 @@ export default new Router({
             path: '/timeline',
             name: 'timeline',
             component: timeline
+        },
+        {
+            path: '/element',
+            name: 'element',
+            component: element
         },
         {
             path: '/userlist',
