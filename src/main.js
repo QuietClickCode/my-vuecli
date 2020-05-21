@@ -15,7 +15,7 @@ import axios from 'axios'
 
 Vue.prototype.$axios = axios
 axios.defaults.withCredentials = true
-/*axios.defaults.baseURL = process.env.HOST*/  //关键代码
+/* axios.defaults.baseURL = process.env.HOST */ // 关键代码
 // use
 Vue.use(mavonEditor)
 Vue.use(ElementUI)
@@ -47,24 +47,22 @@ router.beforeEach((to, from, next) => {
     if (to.path == '/login') {
         next()
     } else {
-        /*sessionStorage.setItem('userToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ6amoifQ.WduZcdFyZSMdrx82JOYFbAKoDPQ4evDFPvt6i6USK5Y')*/
-        //暂时不登录
-        next();
+        /* sessionStorage.setItem('userToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ6amoifQ.WduZcdFyZSMdrx82JOYFbAKoDPQ4evDFPvt6i6USK5Y') */
+        // 暂时不登录
+        next()
        /* if (sessionStorage.getItem('userToken') == null) {
             router.app.$router.push('/login')
         } else {
 
             next()
-        }*/
+        } */
     }
-
 })
 /* eslint-disable no-new */
 new Vue({
-    el: '#app',
     router,
-    components: {
-        App
-    },
-    template: '<App/>'
-})
+    render: h => h(App),
+    mounted () {
+        document.dispatchEvent(new Event('render-event'))
+    }
+}).$mount('#app')

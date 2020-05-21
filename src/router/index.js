@@ -27,15 +27,16 @@ import CSDNList from '@/components/CSDNList'
 import BKYList from '@/components/BKYList'
 import movieList from '@/components/movieList'
 import timeline from '@/components/timeline'
+import mindmap from '@/components/mindmap'
 import element from '@/components/element'
 
 Vue.use(Router)
 const routerPush = Router.prototype.push
-Router.prototype.push = function push(location) {
-    return routerPush.call(this, location).catch(error=> error)
+Router.prototype.push = function push (location) {
+    return routerPush.call(this, location).catch(error => error)
 }
 export default new Router({
-    /*mode: 'history',*/
+    mode: 'history',
     routes: [
         {
             path: '/movieList',
@@ -128,6 +129,11 @@ export default new Router({
             component: timeline
         },
         {
+            path: '/mindmap',
+            name: 'mindmap',
+            component: mindmap
+        },
+        {
             path: '/element',
             name: 'element',
             component: element
@@ -169,7 +175,7 @@ export default new Router({
             component: systemloglist,
             beforeEnter: (to, from, next) => {
                 axios({
-                    url: process.env.HOST+'/issystemloglistpermission',
+                    url: process.env.HOST + '/issystemloglistpermission',
                     method: 'post'
                 })
                     .then(function (response) {
