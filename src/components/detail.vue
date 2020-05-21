@@ -34,7 +34,7 @@
                 <el-table-column
                     label="文件位置">
                     <template slot-scope="scope">
-                        <a :href="scope.row.url">
+                        <a :href="scope.row.url">{{scope.row.url}}
                         </a>
                     </template>
 
