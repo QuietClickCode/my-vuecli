@@ -34,8 +34,8 @@
                 <el-table-column
                     label="文件位置">
                     <template slot-scope="scope">
-                        <el-link @click="open1(scope.row.documentname)"><span v-html="scope.row.url"></span>
-                        </el-link>
+                        <a :href="scope.row.url">
+                        </a>
                     </template>
 
                 </el-table-column>
